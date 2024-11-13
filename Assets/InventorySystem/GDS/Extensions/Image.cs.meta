@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d6db32eb493900a4b9601ae7a704cf3a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283656
+  packageName: Basic Inventory System for UI Toolkit
+  packageVersion: 1.0
+  assetPath: Assets/InventorySystem/GDS/Extensions/Image.cs
+  uploadId: 675827

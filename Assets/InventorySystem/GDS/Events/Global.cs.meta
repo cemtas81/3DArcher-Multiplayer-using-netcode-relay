@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: cd12df46626c8a1489e9b3fe730a4ce3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283656
+  packageName: Basic Inventory System for UI Toolkit
+  packageVersion: 1.0
+  assetPath: Assets/InventorySystem/GDS/Events/Global.cs
+  uploadId: 675827

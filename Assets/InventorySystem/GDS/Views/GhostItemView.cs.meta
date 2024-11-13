@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 09d9bcac56b5f4b43ace8e43065a2e5a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283656
+  packageName: Basic Inventory System for UI Toolkit
+  packageVersion: 1.0
+  assetPath: Assets/InventorySystem/GDS/Views/GhostItemView.cs
+  uploadId: 675827

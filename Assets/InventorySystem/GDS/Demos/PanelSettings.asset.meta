@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7664cd4eb11b07b4e8687141724dc8cc
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283656
+  packageName: Basic Inventory System for UI Toolkit
+  packageVersion: 1.0
+  assetPath: Assets/InventorySystem/GDS/Demos/PanelSettings.asset
+  uploadId: 675827

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fc6ab8d92fdc6914e9aea94567b0db52
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 253878
+  packageName: Projectile Curve Visualizer
+  packageVersion: 1.0.0
+  assetPath: Assets/SharedAssets/TextMeshPro/Documentation/TextMesh Pro User Guide
+    2016.pdf
+  uploadId: 698931
