@@ -8,7 +8,7 @@ public class TopDownCharacter : MonoBehaviour
     private Transform springArmTransform;
     private Transform cameraTransform;
     private Camera characterCamera;
-
+    public Transform aim;
     private Ray ray;
     private RaycastHit mouseRaycastHit;
 
@@ -26,7 +26,7 @@ public class TopDownCharacter : MonoBehaviour
     private Vector3 projectileLaunchVelocity;
     private Vector3 predictedTargetPosition;
     private RaycastHit hit;
-
+    Vector3 invertedDragDelta;
     private int gettingHitTimes = 0;
 
     public ProjectileCurveVisualizer projectileCurveVisualizer;
@@ -49,7 +49,6 @@ public class TopDownCharacter : MonoBehaviour
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
     }
-
     void Update()
     {
         CameraControlLogic();
@@ -69,50 +68,57 @@ public class TopDownCharacter : MonoBehaviour
         {
             isDragging = false;
             initialMousePosition = Input.mousePosition;
+            ray = characterCamera.ScreenPointToRay(initialMousePosition);
+            if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers))
+            {
+                characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
+            }
         }
 
         if (Input.GetMouseButton(0)) // While dragging
         {
             Vector3 currentMousePosition = Input.mousePosition;
             Vector3 dragDelta = currentMousePosition - initialMousePosition;
-
+          
             // Check if drag has started and set `isDragging` to true if moving significantly
             if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
             {
-                isDragging = true;
+                // Calculate inverted drag delta to simulate bow stretch effect
+                invertedDragDelta = new(-dragDelta.x, -dragDelta.y, dragDelta.z);
+
+                // Calculate the character's forward direction in screen space
+                Vector3 characterForward = characterTransform.forward;
+
+                // Check if the inverted drag is opposite to the character's forward direction
+                if (Vector3.Dot(invertedDragDelta.normalized, characterForward.normalized) > 0)
+                {
+                    isDragging = true;
+                }
+                else
+                {
+                    isDragging = false;
+                }
+               
             }
 
             if (isDragging)
             {
-                // Invert drag delta to simulate bow stretch effect
-                Vector3 invertedDragDelta = new (-dragDelta.x, -dragDelta.y, dragDelta.z);
-                Vector3 targetPosition = initialMousePosition + invertedDragDelta;
+                float dragDistance = invertedDragDelta.magnitude * 0.07f; // Adjust the multiplier for sensitivity
+                Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
 
-                // Convert inverted screen position to world position
-                ray = characterCamera.ScreenPointToRay(targetPosition);
-            }
-            else
-            {
-                // Normal targeting on initial button down
-                ray = characterCamera.ScreenPointToRay(currentMousePosition);
-            }
-
-            if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers))
-            {
-                characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
+                // Visualize the projectile curve with the new target position
                 canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition
-                    (characterTransform.position, 1f, mouseRaycastHit.point, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+                    (characterTransform.position, 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
 
                 if (!canHitTarget)
                 {
                     projectileCurveVisualizer.HideProjectileCurve();
                     print("Too far, cannot throw to there");
+                   
                 }
+             
             }
-            else
-            {
-                projectileCurveVisualizer.HideProjectileCurve();
-            }
+         
         }
 
         if (Input.GetMouseButtonUp(0)) // On release
@@ -149,10 +155,10 @@ public class TopDownCharacter : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
-
+       
         if (movementDirection != Vector3.zero)
         {
-            characterTransform.forward = movementDirection;
+            //characterTransform.forward = movementDirection;
             targetCharacterPosition = characterTransform.position + characterMovementSpeed * Time.deltaTime * movementDirection;
         }
 
