@@ -11,7 +11,7 @@ public class TopDownCharacter : MonoBehaviour
     public Transform aim;
     private Ray ray;
     private RaycastHit mouseRaycastHit;
-
+    Animator anim;
     private Vector3 targetCharacterPosition;
 
     public float characterMovementSpeed = 35.0f;
@@ -34,13 +34,13 @@ public class TopDownCharacter : MonoBehaviour
     public Text gettingHitTimesText;
 
     private float buttonPressTime = 0.0f;
-    private bool isDragging = false;
+    private bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
 
     void Start()
     {
         characterTransform = this.transform;
-
+        anim = GetComponent<Animator>();
         springArmTransform = this.transform.GetChild(0).transform;
         springArmTransform.parent = null;
         cameraTransform = springArmTransform.GetChild(0).transform;
@@ -49,6 +49,7 @@ public class TopDownCharacter : MonoBehaviour
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
     }
+
     void Update()
     {
         CameraControlLogic();
@@ -79,12 +80,12 @@ public class TopDownCharacter : MonoBehaviour
         {
             Vector3 currentMousePosition = Input.mousePosition;
             Vector3 dragDelta = currentMousePosition - initialMousePosition;
-          
+            isAiming = true;
             // Check if drag has started and set `isDragging` to true if moving significantly
             if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
             {
                 // Calculate inverted drag delta to simulate bow stretch effect
-                invertedDragDelta = new(-dragDelta.x, -dragDelta.y, dragDelta.z);
+                invertedDragDelta = new(-dragDelta.x,0 , -dragDelta.y);
 
                 // Calculate the character's forward direction in screen space
                 Vector3 characterForward = characterTransform.forward;
@@ -98,11 +99,18 @@ public class TopDownCharacter : MonoBehaviour
                 {
                     isDragging = false;
                 }
-               
+
             }
 
             if (isDragging)
             {
+                // Rotate the character towards the drag direction
+                Vector3 dragDirection = invertedDragDelta.normalized;
+              
+                Quaternion targetRotation = Quaternion.LookRotation(dragDirection);
+               
+                characterTransform.rotation = Quaternion.Slerp(characterTransform.rotation, targetRotation, Time.deltaTime * 5f); // Adjust rotation speed
+
                 float dragDistance = invertedDragDelta.magnitude * 0.07f; // Adjust the multiplier for sensitivity
                 Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
 
@@ -114,24 +122,21 @@ public class TopDownCharacter : MonoBehaviour
                 {
                     projectileCurveVisualizer.HideProjectileCurve();
                     print("Too far, cannot throw to there");
-                   
                 }
-             
             }
-         
+
         }
 
         if (Input.GetMouseButtonUp(0)) // On release
         {
             projectileCurveVisualizer.HideProjectileCurve();
             isDragging = false;
-
+            isAiming = false;
             if (canHitTarget)
             {
                 canHitTarget = false;
                 Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
-                projectile.transform.position = updatedProjectileStartPosition;
-                projectile.transform.rotation = Quaternion.LookRotation(projectileLaunchVelocity);
+                projectile.transform.SetPositionAndRotation(updatedProjectileStartPosition, Quaternion.LookRotation(projectileLaunchVelocity));
                 projectile.Throw(projectileLaunchVelocity);
             }
 
@@ -154,12 +159,16 @@ public class TopDownCharacter : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
+        Animating(horizontalInput, verticalInput);
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
-       
+
         if (movementDirection != Vector3.zero)
         {
-            //characterTransform.forward = movementDirection;
+            if (!isAiming)
+            {
+                characterTransform.forward = movementDirection;
+            }
+
             targetCharacterPosition = characterTransform.position + characterMovementSpeed * Time.deltaTime * movementDirection;
         }
 
@@ -173,5 +182,17 @@ public class TopDownCharacter : MonoBehaviour
             gettingHitTimes += 1;
             gettingHitTimesText.text = "Getting hit " + gettingHitTimes + " times";
         }
+    }
+
+    void Animating(float h, float v)
+    {
+        bool walking = h != 0f || v != 0f;
+        anim.SetBool("IsWalking", walking);
+        Vector3 direction = new(h, 0, v);
+        direction = cameraTransform.TransformDirection(direction);
+        float velocityZ = Vector3.Dot(direction.normalized, transform.forward);
+        float velocityX = Vector3.Dot(direction.normalized, transform.right);
+        anim.SetFloat("VelocityX", velocityX);
+        anim.SetFloat("VelocityZ", velocityZ);
     }
 }
