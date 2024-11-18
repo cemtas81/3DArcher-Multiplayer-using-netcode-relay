@@ -61,7 +61,7 @@ public class TopDownCharacter : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             buttonPressTime += Time.deltaTime;
-            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 3.0f, 5.0f, 30.0f);
+            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
         }
 
         if (Input.GetMouseButtonDown(0)) // On mouse button down
@@ -131,6 +131,7 @@ public class TopDownCharacter : MonoBehaviour
                 canHitTarget = false;
                 Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
                 projectile.transform.position = updatedProjectileStartPosition;
+                projectile.transform.rotation = Quaternion.LookRotation(projectileLaunchVelocity);
                 projectile.Throw(projectileLaunchVelocity);
             }
 
