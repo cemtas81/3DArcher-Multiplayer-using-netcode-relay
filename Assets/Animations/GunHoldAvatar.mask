@@ -8,4 +8,161 @@ AvatarMask:
   m_PrefabAsset: {fileID: 0}
   m_Name: GunHoldAvatar
   m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
-  m_Elements: []
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Root
+    m_Weight: 1
+  - m_Path: Root/Hips
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Finger_01
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Finger_01/Finger_02
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Finger_01/Finger_02/Finger_03
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Finger_01/Finger_02/Finger_03/Finger_04
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/IndexFinger_01
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/IndexFinger_01/IndexFinger_02
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/IndexFinger_01/IndexFinger_02/IndexFinger_03
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/IndexFinger_01/IndexFinger_02/IndexFinger_03/IndexFinger_04
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Thumb_01
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Thumb_01/Thumb_02
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_L/Shoulder_L/Elbow_L/Hand_L/Thumb_01/Thumb_02/Thumb_03
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Finger_01
+      1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Finger_01
+      1/Finger_02 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Finger_01
+      1/Finger_02 1/Finger_03 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Finger_01
+      1/Finger_02 1/Finger_03 1/Finger_04 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/IndexFinger_01
+      1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/IndexFinger_01
+      1/IndexFinger_02 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/IndexFinger_01
+      1/IndexFinger_02 1/IndexFinger_03 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/IndexFinger_01
+      1/IndexFinger_02 1/IndexFinger_03 1/IndexFinger_04 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Thumb_01
+      1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Thumb_01
+      1/Thumb_02 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/Thumb_01
+      1/Thumb_02 1/Thumb_03 1
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Eyebrows
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Eyes
+    m_Weight: 1
+  - m_Path: Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Jaw
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_L
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_L/LowerLeg_L
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_L/LowerLeg_L/Ankle_L
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_L/LowerLeg_L/Ankle_L/Ball_L
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_L/LowerLeg_L/Ankle_L/Ball_L/Toes_L
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_R
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_R/LowerLeg_R
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_R/LowerLeg_R/Ankle_R
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_R/LowerLeg_R/Ankle_R/Ball_R
+    m_Weight: 1
+  - m_Path: Root/Hips/UpperLeg_R/LowerLeg_R/Ankle_R/Ball_R/Toes_R
+    m_Weight: 1
+  - m_Path: SM_Chr_Bartender_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Blacksmith_Female_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Blacksmith_Male_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Fairy_01
+    m_Weight: 1
+  - m_Path: SM_Chr_FortuneTeller_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Headsman_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Hermit_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Jester_01
+    m_Weight: 1
+  - m_Path: SM_Chr_King_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Mage_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Merchant_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Monk_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Nun_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Peasant_Female_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Peasant_Male_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Priest_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Prince_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Princess_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Queen_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Rider_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Soldier_Female_01
+    m_Weight: 1
+  - m_Path: SM_Chr_Soldier_Male_01
+    m_Weight: 1
