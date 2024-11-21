@@ -2,12 +2,13 @@
 using UnityEngine.UI;
 using ProjectileCurveVisualizerSystem;
 using UnityEngine.Animations.Rigging;
+using Cinemachine;
 
 public class TopDownCharacter : MonoBehaviour
 {
     private Transform characterTransform;
     private Transform springArmTransform;
-    private Transform cameraTransform;
+    public Transform cameraTransform;
     private Camera characterCamera;
     public Transform aim;
     private Ray ray;
@@ -15,11 +16,11 @@ public class TopDownCharacter : MonoBehaviour
     Animator anim;
     private Vector3 targetCharacterPosition;
     public RigBuilder rig;
-    public float characterMovementSpeed = 35.0f;
+    public float characterMovementSpeed = 35.0f,camTurnSpeed;
     public float launchSpeed = 15.0f;
     public Transform bow;
     public LayerMask ignoredLayers;
-
+    private CinemachineVirtualCamera cine;
     private Vector3 previousPosition;
     private bool canHitTarget = false;
 
@@ -46,7 +47,8 @@ public class TopDownCharacter : MonoBehaviour
         springArmTransform.parent = null;
         cameraTransform = springArmTransform.GetChild(0).transform;
         characterCamera = cameraTransform.GetComponent<Camera>();
-       
+        cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
+        //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
     }
@@ -108,18 +110,19 @@ public class TopDownCharacter : MonoBehaviour
     {
         Vector3 currentMousePosition = Input.mousePosition;
         Vector3 dragDelta = currentMousePosition - initialMousePosition;
+
         isAiming = true;
+
         // Check if drag has started and set `isDragging` to true if moving significantly
         if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
         {
-            // Calculate inverted drag delta to simulate bow stretch effect
-            invertedDragDelta = new(-dragDelta.x, 0, -dragDelta.y);
+            // Transform the screen-space drag delta into world space
+            Vector3 worldDragDelta = cameraTransform.TransformDirection(new Vector3(dragDelta.x, 0, dragDelta.y));
+            // Invert the drag for bow-stretching effect
+            invertedDragDelta = new Vector3(-worldDragDelta.x, 0, -worldDragDelta.z);
 
-            // Calculate the character's forward direction in screen space
-            Vector3 characterForward = characterTransform.forward;
-
-            // Check if the inverted drag is opposite to the character's forward direction
-            if (Vector3.Dot(invertedDragDelta.normalized, characterForward.normalized) > 0)
+            // Use the drag only if it opposes the character's forward direction
+            if (Vector3.Dot(invertedDragDelta.normalized, characterTransform.forward) > 0)
             {
                 isDragging = true;
             }
@@ -127,9 +130,9 @@ public class TopDownCharacter : MonoBehaviour
             {
                 isDragging = false;
             }
-
         }
     }
+
     void Fire()
     {
         projectileCurveVisualizer.HideProjectileCurve();
@@ -149,6 +152,7 @@ public class TopDownCharacter : MonoBehaviour
     }
     void Aim()
     {
+        if (!isDragging) return;
         // Rotate the character towards the drag direction
         Vector3 dragDirection = invertedDragDelta.normalized;
         rig.enabled = true;
@@ -171,32 +175,63 @@ public class TopDownCharacter : MonoBehaviour
     }
     void CameraControlLogic()
     {
-        springArmTransform.position = characterTransform.position;
+        springArmTransform.position= characterTransform.position;
+        if (Input.GetKey(KeyCode.Q))
+        {
+            CamLeft();
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            CamRight();
+        }
     }
-
+    void CamLeft()
+    {
+        springArmTransform.Rotate(-camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
+    }
+    void CamRight()
+    {
+        springArmTransform.Rotate(camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
+    }
     void CameraZoomingLogic()
     {
         cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + Input.GetAxis("Mouse ScrollWheel") * 6.0f, -30.0f, -8.0f));
+        
     }
-
     void CharacterMovementLogic()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+
+        // Update animation state
         Animating(horizontalInput, verticalInput);
+
+        // Get the movement direction based on input
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
         if (movementDirection != Vector3.zero)
         {
+            // Transform movement direction relative to the rotating camera
+            Vector3 cameraForward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
+            Vector3 cameraRight = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
+
+            // Adjust movement direction based on camera's orientation
+            movementDirection = (cameraForward * movementDirection.z + cameraRight * movementDirection.x).normalized;
+
             if (!isAiming)
             {
-                characterTransform.forward = movementDirection;
+                characterTransform.forward = movementDirection; // Update character's forward direction
             }
 
             targetCharacterPosition = characterTransform.position + characterMovementSpeed * Time.deltaTime * movementDirection;
         }
 
-        characterTransform.position = Vector3.Lerp(characterTransform.position, new Vector3(targetCharacterPosition.x, characterTransform.position.y, targetCharacterPosition.z), 0.125f);
+        // Smoothly interpolate character's position to the target position
+        characterTransform.position = Vector3.Lerp(
+            characterTransform.position,
+            new Vector3(targetCharacterPosition.x, characterTransform.position.y, targetCharacterPosition.z),
+            0.125f
+        );
     }
 
     void OnCollisionEnter(Collision collision)
