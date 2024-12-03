@@ -26877,6 +26877,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3782199015093908801, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: m_Weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535322390935096731, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: drawTripods
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5951339868187428986, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -26885,6 +26893,10 @@ PrefabInstance:
       propertyPath: gettingHitTimesText
       value: 
       objectReference: {fileID: 1267015770}
+    - target: {fileID: 6052137572835390128, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8457647036790683638, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
       propertyPath: m_Layer
       value: 14

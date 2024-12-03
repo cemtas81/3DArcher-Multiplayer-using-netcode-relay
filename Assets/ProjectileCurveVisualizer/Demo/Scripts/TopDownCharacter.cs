@@ -112,7 +112,7 @@ public class TopDownCharacter : MonoBehaviour
         Vector3 dragDelta = currentMousePosition - initialMousePosition;
 
         isAiming = true;
-
+        rig.enabled = true;
         // Check if drag has started and set `isDragging` to true if moving significantly
         if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
         {
@@ -249,7 +249,7 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetBool("IsWalking", walking);
         Vector3 direction = new(h, 0, v);
         direction = cameraTransform.TransformDirection(direction);
-        float velocityZ = Vector3.Dot(direction.normalized, transform.forward);
+        float velocityZ = Vector3.Dot(direction.normalized, transform.forward*2);
         float velocityX = Vector3.Dot(direction.normalized, transform.right);
         anim.SetFloat("VelocityX", velocityX);
         anim.SetFloat("VelocityZ", velocityZ);
