@@ -16,14 +16,14 @@ public class TopDownCharacter : MonoBehaviour
     Animator anim;
     private Vector3 targetCharacterPosition;
     public RigBuilder rig;
-    public float characterMovementSpeed = 35.0f,camTurnSpeed;
+    public float characterMovementSpeed = 35.0f, camTurnSpeed;
     public float launchSpeed = 15.0f;
     public Transform bow;
     public LayerMask ignoredLayers;
     private CinemachineVirtualCamera cine;
     private Vector3 previousPosition;
     private bool canHitTarget = false;
-
+    public Transform ShootPos;
     private Vector3 updatedProjectileStartPosition;
     private Vector3 projectileLaunchVelocity;
     private Vector3 predictedTargetPosition;
@@ -38,6 +38,7 @@ public class TopDownCharacter : MonoBehaviour
     private float buttonPressTime = 0.0f;
     private bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
+    public float maxDragDistance = 5;
 
     void Start()
     {
@@ -55,8 +56,8 @@ public class TopDownCharacter : MonoBehaviour
 
     void Update()
     {
-       
-      
+
+
         CharacterMovementLogic();
 
         Attributes.characterVelocity = (characterTransform.position - previousPosition) / Time.deltaTime;
@@ -104,7 +105,7 @@ public class TopDownCharacter : MonoBehaviour
             characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
         }
         anim.SetBool("Aiming", true);
-        
+
     }
     void Drag()
     {
@@ -160,22 +161,31 @@ public class TopDownCharacter : MonoBehaviour
 
         characterTransform.rotation = Quaternion.Slerp(characterTransform.rotation, targetRotation, Time.deltaTime * 10f); // Adjust rotation speed
 
-        float dragDistance = invertedDragDelta.magnitude * 0.08f; // Adjust the multiplier for sensitivity
+        float dragDistance = Mathf.Min(invertedDragDelta.magnitude * 0.1f, maxDragDistance);
         Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
         aim.transform.position = targetPosition;
         // Visualize the projectile curve with the new target position
         canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition
-            (new(characterTransform.position.x,1.3f,characterTransform.position.z), 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+            (new(ShootPos.position.x, ShootPos.position.y, ShootPos.position.z), 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
 
-        if (!canHitTarget)
+        //if (!canHitTarget)
+        //{
+        //    projectileCurveVisualizer.HideProjectileCurve();
+        //    print("Too far, cannot throw to there");
+        //}
+        if (dragDistance == maxDragDistance)
         {
-            projectileCurveVisualizer.HideProjectileCurve();
-            print("Too far, cannot throw to there");
+            buttonPressTime += Time.deltaTime;
+            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+        }
+        else if (dragDistance < maxDragDistance)
+        {
+            launchSpeed = 15;
         }
     }
     void CameraControlLogic()
     {
-        springArmTransform.position= characterTransform.position;
+        springArmTransform.position = characterTransform.position;
         if (Input.GetKey(KeyCode.Q))
         {
             CamLeft();
@@ -196,7 +206,7 @@ public class TopDownCharacter : MonoBehaviour
     void CameraZoomingLogic()
     {
         cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + Input.GetAxis("Mouse ScrollWheel") * 6.0f, -30.0f, -8.0f));
-        
+
     }
     void CharacterMovementLogic()
     {
@@ -249,7 +259,7 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetBool("IsWalking", walking);
         Vector3 direction = new(h, 0, v);
         direction = cameraTransform.TransformDirection(direction);
-        float velocityZ = Vector3.Dot(direction.normalized, transform.forward*2);
+        float velocityZ = Vector3.Dot(direction.normalized, transform.forward * 2);
         float velocityX = Vector3.Dot(direction.normalized, transform.right);
         anim.SetFloat("VelocityX", velocityX);
         anim.SetFloat("VelocityZ", velocityZ);

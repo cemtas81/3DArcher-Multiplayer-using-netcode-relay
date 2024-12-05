@@ -2,12 +2,11 @@ using UnityEngine;
 
 namespace ProjectileCurveVisualizerSystem
 {
-   
+
     public class Projectile : MonoBehaviour
     {
         private Rigidbody rb;
         private bool isFlying = false;
-
         public float gravity = -9.81f;
 
         void Awake()
@@ -42,8 +41,8 @@ namespace ProjectileCurveVisualizerSystem
             rb.linearVelocity = Vector3.zero;
             // Stop the arrow upon impact
             isFlying = false;
-            
-            rb.isKinematic = true;          
+
+            rb.isKinematic = true;
 
             // Optionally parent the arrow to the object it hits
             transform.parent = collision.transform;
