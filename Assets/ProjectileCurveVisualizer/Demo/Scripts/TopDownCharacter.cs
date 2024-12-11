@@ -3,13 +3,14 @@ using UnityEngine.UI;
 using ProjectileCurveVisualizerSystem;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class TopDownCharacter : MonoBehaviour
 {
-    private Transform characterTransform;
+    public Transform characterTransform;
     private Transform springArmTransform;
     public Transform cameraTransform;
-    private Camera characterCamera;
+    public Camera characterCamera;
     public Transform aim;
     private Ray ray;
     private RaycastHit mouseRaycastHit;
@@ -24,19 +25,19 @@ public class TopDownCharacter : MonoBehaviour
     private Vector3 previousPosition;
     private bool canHitTarget = false;
     public Transform ShootPos;
-    private Vector3 updatedProjectileStartPosition;
-    private Vector3 projectileLaunchVelocity;
-    private Vector3 predictedTargetPosition;
-    private RaycastHit hit;
-    Vector3 invertedDragDelta;
+    public Vector3 updatedProjectileStartPosition;
+    public Vector3 projectileLaunchVelocity;
+    public Vector3 predictedTargetPosition;
+    public RaycastHit hit;
+    public Vector3 invertedDragDelta;
     private int gettingHitTimes = 0;
-
+    public Gamepad gamepad;
     public ProjectileCurveVisualizer projectileCurveVisualizer;
     public GameObject projectileGameObject;
     public Text gettingHitTimesText;
-
+    private TopDownGamePadActions tpActions;
     private float buttonPressTime = 0.0f;
-    private bool isDragging = false, isAiming;
+    public bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
     public float maxDragDistance = 5;
 
@@ -52,50 +53,58 @@ public class TopDownCharacter : MonoBehaviour
         //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
+        tpActions = GetComponent<TopDownGamePadActions>();
     }
 
     void Update()
     {
-
+        gamepad=Gamepad.current;
 
         CharacterMovementLogic();
 
         Attributes.characterVelocity = (characterTransform.position - previousPosition) / Time.deltaTime;
         previousPosition = characterTransform.position;
-
-        if (Input.GetMouseButton(1))
+        if (gamepad!=null)
         {
-            buttonPressTime += Time.deltaTime;
-            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+            tpActions.GamePadAction();
         }
-
-        if (Input.GetButtonDown("Fire1")) // On mouse button down
+        else
         {
-            Lock();
-        }
-
-        if (Input.GetButton("Fire1")) // While dragging
-        {
-            Drag();
-
-            if (isDragging)
+            if (Input.GetMouseButton(1))
             {
-                Aim();
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
             }
 
-        }
+            if (Input.GetButtonDown("Fire1")) // On mouse button down
+            {
+                Lock();
+            }
 
-        if (Input.GetButtonUp("Fire1")) // On release
-        {
-            Fire();
+            if (Input.GetButton("Fire1")) // While dragging
+            {
+                Drag();
+
+                if (isDragging)
+                {
+                    Aim();
+                }
+
+            }
+
+            if (Input.GetButtonUp("Fire1")) // On release
+            {
+                Fire();
+            }
         }
+       
     }
     private void LateUpdate()
     {
         CameraControlLogic();
         CameraZoomingLogic();
     }
-    void Lock()
+    public void Lock()
     {
         isDragging = false;
         initialMousePosition = Input.mousePosition;
@@ -107,7 +116,7 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetBool("Aiming", true);
 
     }
-    void Drag()
+    public void Drag()
     {
         Vector3 currentMousePosition = Input.mousePosition;
         Vector3 dragDelta = currentMousePosition - initialMousePosition;
@@ -134,7 +143,7 @@ public class TopDownCharacter : MonoBehaviour
         }
     }
 
-    void Fire()
+    public void Fire()
     {
         projectileCurveVisualizer.HideProjectileCurve();
         isDragging = false;
@@ -151,7 +160,7 @@ public class TopDownCharacter : MonoBehaviour
         buttonPressTime = 0.0f;
         rig.enabled = false;
     }
-    void Aim()
+    public void Aim()
     {
         if (!isDragging) return;
         // Rotate the character towards the drag direction
@@ -176,7 +185,7 @@ public class TopDownCharacter : MonoBehaviour
         if (dragDistance == maxDragDistance)
         {
             buttonPressTime += Time.deltaTime;
-            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 15.0f, 5.0f, 45.0f);
         }
         else if (dragDistance < maxDragDistance)
         {

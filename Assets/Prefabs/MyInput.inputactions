@@ -1,0 +1,34 @@
+{
+    "name": "MyInput",
+    "maps": [
+        {
+            "name": "TopDown",
+            "id": "6358e61c-6d33-4285-99bf-91945b09d886",
+            "actions": [
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "8569992f-15b1-47bf-bca8-57f0e0bd4fcb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "816b3d41-3eb9-46aa-8b99-ebd813f40618",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
