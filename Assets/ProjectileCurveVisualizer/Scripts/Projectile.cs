@@ -2,12 +2,14 @@ using UnityEngine;
 
 namespace ProjectileCurveVisualizerSystem
 {
-
     public class Projectile : MonoBehaviour
     {
         private Rigidbody rb;
         private bool isFlying = false;
         public float gravity = -9.81f;
+        private Vector3 initialPosition;
+        private Vector3 initialVelocity;
+        private float timeInFlight = 0f;
 
         void Awake()
         {
@@ -16,38 +18,53 @@ namespace ProjectileCurveVisualizerSystem
 
         public void Throw(Vector3 initialVelocity)
         {
-            rb.linearVelocity = initialVelocity; // Use linearVelocity instead of velocity
-            rb.useGravity = false; // Manually apply gravity for precise control
+            this.initialVelocity = initialVelocity;
+            this.initialPosition = transform.position;
+            rb.useGravity = false;
+            //rb.isKinematic = true; // We'll handle the movement ourselves
             isFlying = true;
+            timeInFlight = 0f;
         }
 
         void FixedUpdate()
         {
             if (!isFlying) return;
 
-            // Apply gravity to the linear velocity
-            rb.linearVelocity += gravity * Time.fixedDeltaTime * Vector3.up;
+            timeInFlight += Time.fixedDeltaTime;
 
-            // Align the arrow's rotation with its velocity vector
-            if (rb.linearVelocity.sqrMagnitude > 0.01f) // Avoid jitter at low speeds
+            // Calculate the new position using projectile motion equations
+            Vector3 newPosition = initialPosition +
+                                initialVelocity * timeInFlight +
+                                0.5f * new Vector3(0, gravity, 0) * timeInFlight * timeInFlight;
+
+            // Calculate current velocity for rotation
+            Vector3 currentVelocity = initialVelocity + new Vector3(0, gravity * timeInFlight, 0);
+
+            // Update position
+            transform.position = newPosition;
+
+            // Update rotation to face the direction of travel
+            if (currentVelocity.sqrMagnitude > 0.01f)
             {
-                // Use the linear velocity vector to orient the arrow
-                transform.rotation = Quaternion.LookRotation(rb.linearVelocity, Vector3.up);
+                transform.rotation = Quaternion.LookRotation(currentVelocity, Vector3.up);
             }
         }
 
         void OnCollisionEnter(Collision collision)
         {
-            rb.linearVelocity = Vector3.zero;
-            // Stop the arrow upon impact
             isFlying = false;
-
             rb.isKinematic = true;
 
-            // Optionally parent the arrow to the object it hits
+            // Optionally parent the projectile to the hit object
             transform.parent = collision.transform;
+
+            // You might want to add impact effects or other collision responses here
+        }
+
+        // Optional: Add method to check if projectile has hit something or gone too far
+        public bool IsActive()
+        {
+            return isFlying;
         }
     }
-
-
 }
