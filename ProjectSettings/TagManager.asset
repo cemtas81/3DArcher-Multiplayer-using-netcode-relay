@@ -8,6 +8,7 @@ TagManager:
   - CinemachineTarget
   - ScreenCamera
   - cockpit_capitalLaser
+  - Arrow
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - MainCameraOnly
   - Oasis_TerrainBake
   - Player
-  - 
+  - Arrow
   - 
   - 
   - 

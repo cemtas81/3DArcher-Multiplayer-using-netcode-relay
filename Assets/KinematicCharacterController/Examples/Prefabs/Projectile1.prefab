@@ -151,8 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86b80b988ee72243839568ad1d2aa48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileRigidbody: {fileID: 2902238447909787633}
-  projectileMeshCollider: {fileID: 6281637671275983746}
+  gravity: -9.81
 --- !u!114 &6974562923713711742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +159,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5919830294193070792}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8815ed1aafdf4446bf0f69be1399a55, type: 3}
   m_Name: 

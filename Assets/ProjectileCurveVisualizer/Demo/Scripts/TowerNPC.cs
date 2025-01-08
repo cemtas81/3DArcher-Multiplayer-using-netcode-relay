@@ -126,7 +126,7 @@ public class TowerNPC : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!dizzy && collision.transform.name == "Projectile(Clone)")
+        if (!dizzy && collision.collider.CompareTag("Arrow"))
         {
             dizzy = true;
 
