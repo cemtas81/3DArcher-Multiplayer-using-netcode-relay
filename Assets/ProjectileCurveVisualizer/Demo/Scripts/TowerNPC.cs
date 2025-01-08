@@ -104,7 +104,7 @@ public class TowerNPC : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == "TopDownCharacter")
+        if (other.CompareTag("Player"))
         {
             alerted = true;
 
@@ -116,7 +116,7 @@ public class TowerNPC : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.name == "TopDownCharacter")
+        if (other.CompareTag("Player"))
         {
             alerted = false;
 
