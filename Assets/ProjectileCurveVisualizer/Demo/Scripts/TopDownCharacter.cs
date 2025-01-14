@@ -35,7 +35,7 @@ public class TopDownCharacter : MonoBehaviour
     public ProjectileCurveVisualizer projectileCurveVisualizer;
     public GameObject projectileGameObject;
     public Text gettingHitTimesText;
-    private TopDownGamePadActions tpActions;
+   
     private float buttonPressTime = 0.0f;
     public bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
@@ -70,7 +70,7 @@ public class TopDownCharacter : MonoBehaviour
         //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
-        tpActions = GetComponent<TopDownGamePadActions>();
+   
     }
 
     void Update()
@@ -87,7 +87,7 @@ public class TopDownCharacter : MonoBehaviour
         }
         else
         {
-            HandleMouseAiming(); // Existing mouse logic
+            HandleMouseAiming();
         }
 
     }
@@ -99,12 +99,12 @@ public class TopDownCharacter : MonoBehaviour
             launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
         }
 
-        if (Input.GetButtonDown("Fire1")) // On mouse button down
+        if (Input.GetButtonDown("Fire1")) 
         {
             Lock();
         }
 
-        if (Input.GetButton("Fire1")) // While dragging
+        if (Input.GetButton("Fire1")) 
         {
             Drag();
 
@@ -115,7 +115,7 @@ public class TopDownCharacter : MonoBehaviour
 
         }
 
-        if (Input.GetButtonUp("Fire1")) // On release
+        if (Input.GetButtonUp("Fire1")) 
         {
             Fire();
         }
@@ -124,8 +124,7 @@ public class TopDownCharacter : MonoBehaviour
     {
         gamepadAimDirection = gamepad.rightStick.ReadValue();
 
-        // Start drag when aiming stick is moved significantly
-        if (gamepadAimDirection.magnitude > 0.1f && !isGamepadAiming&&gamepad.rightTrigger.IsPressed())
+        if (gamepadAimDirection.magnitude > 0.1f && !isGamepadAiming&&gamepad.leftTrigger.IsPressed())
         {
             Lock();  // Engage aiming mode
             isGamepadAiming = true;
@@ -136,7 +135,7 @@ public class TopDownCharacter : MonoBehaviour
             DragWithGamepad();
 
             // Fire on trigger release
-            if (gamepad.rightTrigger.wasReleasedThisFrame)
+            if (gamepad.leftTrigger.wasReleasedThisFrame)
             {
                 Fire();
                 isGamepadAiming = false;
@@ -166,6 +165,13 @@ public class TopDownCharacter : MonoBehaviour
                 ShootPos.position, 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero,
                 0.05f, 0.1f, false, out updatedProjectileStartPosition,
                 out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+        }
+        else
+        {
+            // Reset dragging state if no significant input
+            projectileCurveVisualizer.HideProjectileCurve();
+            isDragging = false;
+            rig.enabled = false;
         }
     }
     private void LateUpdate()
@@ -306,7 +312,7 @@ public class TopDownCharacter : MonoBehaviour
             // Adjust movement direction based on camera's orientation
             movementDirection = (cameraForward * movementDirection.z + cameraRight * movementDirection.x).normalized;
 
-            if (!isAiming)
+            if (!isAiming&&!isGamepadAiming)
             {
                 characterTransform.forward = movementDirection; // Update character's forward direction
             }

@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 7079712810066955684}
   - component: {fileID: 5951339868187428986}
   - component: {fileID: 9207364024174210429}
-  - component: {fileID: 3459554479933568496}
   m_Layer: 14
   m_Name: Archer1
   m_TagString: Player
@@ -201,7 +200,7 @@ MonoBehaviour:
   bow: {fileID: 111674334991035749}
   ignoredLayers:
     serializedVersion: 2
-    m_Bits: 4
+    m_Bits: 32772
   ShootPos: {fileID: 4380398048183901197}
   updatedProjectileStartPosition: {x: 0, y: 0, z: 0}
   projectileLaunchVelocity: {x: 0, y: 0, z: 0}
@@ -235,41 +234,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3459554479933568496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1253578702773475343}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a9503d0d7b0cf14ea9e4e4c7b51aec4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterTransform: {fileID: 1074284224134630213}
-  cameraTransform: {fileID: 4523935707515956791}
-  characterCamera: {fileID: 8359398676538257866}
-  aim: {fileID: 1740144578828222567}
-  rig: {fileID: 6052137572835390128}
-  characterMovementSpeed: 35
-  camTurnSpeed: 0
-  launchSpeed: 15
-  bow: {fileID: 111674334991035749}
-  ignoredLayers:
-    serializedVersion: 2
-    m_Bits: 4
-  ShootPos: {fileID: 4380398048183901197}
-  updatedProjectileStartPosition: {x: -0.7473178, y: 1.4, z: 3.3008642}
-  projectileLaunchVelocity: {x: 11.609743, y: -6.4754214, z: 6.948581}
-  predictedTargetPosition: {x: -1.4337621, y: 1, z: 2.8900185}
-  invertedDragDelta: {x: 0, y: 0, z: 0}
-  projectileCurveVisualizer: {fileID: 1406814044070045215}
-  projectileGameObject: {fileID: 3549276241753633126, guid: a85281bcb46c72e4287933ee028c479e, type: 3}
-  gettingHitTimesText: {fileID: 0}
-  isDragging: 0
-  isAiming: 0
-  maxDragDistance: 24.3
 --- !u!1 &1445771030476693732
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1205302295893729878
 Transform:
   m_ObjectHideFlags: 0
@@ -998,7 +962,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6628765964356077150}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 0
@@ -1196,7 +1160,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8433686350627330050}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 0

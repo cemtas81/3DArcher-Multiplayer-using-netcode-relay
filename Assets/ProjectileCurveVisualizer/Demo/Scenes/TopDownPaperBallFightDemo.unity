@@ -29872,10 +29872,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 777697939260088645, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1074284224134630213, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.9
@@ -29920,18 +29916,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer1
       objectReference: {fileID: 0}
-    - target: {fileID: 2903560893927439356, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782199015093908801, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_Weight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782199015093908801, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5951339868187428986, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -29940,22 +29924,6 @@ PrefabInstance:
       propertyPath: gettingHitTimesText
       value: 
       objectReference: {fileID: 1267015770}
-    - target: {fileID: 5951339868187428986, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: ignoredLayers.m_Bits
-      value: 32772
-      objectReference: {fileID: 0}
-    - target: {fileID: 6052137572835390128, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6336552858393409551, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8433686350627330050, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
