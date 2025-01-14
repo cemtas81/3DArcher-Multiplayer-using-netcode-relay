@@ -40,7 +40,24 @@ public class TopDownCharacter : MonoBehaviour
     public bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
     public float maxDragDistance = 5;
+    private bool isGamepadAiming = false;
+    private Vector2 gamepadAimDirection;
+    MyInput myInput;
+    InputAction aiming;
 
+    private void Awake()
+    {
+        myInput = new MyInput();
+    }
+    private void OnEnable()
+    {
+        myInput.Enable();
+        aiming = myInput.TopDown.Aim;
+    }
+    private void OnDisable()
+    {
+        myInput.Disable();
+    }
     void Start()
     {
         characterTransform = this.transform;
@@ -58,46 +75,98 @@ public class TopDownCharacter : MonoBehaviour
 
     void Update()
     {
-        gamepad=Gamepad.current;
+        gamepad = Gamepad.current;
 
         CharacterMovementLogic();
 
         Attributes.characterVelocity = (characterTransform.position - previousPosition) / Time.deltaTime;
         previousPosition = characterTransform.position;
-        if (gamepad!=null)
+        if (gamepad != null)
         {
-            tpActions.GamePadAction();
+            HandleGamepadAiming();
         }
         else
         {
-            if (Input.GetMouseButton(1))
+            HandleMouseAiming(); // Existing mouse logic
+        }
+
+    }
+    private void HandleMouseAiming()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            buttonPressTime += Time.deltaTime;
+            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+        }
+
+        if (Input.GetButtonDown("Fire1")) // On mouse button down
+        {
+            Lock();
+        }
+
+        if (Input.GetButton("Fire1")) // While dragging
+        {
+            Drag();
+
+            if (isDragging)
             {
-                buttonPressTime += Time.deltaTime;
-                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+                Aim();
             }
 
-            if (Input.GetButtonDown("Fire1")) // On mouse button down
-            {
-                Lock();
-            }
+        }
 
-            if (Input.GetButton("Fire1")) // While dragging
-            {
-                Drag();
+        if (Input.GetButtonUp("Fire1")) // On release
+        {
+            Fire();
+        }
+    }
+    void HandleGamepadAiming()
+    {
+        gamepadAimDirection = gamepad.rightStick.ReadValue();
 
-                if (isDragging)
-                {
-                    Aim();
-                }
+        // Start drag when aiming stick is moved significantly
+        if (gamepadAimDirection.magnitude > 0.1f && !isGamepadAiming&&gamepad.rightTrigger.IsPressed())
+        {
+            Lock();  // Engage aiming mode
+            isGamepadAiming = true;
+        }
 
-            }
+        if (isGamepadAiming)
+        {
+            DragWithGamepad();
 
-            if (Input.GetButtonUp("Fire1")) // On release
+            // Fire on trigger release
+            if (gamepad.rightTrigger.wasReleasedThisFrame)
             {
                 Fire();
+                isGamepadAiming = false;
             }
         }
-       
+    }
+    void DragWithGamepad()
+    {
+        isDragging = true;
+        rig.enabled = true;
+
+        // Rotate character using right stick
+        Vector3 aimDirection = new(gamepadAimDirection.x*-1, 0, gamepadAimDirection.y*-1);
+        if (aimDirection.magnitude > 0.1f)
+        {
+            characterTransform.rotation = Quaternion.Slerp(
+                characterTransform.rotation,
+                Quaternion.LookRotation(aimDirection),
+                Time.deltaTime * 10f
+            );
+
+            float dragDistance = Mathf.Min(aimDirection.magnitude * maxDragDistance, maxDragDistance);
+            Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
+
+            aim.transform.position = targetPosition;
+            canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition(
+                ShootPos.position, 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero,
+                0.05f, 0.1f, false, out updatedProjectileStartPosition,
+                out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+        }
     }
     private void LateUpdate()
     {

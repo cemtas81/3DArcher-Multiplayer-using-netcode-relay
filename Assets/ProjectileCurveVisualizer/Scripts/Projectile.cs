@@ -10,10 +10,11 @@ namespace ProjectileCurveVisualizerSystem
         private Vector3 initialPosition;
         private Vector3 initialVelocity;
         private float timeInFlight = 0f;
-
+        private Collider coll;
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            coll = GetComponent<Collider>();
         }
 
         public void Throw(Vector3 initialVelocity)
@@ -54,10 +55,10 @@ namespace ProjectileCurveVisualizerSystem
         {
             isFlying = false;
             rb.isKinematic = true;
-
+            coll.enabled = false;
             // Optionally parent the projectile to the hit object
             transform.parent = collision.transform;
-
+            
             // You might want to add impact effects or other collision responses here
         }
 

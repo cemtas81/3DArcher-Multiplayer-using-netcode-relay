@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 15003, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: New Windows Profile
+  m_Name: DesktopGames
   m_EditorClassIdentifier: 
   m_AssetVersion: 1
   m_BuildTarget: 19
@@ -21,6 +21,8 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
+    m_path: Assets/Clip.unity
+  - m_enabled: 0
     m_path: Assets/Scenes/DesktopCars.unity
   - m_enabled: 0
     m_path: Assets/Scenes/DesktopArcher.unity
@@ -272,6 +274,8 @@ MonoBehaviour:
     - line: '|   - {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type:
         2}'
     - line: '|   - {fileID: -944628639613478452, guid: 60576623fb27a497f94096ae6ee59ff5,
+        type: 3}'
+    - line: '|   - {fileID: -944628639613478452, guid: 7561cfc61ed5c5a4e941da48513b4427,
         type: 3}'
     - line: '|   metroInputSource: 0'
     - line: '|   wsaTransparentSwapchain: 0'
