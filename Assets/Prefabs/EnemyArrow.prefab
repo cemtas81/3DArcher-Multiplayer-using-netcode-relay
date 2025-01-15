@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 4389727671774425698}
   - component: {fileID: 6117761541014332424}
   - component: {fileID: 376633354120403799}
-  m_Layer: 15
+  m_Layer: 16
   m_Name: EnemyArrow
-  m_TagString: Untagged
+  m_TagString: EnemyArrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

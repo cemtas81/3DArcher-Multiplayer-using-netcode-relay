@@ -22,7 +22,8 @@ public class EnemyBasic : MonoBehaviour
     private float nextShootTime = 0f;
     private bool isAimed = false;
     private Transform characterTransform;
-
+    private float shootTime;
+    public float aimTime = 1.0f;    
     private Vector3 throwerVelocity;
     private Vector3 previousPosition;
     public float throwFrequency = 2.0f;
@@ -83,6 +84,7 @@ public class EnemyBasic : MonoBehaviour
     private float shootDelay = 2.0f; // Delay between shots
     private float lastShootTime;
     private bool isShooting;
+    
 
     private void Update()
     {
@@ -93,9 +95,14 @@ public class EnemyBasic : MonoBehaviour
 
         if (canShoot && alerted)
         {
-            // Shoot at the player
-            Aim();
+            if (Time.time >= shootTime)   // Check if enough time has passed
+            {
+                // Shoot at the player
+                Aim();
 
+                // Set the next time we can shoot
+                shootTime = Time.time + aimTime;
+            }
         }
         else
         {
@@ -138,6 +145,7 @@ public class EnemyBasic : MonoBehaviour
 
     private IEnumerator ShootAfterAim()
     {
+        
         if (Time.time < nextShootTime) yield break;  // Double check cooldown
 
         isShooting = true;  // Enter shooting state

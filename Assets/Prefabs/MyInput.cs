@@ -35,6 +35,15 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""999e313b-28f4-4e2b-88db-426a6cfa65b5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b013c465-9a73-42c6-9fc9-f6cc6a462e8e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
         // TopDown
         m_TopDown = asset.FindActionMap("TopDown", throwIfNotFound: true);
         m_TopDown_Aim = m_TopDown.FindAction("Aim", throwIfNotFound: true);
+        m_TopDown_Move = m_TopDown.FindAction("Move", throwIfNotFound: true);
     }
 
     ~@MyInput()
@@ -124,11 +145,13 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_TopDown;
     private List<ITopDownActions> m_TopDownActionsCallbackInterfaces = new List<ITopDownActions>();
     private readonly InputAction m_TopDown_Aim;
+    private readonly InputAction m_TopDown_Move;
     public struct TopDownActions
     {
         private @MyInput m_Wrapper;
         public TopDownActions(@MyInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Aim => m_Wrapper.m_TopDown_Aim;
+        public InputAction @Move => m_Wrapper.m_TopDown_Move;
         public InputActionMap Get() { return m_Wrapper.m_TopDown; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -141,6 +164,9 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
         }
 
         private void UnregisterCallbacks(ITopDownActions instance)
@@ -148,6 +174,9 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
         }
 
         public void RemoveCallbacks(ITopDownActions instance)
@@ -168,5 +197,6 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
     public interface ITopDownActions
     {
         void OnAim(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
 }

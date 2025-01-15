@@ -9,6 +9,7 @@ TagManager:
   - ScreenCamera
   - cockpit_capitalLaser
   - Arrow
+  - EnemyArrow
   layers:
   - Default
   - TransparentFX

@@ -35,16 +35,23 @@ public class TopDownCharacter : MonoBehaviour
     public ProjectileCurveVisualizer projectileCurveVisualizer;
     public GameObject projectileGameObject;
     public Text gettingHitTimesText;
-   
+    Vector3 movement;
     private float buttonPressTime = 0.0f;
     public bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
-    public float maxDragDistance = 5;
+    public float maxDragDistance = 5,speed=5;
     private bool isGamepadAiming = false;
     private Vector2 gamepadAimDirection;
     MyInput myInput;
-    InputAction aiming;
-
+    InputAction aiming;InputAction moving;
+    Rigidbody playerRigidbody;
+    private Vector3 currentAimDirection = Vector3.zero;
+    public float horizontalAimSmoothSpeed = 8f;
+    private float currentDrawStrength = 15f;
+    private float drawSmoothSpeed = 5f;
+    private const float MIN_DRAW_THRESHOLD = 0.1f;
+    private const float MAX_DRAW_THRESHOLD = 0.95f;
+    Vector2 aimDirection;
     private void Awake()
     {
         myInput = new MyInput();
@@ -53,6 +60,7 @@ public class TopDownCharacter : MonoBehaviour
     {
         myInput.Enable();
         aiming = myInput.TopDown.Aim;
+        moving = myInput.TopDown.Move;
     }
     private void OnDisable()
     {
@@ -70,26 +78,20 @@ public class TopDownCharacter : MonoBehaviour
         //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
-   
+        playerRigidbody = GetComponent<Rigidbody>();
+
     }
 
     void Update()
     {
         gamepad = Gamepad.current;
-
+        aimDirection = aiming.ReadValue<Vector2>();
         CharacterMovementLogic();
 
-        Attributes.characterVelocity = (characterTransform.position - previousPosition) / Time.deltaTime;
         previousPosition = characterTransform.position;
-        if (gamepad != null)
-        {
-            HandleGamepadAiming();
-        }
-        else
-        {
-            HandleMouseAiming();
-        }
 
+        if (gamepad != null) HandleGamepadAiming();
+        else HandleMouseAiming();
     }
     private void HandleMouseAiming()
     {
@@ -112,68 +114,139 @@ public class TopDownCharacter : MonoBehaviour
             {
                 Aim();
             }
-
+            
         }
 
         if (Input.GetButtonUp("Fire1")) 
         {
-            Fire();
+            Fire2();
         }
-    }
-    void HandleGamepadAiming()
-    {
-        gamepadAimDirection = gamepad.rightStick.ReadValue();
-
-        if (gamepadAimDirection.magnitude > 0.1f && !isGamepadAiming&&gamepad.leftTrigger.IsPressed())
+        if (!isDragging)
         {
-            Lock();  // Engage aiming mode
-            isGamepadAiming = true;
-        }
-
-        if (isGamepadAiming)
-        {
-            DragWithGamepad();
-
-            // Fire on trigger release
-            if (gamepad.leftTrigger.wasReleasedThisFrame)
-            {
-                Fire();
-                isGamepadAiming = false;
-            }
+            MouseTurn();
         }
     }
     void DragWithGamepad()
     {
         isDragging = true;
         rig.enabled = true;
+          
+        // Get trigger value (ranges from 0 to 1)
+        float triggerValue = gamepad.leftTrigger.ReadValue();
 
-        // Rotate character using right stick
-        Vector3 aimDirection = new(gamepadAimDirection.x*-1, 0, gamepadAimDirection.y*-1);
-        if (aimDirection.magnitude > 0.1f)
+        // Smooth the draw strength based on trigger pressure
+        currentDrawStrength = Mathf.Lerp(currentDrawStrength, triggerValue, Time.deltaTime * drawSmoothSpeed);
+
+        // Handle horizontal aiming with right stick - just use direction
+        if (gamepadAimDirection.magnitude > 0.1f)
         {
+            // Convert input to aim direction
+            Vector3 targetAimDirection = new (gamepadAimDirection.x , 0, gamepadAimDirection.y );
+
+            // Smooth the rotation
+            currentAimDirection = Vector3.Lerp(currentAimDirection, targetAimDirection, Time.deltaTime * horizontalAimSmoothSpeed);
+
+            // Rotate character
+            Quaternion targetRotation = Quaternion.LookRotation(currentAimDirection);
             characterTransform.rotation = Quaternion.Slerp(
                 characterTransform.rotation,
-                Quaternion.LookRotation(aimDirection),
-                Time.deltaTime * 10f
+                targetRotation,
+                Time.deltaTime * horizontalAimSmoothSpeed
+            );
+        }
+
+        // Handle vertical aiming with trigger
+        if (currentDrawStrength > MIN_DRAW_THRESHOLD)
+        {
+            // Calculate aim position based on draw strength
+            float drawDistance = Mathf.Lerp(0, maxDragDistance, currentDrawStrength);
+            Vector3 targetPosition = characterTransform.position + characterTransform.forward * drawDistance;
+
+            // Update aim position
+            aim.transform.position = Vector3.Lerp(
+                aim.transform.position,
+                targetPosition,
+                Time.deltaTime * drawSmoothSpeed
             );
 
-            float dragDistance = Mathf.Min(aimDirection.magnitude * maxDragDistance, maxDragDistance);
-            Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
+            if (currentDrawStrength >= MAX_DRAW_THRESHOLD)
+            {
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 25.0f, 15.0f, 45);
+            }
+            else
+            {
+                buttonPressTime = 0.0f;
+            }
 
-            aim.transform.position = targetPosition;
+            // Visualize projectile curve
             canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition(
-                ShootPos.position, 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero,
-                0.05f, 0.1f, false, out updatedProjectileStartPosition,
-                out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+                ShootPos.position,
+                1f,
+                targetPosition,
+                launchSpeed,
+                Vector3.zero,
+                Vector3.zero,
+                0.05f,
+                0.1f,
+                false,
+                out updatedProjectileStartPosition,
+                out projectileLaunchVelocity,
+                out predictedTargetPosition,
+                out hit
+            );
         }
         else
         {
-            // Reset dragging state if no significant input
             projectileCurveVisualizer.HideProjectileCurve();
-            isDragging = false;
-            rig.enabled = false;
+            launchSpeed = 15.0f;
+            buttonPressTime = 0.0f;
         }
     }
+
+    void HandleGamepadAiming()
+    {
+        gamepadAimDirection = aimDirection;
+        if (!isAiming) Turning();
+        if (gamepad.leftTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+        {
+            if (!isGamepadAiming)
+            {
+                Lock();
+                isGamepadAiming = true;
+            }
+            DragWithGamepad();
+        }
+        else if (isGamepadAiming)
+        {
+            Fire();
+            isGamepadAiming = false;
+            currentDrawStrength = 0f;
+        }
+    }
+
+    public void Fire()
+    {
+        gamepad?.SetMotorSpeeds(0, 0); // Stop haptic feedback if you're using it
+
+        projectileCurveVisualizer.HideProjectileCurve();
+        isDragging = false;
+        isAiming = false;
+        if (canHitTarget && currentDrawStrength > MIN_DRAW_THRESHOLD)
+        {
+            canHitTarget = false;
+            Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
+            projectile.transform.SetPositionAndRotation(updatedProjectileStartPosition, Quaternion.LookRotation(projectileLaunchVelocity));
+            projectile.Throw(projectileLaunchVelocity);
+        }
+        anim.SetBool("Aiming", false);
+        launchSpeed = 15.0f;
+        buttonPressTime = 0.0f;
+        currentDrawStrength = 0f;
+        rig.enabled = false;
+       
+    }
+
     private void LateUpdate()
     {
         CameraControlLogic();
@@ -184,12 +257,20 @@ public class TopDownCharacter : MonoBehaviour
         isDragging = false;
         initialMousePosition = Input.mousePosition;
         ray = characterCamera.ScreenPointToRay(initialMousePosition);
-        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers))
+        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers)&&gamepad==null)
         {
             characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
         }
         anim.SetBool("Aiming", true);
 
+    }
+    private void MouseTurn()
+    {
+        ray = characterCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers))
+        {
+            characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
+        }
     }
     public void Drag()
     {
@@ -218,7 +299,7 @@ public class TopDownCharacter : MonoBehaviour
         }
     }
 
-    public void Fire()
+    public void Fire2()
     {
         projectileCurveVisualizer.HideProjectileCurve();
         isDragging = false;
@@ -249,23 +330,22 @@ public class TopDownCharacter : MonoBehaviour
         Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
         aim.transform.position = targetPosition;
         // Visualize the projectile curve with the new target position
-        canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition
-            (new(ShootPos.position.x, ShootPos.position.y, ShootPos.position.z), 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+        if (isDragging)
+        {
+            canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition
+           (new(ShootPos.position.x, ShootPos.position.y, ShootPos.position.z), 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
 
-        //if (!canHitTarget)
-        //{
-        //    projectileCurveVisualizer.HideProjectileCurve();
-        //    print("Too far, cannot throw to there");
-        //}
-        if (dragDistance == maxDragDistance)
-        {
-            buttonPressTime += Time.deltaTime;
-            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 15.0f, 5.0f, 45.0f);
+            if (dragDistance == maxDragDistance)
+            {
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 15.0f, 5.0f, 45.0f);
+            }
+            else if (dragDistance < maxDragDistance)
+            {
+                launchSpeed = 15;
+            }
         }
-        else if (dragDistance < maxDragDistance)
-        {
-            launchSpeed = 15;
-        }
+       
     }
     void CameraControlLogic()
     {
@@ -297,46 +377,36 @@ public class TopDownCharacter : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        // Update animation state
         Animating(horizontalInput, verticalInput);
 
-        // Get the movement direction based on input
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
         if (movementDirection != Vector3.zero)
         {
-            // Transform movement direction relative to the rotating camera
-            Vector3 cameraForward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
-            Vector3 cameraRight = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
-
-            // Adjust movement direction based on camera's orientation
-            movementDirection = (cameraForward * movementDirection.z + cameraRight * movementDirection.x).normalized;
-
-            if (!isAiming&&!isGamepadAiming)
-            {
-                characterTransform.forward = movementDirection; // Update character's forward direction
-            }
-
-            targetCharacterPosition = characterTransform.position + characterMovementSpeed * Time.deltaTime * movementDirection;
+           
+            movement.Set(horizontalInput, 0, verticalInput);
+            movement = cameraTransform.TransformDirection(movement);
+            movement.y = 0;
+            movement = speed * Time.deltaTime * movement.normalized;
+            playerRigidbody.MovePosition(playerRigidbody.position + movement);
         }
 
-        // Smoothly interpolate character's position to the target position
-        characterTransform.position = Vector3.Lerp(
-            characterTransform.position,
-            new Vector3(targetCharacterPosition.x, characterTransform.position.y, targetCharacterPosition.z),
-            0.125f
-        );
     }
-
+  
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.name == "Projectile(Clone)")
+        if (collision.collider.CompareTag("EnemyArrow"))
         {
-            gettingHitTimes += 1;
-            gettingHitTimesText.text = "Getting hit " + gettingHitTimes + " times";
+          Debug.Log("Hit");
+            
         }
     }
-
+    void Turning()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(aimDirection);
+        targetRotation.y = 0;
+        characterTransform.LookAt(characterTransform.position + new Vector3(aimDirection.x, 0, aimDirection.y));     
+    }
     void Animating(float h, float v)
     {
         bool walking = h != 0f || v != 0f;

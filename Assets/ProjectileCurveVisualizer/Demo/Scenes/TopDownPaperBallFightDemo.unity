@@ -15423,6 +15423,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
+      propertyPath: aimTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
       propertyPath: shootPos
       value: 
       objectReference: {fileID: 1075094493}
@@ -16627,6 +16631,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
+      propertyPath: aimTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
       propertyPath: shootPos
       value: 
       objectReference: {fileID: 369981384}
@@ -17630,6 +17638,10 @@ PrefabInstance:
     - target: {fileID: 6702214352367251343, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
+      propertyPath: aimTime
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
       propertyPath: shootPos
@@ -29917,6 +29929,10 @@ PrefabInstance:
       value: Archer1
       objectReference: {fileID: 0}
     - target: {fileID: 5951339868187428986, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951339868187428986, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 1735580617}
@@ -29924,6 +29940,18 @@ PrefabInstance:
       propertyPath: gettingHitTimesText
       value: 
       objectReference: {fileID: 1267015770}
+    - target: {fileID: 7122556632296113521, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122556632296113521, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122556632296113521, guid: ded4f624f31175c4ab40661dbc61519b, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29980,6 +30008,10 @@ PrefabInstance:
     - target: {fileID: 6702214352367251343, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
+      propertyPath: aimTime
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 9043833806784978630, guid: f7730d532d219fc47ab666a191ae2d6e, type: 3}
       propertyPath: shootPos

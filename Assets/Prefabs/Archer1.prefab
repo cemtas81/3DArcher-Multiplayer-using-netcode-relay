@@ -212,6 +212,8 @@ MonoBehaviour:
   isDragging: 0
   isAiming: 0
   maxDragDistance: 24.3
+  speed: 500
+  horizontalAimSmoothSpeed: 5
 --- !u!95 &9207364024174210429
 Animator:
   serializedVersion: 7
