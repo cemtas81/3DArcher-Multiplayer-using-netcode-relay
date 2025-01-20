@@ -32,9 +32,9 @@ public class EnemyBasic : MonoBehaviour
     private Vector3 projectileLaunchVelocity;
     private Vector3 predictedTargetPosition;
     private RaycastHit hit;
-
+    public EnemyHealth enemyHealth;
     public ProjectileCurveVisualizer projectileCurveVisualizer;
-
+    public bool dead=false;
     public GameObject projectileGameObject;
     private float backupTime;
     public Transform shootPos;
@@ -45,12 +45,13 @@ public class EnemyBasic : MonoBehaviour
         npcTransform = this.transform;
         characterTransform = FindFirstObjectByType<TopDownCharacter>().transform;
         previousPosition = npcTransform.position;
+        enemyHealth = GetComponent<EnemyHealth>();
         //range = Random.Range(1, 3);
         StartCoroutine(StartWalking());
     }
     IEnumerator StartWalking()
     {
-        while (true)
+        while (!dead)
         {
             SetRandomDestination();
 
@@ -63,19 +64,20 @@ public class EnemyBasic : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (!hitted && collision.collider.CompareTag("Arrow"))
-        {
-            hitted = true;
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    if (!hitted && collision.collider.CompareTag("Arrow"))
+    //    {
+    //        hitted = true;
+            
+    //        Debug.Log("Damage Taken");
+    //        Invoke("LateEndDizzy", dizzyDuration);
 
-            Invoke("LateEndDizzy", dizzyDuration);
+    //        //alertTextTransform.position = new Vector3(0.0f, -999.0f, 0.0f);
 
-            //alertTextTransform.position = new Vector3(0.0f, -999.0f, 0.0f);
-
-            //dizzyParticleSystem.Play();
-        }
-    }
+    //        //dizzyParticleSystem.Play();
+    //    }
+    //}
     void LateEndDizzy()
     {
         hitted = false;
@@ -88,31 +90,35 @@ public class EnemyBasic : MonoBehaviour
 
     private void Update()
     {
-        // Calculate velocity for self
-        throwerVelocity = (npcTransform.position - previousPosition) / Time.deltaTime;
-        previousPosition = npcTransform.position;
-        Animating(agent.velocity.x, agent.velocity.z);
-
-        if (canShoot && alerted)
+       if (!dead)
         {
-            if (Time.time >= shootTime)   // Check if enough time has passed
-            {
-                // Shoot at the player
-                Aim();
+            // Calculate velocity for self
+            throwerVelocity = (npcTransform.position - previousPosition) / Time.deltaTime;
+            previousPosition = npcTransform.position;
+            Animating(agent.velocity.x, agent.velocity.z);
 
-                // Set the next time we can shoot
-                shootTime = Time.time + aimTime;
+            if (canShoot && alerted)
+            {
+                if (Time.time >= shootTime)   // Check if enough time has passed
+                {
+                    // Shoot at the player
+                    Aim();
+
+                    // Set the next time we can shoot
+                    shootTime = Time.time + aimTime;
+                }
+            }
+            else
+            {
+                projectileCurveVisualizer.HideProjectileCurve();
             }
         }
-        else
-        {
-            projectileCurveVisualizer.HideProjectileCurve();
-        }
+        
     }
     void Aim()
     {
         if (hitted) return;
-
+        
         // Continuously aim and visualize trajectory - this should happen as long as canShoot is true
         canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition(
             shootPos.position,
@@ -154,7 +160,7 @@ public class EnemyBasic : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         // Check again if conditions are still met
-        if (canHitTarget && canShoot && !hitted)
+        if (canHitTarget && canShoot && !hitted&&!dead)
         {
             // Create and setup projectile
             Projectile projectile = Instantiate(projectileGameObject).GetComponent<Projectile>();
@@ -166,13 +172,17 @@ public class EnemyBasic : MonoBehaviour
 
             Invoke(nameof(LateHideProjectileCurve), 4.0f);
         }
+        else
+        {
+            projectileCurveVisualizer.HideProjectileCurve();
 
+        }
         // Add a small delay before allowing next shot
         yield return new WaitForSeconds(2f);
         isShooting = false;  // Exit shooting state
     }
 
-    void LateHideProjectileCurve()
+    public void LateHideProjectileCurve()
     {
         projectileCurveVisualizer.HideProjectileCurve();
     }
