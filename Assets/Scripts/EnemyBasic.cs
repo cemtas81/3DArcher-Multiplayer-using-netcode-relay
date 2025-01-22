@@ -3,7 +3,7 @@ using ProjectileCurveVisualizerSystem;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-public class EnemyBasic : MonoBehaviour
+public class EnemyBasic : MonoBehaviour,ISeekable
 {
     private NavMeshAgent agent;
     private Animator anim;
@@ -20,7 +20,7 @@ public class EnemyBasic : MonoBehaviour
     [Header("Shooting Settings")]
     public float shootCooldown = 2f;    // Time between shots
     private float nextShootTime = 0f;
-    private bool isAimed = false;
+    //private bool isAimed = false;
     private Transform characterTransform;
     private float shootTime;
     public float aimTime = 1.0f;    
@@ -38,6 +38,9 @@ public class EnemyBasic : MonoBehaviour
     public GameObject projectileGameObject;
     private float backupTime;
     public Transform shootPos;
+    private float shootDelay = 2.0f; // Delay between shots
+    private float lastShootTime;
+    private bool isShooting;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -48,6 +51,13 @@ public class EnemyBasic : MonoBehaviour
         enemyHealth = GetComponent<EnemyHealth>();
         //range = Random.Range(1, 3);
         StartCoroutine(StartWalking());
+    }
+    public void Seek(Vector3 target)
+    {
+        StopAllCoroutines();    
+        agent.SetDestination(target);
+        canHitTarget = false;
+        canShoot = false;
     }
     IEnumerator StartWalking()
     {
@@ -64,30 +74,12 @@ public class EnemyBasic : MonoBehaviour
         }
     }
 
-    //void OnCollisionEnter(Collision collision)
-    //{
-    //    if (!hitted && collision.collider.CompareTag("Arrow"))
-    //    {
-    //        hitted = true;
-            
-    //        Debug.Log("Damage Taken");
-    //        Invoke("LateEndDizzy", dizzyDuration);
-
-    //        //alertTextTransform.position = new Vector3(0.0f, -999.0f, 0.0f);
-
-    //        //dizzyParticleSystem.Play();
-    //    }
-    //}
     void LateEndDizzy()
     {
         hitted = false;
 
     }
-    private float shootDelay = 2.0f; // Delay between shots
-    private float lastShootTime;
-    private bool isShooting;
-    
-
+  
     private void Update()
     {
        if (!dead)

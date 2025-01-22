@@ -11,6 +11,8 @@ namespace ProjectileCurveVisualizerSystem
         private Vector3 initialVelocity;
         private float timeInFlight = 0f;
         private Collider coll;
+        public float damage;
+
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
@@ -58,8 +60,12 @@ namespace ProjectileCurveVisualizerSystem
             coll.enabled = false;
             // Optionally parent the projectile to the hit object
             transform.parent = collision.transform;
-            
-            // You might want to add impact effects or other collision responses here
+            if (collision.collider.CompareTag("Player"))
+            {
+                Debug.Log("Hit");
+                IDamagable damagable = collision.collider.GetComponent<IDamagable>();
+                damagable.Damage(damage);
+            }
         }
 
         // Optional: Add method to check if projectile has hit something or gone too far

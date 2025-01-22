@@ -30,7 +30,6 @@ public class TopDownCharacter : MonoBehaviour
     public Vector3 predictedTargetPosition;
     public RaycastHit hit;
     public Vector3 invertedDragDelta;
-    private int gettingHitTimes = 0;
     public Gamepad gamepad;
     public ProjectileCurveVisualizer projectileCurveVisualizer;
     public GameObject projectileGameObject;
@@ -393,14 +392,6 @@ public class TopDownCharacter : MonoBehaviour
 
     }
   
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("EnemyArrow"))
-        {
-          Debug.Log("Hit");
-            
-        }
-    }
     void Turning()
     {
         Quaternion targetRotation = Quaternion.LookRotation(aimDirection);

@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     private bool isDead = false;
     private Animator anim;
     private Rigidbody[] _ragdollRigidbodies;
-    private EnemyState _currentState = EnemyState.Seeking;
+    //private EnemyState _currentState = EnemyState.Seeking;
     private enum EnemyState
     {
         Seeking,
@@ -54,13 +55,28 @@ public class EnemyHealth : MonoBehaviour
     {
         EnableRagdoll();
 
-        Rigidbody hitRigidbody = _ragdollRigidbodies.OrderBy(rigidbody => Vector3.Distance(rigidbody.position, hitPoint)).First();
+        Rigidbody hitRigidbody = FindHitRigidbody(hitPoint);
 
         hitRigidbody.AddForceAtPosition(force, hitPoint, ForceMode.Impulse);
 
         //_currentState = ZombieState.Ragdoll;
     }
 
+    private Rigidbody FindHitRigidbody(Vector3 hitPoint)
+    {
+        Rigidbody closestRigidbody = null;
+        float closestDistance = 0;
+        foreach (var rigidbody in _ragdollRigidbodies)
+        {
+            float distance = Vector3.Distance(rigidbody.position, hitPoint);
+            if (closestRigidbody == null || distance < closestDistance)
+            {
+                closestRigidbody = rigidbody;
+                closestDistance = distance;
+            }
+        }
+        return closestRigidbody;
+    }
     private void DisableRagdoll()
     {
         foreach (var rigidbody in _ragdollRigidbodies)

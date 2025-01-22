@@ -5,10 +5,7 @@ public class EnemyColliders : MonoBehaviour
     public EnemyHealth enemyHealth;
     public float damage = 10;
     public float force = 10;
-    private void Start()
-    {
-        //enemyHealth = FindFirstObjectByType<EnemyHealth>();
-    }
+  
     private void OnCollisionEnter(Collision collision)
     {
 

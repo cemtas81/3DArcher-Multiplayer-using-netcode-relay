@@ -827,10 +827,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11979279
-  m_Height: 0.39930928
+  m_Radius: 0.11379391
+  m_Height: 0.39930925
   m_Direction: 0
-  m_Center: {x: 0.19965464, y: 0, z: 0}
+  m_Center: {x: 0.19965458, y: -0.029158281, z: 0.00940779}
 --- !u!54 &4599792716762208039
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -857,7 +857,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &8736266308224616373
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2017,8 +2017,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.09835935
-  m_Center: {x: 0, y: 0.09835935, z: 0}
+  m_Radius: 0.14896394
+  m_Center: {x: -3.6019616e-16, y: 0.08128452, z: 0.00331628}
 --- !u!54 &8297442766844330991
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2045,7 +2045,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &6686876960738598574
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2106,7 +2106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: {fileID: 5269467008711982330}
   damage: 100
-  force: 100
+  force: 250
 --- !u!1 &3768144109349828636
 GameObject:
   m_ObjectHideFlags: 0
@@ -2194,10 +2194,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.084868655
+  m_Radius: 0.083855316
   m_Height: 0.33947462
   m_Direction: 0
-  m_Center: {x: 0.16973731, y: 0, z: 0}
+  m_Center: {x: 0.16973735, y: 0.013256066, z: -0.012242733}
 --- !u!54 &2809409695500538873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2224,7 +2224,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &7209822791547646824
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2609,10 +2609,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11979279
-  m_Height: 0.39930928
+  m_Radius: 0.11706578
+  m_Height: 0.3993093
   m_Direction: 0
-  m_Center: {x: -0.19965464, y: 0, z: 0}
+  m_Center: {x: -0.19965461, y: 0.021995079, z: -0.013274117}
 --- !u!54 &4143794150642254480
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2639,7 +2639,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &6532599772973883694
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -2756,10 +2756,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.10788682
-  m_Height: 0.43154728
+  m_Radius: 0.08765123
+  m_Height: 0.38548797
   m_Direction: 0
-  m_Center: {x: 0.21577364, y: 0, z: 0}
+  m_Center: {x: 0.19274399, y: -0.0075300564, z: 0.007957333}
 --- !u!54 &7778751850712882510
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2786,7 +2786,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &2337054973931998694
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -3733,6 +3733,7 @@ GameObject:
   - component: {fileID: 6681564636654881218}
   - component: {fileID: 1698802375596015794}
   - component: {fileID: 6436191885329619095}
+  - component: {fileID: 7165732786944699477}
   m_Layer: 0
   m_Name: Spine_01
   m_TagString: Untagged
@@ -3775,8 +3776,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.40920773, y: 0.2783776, z: 0.38197803}
-  m_Center: {x: -0.20460384, y: 0.02545026, z: -0.00000044703484}
+  m_Size: {x: 0.51276267, y: 0.2783776, z: 0.38197803}
+  m_Center: {x: -0.25638053, y: 0.025450256, z: -0.00000045011026}
 --- !u!54 &6681564636654881218
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3865,6 +3866,29 @@ MonoBehaviour:
   enemyHealth: {fileID: 5269467008711982330}
   damage: 50
   force: 50
+--- !u!136 &7165732786944699477
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6260619872951306882}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.23
+  m_Height: 0.66477305
+  m_Direction: 0
+  m_Center: {x: -0.16761363, y: -0.024350565, z: -0.000000019981101}
 --- !u!1 &6458975716063497316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4189,10 +4213,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.09811642
-  m_Height: 0.49058208
+  m_Radius: 0.06889576
+  m_Height: 0.490582
   m_Direction: 0
-  m_Center: {x: 0.24529104, y: 0, z: 0}
+  m_Center: {x: 0.24529102, y: 0.004587682, z: -0.007404344}
 --- !u!54 &2877361592212920040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4219,7 +4243,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &1069311520121416112
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -4913,10 +4937,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.09811723
-  m_Height: 0.49058616
+  m_Radius: 0.07127275
+  m_Height: 0.4905861
   m_Direction: 0
-  m_Center: {x: -0.24529308, y: 0, z: 0}
+  m_Center: {x: -0.2452931, y: -0.0011635434, z: 0.006895313}
 --- !u!54 &1226648905212194525
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4943,7 +4967,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &2517593411116696773
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -5198,10 +5222,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.107886985
-  m_Height: 0.43154794
+  m_Radius: 0.08852344
+  m_Height: 0.37840274
   m_Direction: 0
-  m_Center: {x: -0.21577397, y: 0, z: 0}
+  m_Center: {x: -0.18920158, y: 0.0043408806, z: -0.0050004018}
 --- !u!54 &5426009574231243117
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5228,7 +5252,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &623714665642833928
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -5885,10 +5909,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.08486863
-  m_Height: 0.33947453
+  m_Radius: 0.08263149
+  m_Height: 0.33947456
   m_Direction: 0
-  m_Center: {x: -0.16973726, y: 0, z: 0}
+  m_Center: {x: -0.16973728, y: -0.009887609, z: 0.007650461}
 --- !u!54 &1790521792051588996
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5915,7 +5939,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &3017695945021932394
 CharacterJoint:
   m_ObjectHideFlags: 0

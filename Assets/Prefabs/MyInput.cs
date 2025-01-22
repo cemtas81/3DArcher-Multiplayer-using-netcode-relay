@@ -32,7 +32,7 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""8569992f-15b1-47bf-bca8-57f0e0bd4fcb"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone(min=0.18)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -52,7 +52,7 @@ public partial class @MyInput: IInputActionCollection2, IDisposable
                     ""id"": ""816b3d41-3eb9-46aa-8b99-ebd813f40618"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone(min=0.18)"",
                     ""groups"": """",
                     ""action"": ""Aim"",
                     ""isComposite"": false,
