@@ -136,24 +136,40 @@ public class TopDownCharacter : MonoBehaviour
         // Smooth the draw strength based on trigger pressure
         currentDrawStrength = Mathf.Lerp(currentDrawStrength, triggerValue, Time.deltaTime * drawSmoothSpeed);
 
-        // Handle horizontal aiming with right stick - just use direction
         if (gamepadAimDirection.magnitude > 0.1f)
         {
-            // Convert input to aim direction
-            Vector3 targetAimDirection = new (gamepadAimDirection.x , 0, gamepadAimDirection.y );
+            // Convert gamepad input to camera-relative direction
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
 
-            // Smooth the rotation
-            currentAimDirection = Vector3.Lerp(currentAimDirection, targetAimDirection, Time.deltaTime * horizontalAimSmoothSpeed);
+            // Keep movement horizontal
+            cameraForward.y = 0;
+            cameraRight.y = 0;
 
-            // Rotate character
-            Quaternion targetRotation = Quaternion.LookRotation(currentAimDirection);
-            characterTransform.rotation = Quaternion.Slerp(
-                characterTransform.rotation,
-                targetRotation,
-                Time.deltaTime * horizontalAimSmoothSpeed
-            );
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Calculate target direction based on camera orientation
+            Vector3 targetAimDirection = cameraRight * gamepadAimDirection.x + cameraForward * gamepadAimDirection.y;
+
+            if (targetAimDirection.magnitude > 0.1f)
+            {
+                // Smooth the rotation
+                currentAimDirection = Vector3.Lerp(
+                    currentAimDirection,
+                    targetAimDirection.normalized,
+                    Time.deltaTime * horizontalAimSmoothSpeed
+                );
+
+                // Rotate character
+                Quaternion targetRotation = Quaternion.LookRotation(currentAimDirection);
+                characterTransform.rotation = Quaternion.Slerp(
+                    characterTransform.rotation,
+                    targetRotation,
+                    Time.deltaTime * horizontalAimSmoothSpeed
+                );
+            }
         }
-
         // Handle vertical aiming with trigger
         if (currentDrawStrength > MIN_DRAW_THRESHOLD)
         {
@@ -391,12 +407,39 @@ public class TopDownCharacter : MonoBehaviour
         }
 
     }
-  
     void Turning()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(aimDirection);
-        targetRotation.y = 0;
-        characterTransform.LookAt(characterTransform.position + new Vector3(aimDirection.x, 0, aimDirection.y));     
+        if (aimDirection.magnitude > 0.1f)  // Add a small deadzone
+        {
+            // Convert the gamepad input into a direction relative to the camera
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            // Zero out the y components to keep movement horizontal
+            cameraForward.y = 0;
+            cameraRight.y = 0;
+
+            // Normalize the vectors
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Calculate the target direction based on camera orientation
+            Vector3 targetDirection = cameraRight * aimDirection.x + cameraForward * aimDirection.y;
+
+            // Only rotate if we have a valid direction
+            if (targetDirection.magnitude > 0.1f)
+            {
+                // Create rotation towards the target direction
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+                // Smoothly rotate towards the target direction
+                characterTransform.rotation = Quaternion.Slerp(
+                    characterTransform.rotation,
+                    targetRotation,
+                    Time.deltaTime * horizontalAimSmoothSpeed
+                );
+            }
+        }
     }
     void Animating(float h, float v)
     {
