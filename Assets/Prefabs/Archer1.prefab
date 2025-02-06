@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 7079712810066955684}
   - component: {fileID: 5951339868187428986}
   - component: {fileID: 9207364024174210429}
+  - component: {fileID: 5141855568214039923}
   m_Layer: 14
   m_Name: Archer1
   m_TagString: Player
@@ -116,7 +117,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.9, y: 1, z: -16.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6764697204191289344}
@@ -135,7 +136,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253578702773475343}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -152,7 +153,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &7079712810066955684
 CapsuleCollider:
@@ -212,8 +213,8 @@ MonoBehaviour:
   isDragging: 0
   isAiming: 0
   maxDragDistance: 24.3
-  speed: 500
-  horizontalAimSmoothSpeed: 5
+  speed: 5
+  horizontalAimSmoothSpeed: 1
 --- !u!95 &9207364024174210429
 Animator:
   serializedVersion: 7
@@ -236,6 +237,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5141855568214039923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253578702773475343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca151fc67567204998150915505d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &1445771030476693732
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +430,7 @@ GameObject:
   - component: {fileID: 6470912662630860442}
   m_Layer: 14
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -980,7 +994,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44e36c707fc97bc46b68b774825d58bc, type: 2}
+  - {fileID: 2100000, guid: d704d3c82cee7244599121cf85d42459, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
