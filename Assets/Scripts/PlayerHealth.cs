@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,12 +9,12 @@ public class PlayerHealth : MonoBehaviour, IHealable, IDamagable
     private float currentHealth;
     private TopDownCharacter playerController;
     private List<ISeekable> seekableList = new List<ISeekable>();
-
+    ThirdPersonController thirdPersonController;
     private void Start()
     {
         currentHealth = health;
         playerController = GetComponent<TopDownCharacter>();
-
+        thirdPersonController = GetComponent<ThirdPersonController>();
     }
 
     public void Damage(float damage)
@@ -37,6 +38,7 @@ public class PlayerHealth : MonoBehaviour, IHealable, IDamagable
     {
         Debug.LogWarning("Player is dead");
         playerController.enabled = false;
+        thirdPersonController.enabled = false;
         UpdateSeekableList(); // Initialize the list
         foreach (var seekable in seekableList)
         {

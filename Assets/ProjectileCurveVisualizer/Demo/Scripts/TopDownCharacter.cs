@@ -4,6 +4,7 @@ using ProjectileCurveVisualizerSystem;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using StarterAssets;
 
 public class TopDownCharacter : MonoBehaviour
 {
@@ -38,11 +39,11 @@ public class TopDownCharacter : MonoBehaviour
     private float buttonPressTime = 0.0f;
     public bool isDragging = false, isAiming;
     private Vector3 initialMousePosition;
-    public float maxDragDistance = 5,speed=5;
+    public float maxDragDistance = 5, speed = 5;
     private bool isGamepadAiming = false;
     private Vector2 gamepadAimDirection;
     MyInput myInput;
-    InputAction aiming;InputAction moving;
+    InputAction aiming; InputAction moving;
     Rigidbody playerRigidbody;
     private Vector3 currentAimDirection = Vector3.zero;
     public float horizontalAimSmoothSpeed = 8f;
@@ -51,6 +52,7 @@ public class TopDownCharacter : MonoBehaviour
     private const float MIN_DRAW_THRESHOLD = 0.1f;
     private const float MAX_DRAW_THRESHOLD = 0.95f;
     Vector2 aimDirection;
+    ThirdPersonController _thirdPersonController;
     private void Awake()
     {
         myInput = new MyInput();
@@ -78,6 +80,7 @@ public class TopDownCharacter : MonoBehaviour
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
         playerRigidbody = GetComponent<Rigidbody>();
+        _thirdPersonController = GetComponent<ThirdPersonController>();
 
     }
 
@@ -89,37 +92,64 @@ public class TopDownCharacter : MonoBehaviour
 
         previousPosition = characterTransform.position;
 
-        if (gamepad != null) HandleGamepadAiming();
-        else HandleMouseAiming();
+        if (_thirdPersonController.Grounded)
+        {
+            if (gamepad != null) HandleGamepadAiming();
+            else HandleMouseAiming();
+        }
+        else
+        {
+            if (gamepad != null) Turning();
+            else MouseTurn();
+            isDragging = false;
+            isAiming = false;
+            projectileCurveVisualizer.HideProjectileCurve();
+            launchSpeed = 15.0f; // Reset launch speed
+            buttonPressTime = 0.0f; // Reset button press time
+            currentDrawStrength = 0f; // Reset draw strength
+            anim.SetBool("Aiming", false);
+        }
     }
     private void HandleMouseAiming()
     {
-        if (Input.GetMouseButton(1))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("JumpLand"))
         {
-            buttonPressTime += Time.deltaTime;
-            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+            isDragging = false;
+            isAiming = false;
+            projectileCurveVisualizer.HideProjectileCurve();
+            return;
         }
-
-        if (Input.GetButtonDown("Fire1")) 
+        if (_thirdPersonController.Grounded)
         {
-            Lock();
-        }
-
-        if (Input.GetButton("Fire1")) 
-        {
-            Drag();
-
-            if (isDragging)
+            if (Input.GetMouseButton(1))
             {
-                Aim();
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
             }
-            
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Lock();
+            }
+
+            if (Input.GetButton("Fire1"))
+            {
+
+                Drag();
+
+                if (isDragging)
+                {
+                    Aim();
+                }
+
+            }
+
+            if (Input.GetButtonUp("Fire1"))
+            {
+                Fire2();
+            }
         }
 
-        if (Input.GetButtonUp("Fire1")) 
-        {
-            Fire2();
-        }
         if (!isDragging)
         {
             MouseTurn();
@@ -129,7 +159,7 @@ public class TopDownCharacter : MonoBehaviour
     {
         isDragging = true;
         rig.enabled = true;
-          
+
         // Get trigger value (ranges from 0 to 1)
         float triggerValue = gamepad.leftTrigger.ReadValue();
 
@@ -221,22 +251,39 @@ public class TopDownCharacter : MonoBehaviour
 
     void HandleGamepadAiming()
     {
+
         gamepadAimDirection = aimDirection;
-        if (!isAiming) Turning();
-        if (gamepad.leftTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("JumpLand"))
         {
-            if (!isGamepadAiming)
-            {
-                Lock();
-                isGamepadAiming = true;
-            }
-            DragWithGamepad();
+            isDragging = false;
+            isAiming = false;
+            projectileCurveVisualizer.HideProjectileCurve();
+            return;
         }
-        else if (isGamepadAiming)
+        if (!isAiming) Turning();
+        if (_thirdPersonController.Grounded)
         {
-            Fire();
-            isGamepadAiming = false;
-            currentDrawStrength = 0f;
+            if (gamepad.leftTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+            {
+                if (!isGamepadAiming)
+                {
+                    Lock();
+                    isGamepadAiming = true;
+                }
+                DragWithGamepad();
+            }
+            else if (isGamepadAiming)
+            {
+                Fire();
+                isGamepadAiming = false;
+                currentDrawStrength = 0f;
+            }
+        }
+        else
+        {
+            isDragging = false;
+            isAiming = false;
+            projectileCurveVisualizer.HideProjectileCurve();
         }
     }
 
@@ -259,7 +306,7 @@ public class TopDownCharacter : MonoBehaviour
         buttonPressTime = 0.0f;
         currentDrawStrength = 0f;
         rig.enabled = false;
-       
+
     }
 
     private void LateUpdate()
@@ -272,11 +319,14 @@ public class TopDownCharacter : MonoBehaviour
         isDragging = false;
         initialMousePosition = Input.mousePosition;
         ray = characterCamera.ScreenPointToRay(initialMousePosition);
-        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers)&&gamepad==null)
+        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers) && gamepad == null)
         {
             characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
         }
-        anim.SetBool("Aiming", true);
+        if (_thirdPersonController.Grounded)
+        {
+            anim.SetBool("Aiming", true);
+        }
 
     }
     private void MouseTurn()
@@ -292,7 +342,7 @@ public class TopDownCharacter : MonoBehaviour
         Vector3 currentMousePosition = Input.mousePosition;
         Vector3 dragDelta = currentMousePosition - initialMousePosition;
 
-        isAiming = true;
+        //isAiming = true;
         rig.enabled = true;
         // Check if drag has started and set `isDragging` to true if moving significantly
         if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
@@ -360,18 +410,33 @@ public class TopDownCharacter : MonoBehaviour
                 launchSpeed = 15;
             }
         }
-       
+
     }
     void CameraControlLogic()
     {
+
         springArmTransform.position = characterTransform.position;
-        if (Input.GetKey(KeyCode.Q))
+        if (gamepad != null)
         {
-            CamLeft();
+            if (gamepad.squareButton.IsPressed())
+            {
+                CamLeft();
+            }
+            if (gamepad.circleButton.IsPressed())
+            {
+                CamRight();
+            }
         }
-        if (Input.GetKey(KeyCode.E))
+        else
         {
-            CamRight();
+            if (Input.GetKey(KeyCode.Q))
+            {
+                CamLeft();
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                CamRight();
+            }
         }
     }
     void CamLeft()
@@ -384,7 +449,9 @@ public class TopDownCharacter : MonoBehaviour
     }
     void CameraZoomingLogic()
     {
-        cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + Input.GetAxis("Mouse ScrollWheel") * 6.0f, -30.0f, -8.0f));
+        if (gamepad == null) cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + Input.GetAxis("Mouse ScrollWheel") * 6.0f, -30.0f, -8.0f));
+        else cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + gamepad.dpad.up.magnitude * .3f - gamepad.dpad.down.magnitude * .3f, -30.0f, -8.0f));
+
 
     }
     void CharacterMovementLogic()
@@ -398,7 +465,7 @@ public class TopDownCharacter : MonoBehaviour
 
         if (movementDirection != Vector3.zero)
         {
-           
+
             movement.Set(horizontalInput, 0, verticalInput);
             movement = cameraTransform.TransformDirection(movement);
             movement.y = 0;

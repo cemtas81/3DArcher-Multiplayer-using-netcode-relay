@@ -1,6 +1,7 @@
 
 using ProjectileCurveVisualizerSystem;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 public class EnemyBasic : MonoBehaviour,ISeekable
@@ -110,7 +111,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
     void Aim()
     {
         if (hitted) return;
-        
+        anim.SetBool("Aiming", true);
         // Continuously aim and visualize trajectory - this should happen as long as canShoot is true
         canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition(
             shootPos.position,
@@ -158,7 +159,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
             Projectile projectile = Instantiate(projectileGameObject).GetComponent<Projectile>();
             projectile.transform.position = updatedProjectileStartPosition;
             projectile.Throw(projectileLaunchVelocity + throwerVelocity);
-
+            anim.SetBool("Aiming", false);
             // Set next shoot time
             nextShootTime = Time.time + shootCooldown;
 
@@ -167,7 +168,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
         else
         {
             projectileCurveVisualizer.HideProjectileCurve();
-
+            anim.SetBool("Aiming", false);
         }
         // Add a small delay before allowing next shot
         yield return new WaitForSeconds(2f);
