@@ -103,6 +103,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
             }
             else
             {
+                anim.SetBool("Aiming", false);
                 projectileCurveVisualizer.HideProjectileCurve();
             }
         }

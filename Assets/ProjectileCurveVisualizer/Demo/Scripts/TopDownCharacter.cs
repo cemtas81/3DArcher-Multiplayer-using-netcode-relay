@@ -161,7 +161,7 @@ public class TopDownCharacter : MonoBehaviour
         rig.enabled = true;
 
         // Get trigger value (ranges from 0 to 1)
-        float triggerValue = gamepad.leftTrigger.ReadValue();
+        float triggerValue = gamepad.rightTrigger.ReadValue();
 
         // Smooth the draw strength based on trigger pressure
         currentDrawStrength = Mathf.Lerp(currentDrawStrength, triggerValue, Time.deltaTime * drawSmoothSpeed);
@@ -251,19 +251,19 @@ public class TopDownCharacter : MonoBehaviour
 
     void HandleGamepadAiming()
     {
-
         gamepadAimDirection = aimDirection;
+
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("JumpLand"))
         {
-            isDragging = false;
-            isAiming = false;
-            projectileCurveVisualizer.HideProjectileCurve();
+            ResetAimingState();
             return;
         }
+
         if (!isAiming) Turning();
+
         if (_thirdPersonController.Grounded)
         {
-            if (gamepad.leftTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+            if (gamepad.rightTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
             {
                 if (!isGamepadAiming)
                 {
@@ -281,10 +281,15 @@ public class TopDownCharacter : MonoBehaviour
         }
         else
         {
-            isDragging = false;
-            isAiming = false;
-            projectileCurveVisualizer.HideProjectileCurve();
+            ResetAimingState();
         }
+    }
+
+    private void ResetAimingState()
+    {
+        isDragging = false;
+        isAiming = false;
+        projectileCurveVisualizer.HideProjectileCurve();
     }
 
     public void Fire()
@@ -519,4 +524,5 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetFloat("VelocityX", velocityX);
         anim.SetFloat("VelocityZ", velocityZ);
     }
+  
 }
