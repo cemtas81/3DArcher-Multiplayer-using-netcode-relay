@@ -423,11 +423,11 @@ public class TopDownCharacter : MonoBehaviour
         springArmTransform.position = characterTransform.position;
         if (gamepad != null)
         {
-            if (gamepad.squareButton.IsPressed())
+            if (gamepad.dpad.left.IsPressed())
             {
                 CamLeft();
             }
-            if (gamepad.circleButton.IsPressed())
+            if (gamepad.dpad.right.IsPressed())
             {
                 CamRight();
             }

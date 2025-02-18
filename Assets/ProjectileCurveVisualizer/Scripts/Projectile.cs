@@ -6,12 +6,12 @@ namespace ProjectileCurveVisualizerSystem
     {
         private Rigidbody rb;
         private bool isFlying = false;
-        public float gravity = -9.81f;
+        public float gravity = -9.8f;
         private Vector3 initialPosition;
         private Vector3 initialVelocity;
         private float timeInFlight = 0f;
         private Collider coll;
-        public float damage;
+        public float damage,arrowSpeed;
 
         void Awake()
         {
@@ -33,12 +33,12 @@ namespace ProjectileCurveVisualizerSystem
         {
             if (!isFlying) return;
 
-            timeInFlight += Time.fixedDeltaTime;
+            timeInFlight += Time.fixedDeltaTime*arrowSpeed;
 
             // Calculate the new position using projectile motion equations
             Vector3 newPosition = initialPosition +
                                 initialVelocity * timeInFlight +
-                                0.5f * new Vector3(0, gravity, 0) * timeInFlight * timeInFlight;
+                                .5f * timeInFlight * timeInFlight * new Vector3(0, gravity, 0);
 
             // Calculate current velocity for rotation
             Vector3 currentVelocity = initialVelocity + new Vector3(0, gravity * timeInFlight, 0);

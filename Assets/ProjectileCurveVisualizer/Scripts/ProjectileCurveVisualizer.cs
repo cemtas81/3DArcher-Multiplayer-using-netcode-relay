@@ -214,9 +214,9 @@ namespace ProjectileCurveVisualizerSystem
             component = Mathf.Sqrt(component);
 
             // Only calculate the result with lower angle
-            launchAngle = Mathf.Atan2(launchSpeedSquare - component, 9.8f * horizontalDistance);
+            launchAngle = Mathf.Atan2(launchSpeedSquare - component, 4.9f * horizontalDistance);
 
-            projectileLaunchVelocity = launchSpeed * Mathf.Cos(launchAngle) * horizontalDirection + Vector3.up * Mathf.Sin(launchAngle) * launchSpeed;
+            projectileLaunchVelocity = launchSpeed * Mathf.Cos(launchAngle) * horizontalDirection + launchSpeed * Mathf.Sin(launchAngle) * Vector3.up;
 
             // Perform physics detection after obtaining the launch velocity
             if (!lineRenderer.enabled)

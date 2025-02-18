@@ -24,7 +24,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
     //private bool isAimed = false;
     private Transform characterTransform;
     private float shootTime;
-    public float aimTime = 1.0f;    
+    public float aimTime = 1.0f,waitTime;    
     private Vector3 throwerVelocity;
     private Vector3 previousPosition;
     public float throwFrequency = 2.0f;
@@ -69,7 +69,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
             // Wait until the agent reaches the destination
             yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
             canShoot = true;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(waitTime);
             canShoot = false;
 
         }
