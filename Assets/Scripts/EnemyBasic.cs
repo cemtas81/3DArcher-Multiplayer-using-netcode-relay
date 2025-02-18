@@ -117,7 +117,7 @@ public class EnemyBasic : MonoBehaviour,ISeekable
         canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition(
             shootPos.position,
             1f,
-            characterTransform.position,
+            new(characterTransform.position.x,characterTransform.position.y+(Random.Range(0.3f,1.7f)),characterTransform.position.z),
             launchSpeed,
             throwerVelocity,
             Attributes.characterVelocity,
