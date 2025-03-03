@@ -9,7 +9,7 @@ using StarterAssets;
 public class TopDownCharacter : MonoBehaviour
 {
     public Transform characterTransform;
-    private Transform springArmTransform;
+    //public Transform springArmTransform;
     public Transform cameraTransform;
     public Camera characterCamera;
     public Transform aim;
@@ -17,7 +17,7 @@ public class TopDownCharacter : MonoBehaviour
     private RaycastHit mouseRaycastHit;
     Animator anim;
     private Vector3 targetCharacterPosition;
-    public RigBuilder rig;
+    //public RigBuilder rig;
     public float characterMovementSpeed = 35.0f, camTurnSpeed;
     public float launchSpeed = 15.0f;
     public Transform bow;
@@ -53,6 +53,9 @@ public class TopDownCharacter : MonoBehaviour
     private const float MAX_DRAW_THRESHOLD = 0.95f;
     Vector2 aimDirection;
     ThirdPersonController _thirdPersonController;
+    public CinemachineVirtualCamera vCam;
+    public float smoothSpeed;
+
     private void Awake()
     {
         myInput = new MyInput();
@@ -71,10 +74,11 @@ public class TopDownCharacter : MonoBehaviour
     {
         characterTransform = this.transform;
         anim = GetComponent<Animator>();
-        springArmTransform = this.transform.GetChild(0).transform;
-        springArmTransform.parent = null;
-        cameraTransform = springArmTransform.GetChild(0).transform;
-        characterCamera = cameraTransform.GetComponent<Camera>();
+        //springArmTransform = this.transform.GetChild(0).transform;
+        //springArmTransform.parent = null;
+        //cameraTransform = springArmTransform.GetChild(0).transform;
+        characterCamera = Camera.main;
+        //cameraTransform = characterCamera.transform;
         cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
         //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
@@ -86,12 +90,8 @@ public class TopDownCharacter : MonoBehaviour
 
     void Update()
     {
-        gamepad = Gamepad.current;
-        aimDirection = aiming.ReadValue<Vector2>();
+
         CharacterMovementLogic();
-
-        previousPosition = characterTransform.position;
-
         if (_thirdPersonController.Grounded)
         {
             if (gamepad != null) HandleGamepadAiming();
@@ -99,16 +99,20 @@ public class TopDownCharacter : MonoBehaviour
         }
         else
         {
-            if (gamepad != null) Turning();
-            else MouseTurn();
-            isDragging = false;
-            isAiming = false;
-            projectileCurveVisualizer.HideProjectileCurve();
-            launchSpeed = 15.0f; // Reset launch speed
-            buttonPressTime = 0.0f; // Reset button press time
-            currentDrawStrength = 0f; // Reset draw strength
-            anim.SetBool("Aiming", false);
+            OnAir();
         }
+    }
+    void OnAir()
+    {
+        if (gamepad != null) Turning();
+        else MouseTurn();
+        isDragging = false;
+        isAiming = false;
+        projectileCurveVisualizer.HideProjectileCurve();
+        launchSpeed = 15.0f; // Reset launch speed
+        buttonPressTime = 0.0f; // Reset button press time
+        currentDrawStrength = 0f; // Reset draw strength
+        anim.SetBool("Aiming", false);
     }
     private void HandleMouseAiming()
     {
@@ -158,7 +162,7 @@ public class TopDownCharacter : MonoBehaviour
     void DragWithGamepad()
     {
         isDragging = true;
-        rig.enabled = true;
+        //rig.enabled = true;
 
         // Get trigger value (ranges from 0 to 1)
         float triggerValue = gamepad.rightTrigger.ReadValue();
@@ -217,7 +221,7 @@ public class TopDownCharacter : MonoBehaviour
             if (currentDrawStrength >= MAX_DRAW_THRESHOLD)
             {
                 buttonPressTime += Time.deltaTime;
-                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 25.0f, 15.0f, 45);
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 25.0f, 15.0f, 30);
             }
             else
             {
@@ -310,7 +314,7 @@ public class TopDownCharacter : MonoBehaviour
         launchSpeed = 15.0f;
         buttonPressTime = 0.0f;
         currentDrawStrength = 0f;
-        rig.enabled = false;
+        //rig.enabled = false;
 
     }
 
@@ -348,8 +352,8 @@ public class TopDownCharacter : MonoBehaviour
         Vector3 dragDelta = currentMousePosition - initialMousePosition;
 
         //isAiming = true;
-        rig.enabled = true;
-        // Check if drag has started and set `isDragging` to true if moving significantly
+        //rig.enabled = true;
+        // Check if drag has started and set isDragging to true if moving significantly
         if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
         {
             // Transform the screen-space drag delta into world space
@@ -384,14 +388,14 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetBool("Aiming", false);
         launchSpeed = 15.0f;
         buttonPressTime = 0.0f;
-        rig.enabled = false;
+        //rig.enabled = false;
     }
     public void Aim()
     {
         if (!isDragging) return;
         // Rotate the character towards the drag direction
         Vector3 dragDirection = invertedDragDelta.normalized;
-        rig.enabled = true;
+        //rig.enabled = true;
         Quaternion targetRotation = Quaternion.LookRotation(dragDirection);
 
         characterTransform.rotation = Quaternion.Slerp(characterTransform.rotation, targetRotation, Time.deltaTime * 10f); // Adjust rotation speed
@@ -408,7 +412,7 @@ public class TopDownCharacter : MonoBehaviour
             if (dragDistance == maxDragDistance)
             {
                 buttonPressTime += Time.deltaTime;
-                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 15.0f, 5.0f, 45.0f);
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 15.0f, 5.0f, 30.0f);
             }
             else if (dragDistance < maxDragDistance)
             {
@@ -420,7 +424,7 @@ public class TopDownCharacter : MonoBehaviour
     void CameraControlLogic()
     {
 
-        springArmTransform.position = characterTransform.position;
+        //springArmTransform.position = characterTransform.position;
         if (gamepad != null)
         {
             if (gamepad.dpad.left.IsPressed())
@@ -446,21 +450,52 @@ public class TopDownCharacter : MonoBehaviour
     }
     void CamLeft()
     {
-        springArmTransform.Rotate(-camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
+        vCam.gameObject.transform.Rotate(-camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
     }
     void CamRight()
     {
-        springArmTransform.Rotate(camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
+        vCam.gameObject.transform.Rotate(camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
     }
     void CameraZoomingLogic()
     {
-        if (gamepad == null) cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + Input.GetAxis("Mouse ScrollWheel") * 6.0f, -30.0f, -8.0f));
-        else cameraTransform.localPosition = new Vector3(0.0f, 0.0f, Mathf.Clamp(cameraTransform.localPosition.z + gamepad.dpad.up.magnitude * .3f - gamepad.dpad.down.magnitude * .3f, -30.0f, -8.0f));
+        float targetDistance = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
 
+        if (gamepad == null)
+        {
+            // Mouse scroll wheel zoom
+            targetDistance -= Input.GetAxis("Mouse ScrollWheel") * 6.0f;
+        }
+        else
+        {
+            // Gamepad D-pad zoom
+            float zoomInput = 0f;
 
+            if (gamepad.dpad.up.isPressed)
+            {
+                zoomInput = -1f; // Zoom in
+            }
+            else if (gamepad.dpad.down.isPressed)
+            {
+                zoomInput = 1f; // Zoom out
+            }
+
+            targetDistance += zoomInput * 0.3f * Time.deltaTime * 60f; // Adjust for frame rate
+        }
+
+        // Apply smoothing and clamp the distance
+        targetDistance = Mathf.Clamp(targetDistance, 14f, 34.0f);
+        vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Lerp(
+            vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance,
+            targetDistance,
+            Time.deltaTime * smoothSpeed // Smoothing factor
+        );
     }
     void CharacterMovementLogic()
     {
+        gamepad = Gamepad.current;
+        aimDirection = aiming.ReadValue<Vector2>();
+
+        previousPosition = characterTransform.position;
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -524,5 +559,5 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetFloat("VelocityX", velocityX);
         anim.SetFloat("VelocityZ", velocityZ);
     }
-  
+
 }

@@ -51,7 +51,7 @@ namespace ProjectileCurveVisualizerSystem
 
         public Transform hitObjectTransform;
         public Vector3 projectileVelocityWhenHit;
-
+     
         void Awake()
         {
             // Initialize variables
