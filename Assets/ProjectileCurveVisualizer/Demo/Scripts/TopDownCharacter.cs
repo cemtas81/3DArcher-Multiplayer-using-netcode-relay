@@ -280,7 +280,7 @@ public class TopDownCharacter : MonoBehaviour
             {
                 Fire();
                 isGamepadAiming = false;
-                currentDrawStrength = 0f;
+                //currentDrawStrength = 0f;
             }
         }
         else
