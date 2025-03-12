@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿//using Unity.Netcode;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -154,6 +155,7 @@ namespace StarterAssets
 
         private void Update()
         {
+            
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();

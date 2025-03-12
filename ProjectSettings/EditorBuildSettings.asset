@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/PROMETEO - Car Controller/Scenes/Demo.unity
     guid: d05c07244ed6a3740be3bdad186521e6
   - enabled: 0
@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Samples/Desktopia/0.1.1/Transparent Window/01_TransparentWindow.unity
     guid: 4c06679da98530d48859f73e3c79385a
+  - enabled: 1
+    path: Assets/Scenes/ArcherTag.unity
+    guid: 17bf0c2109add694292e17cb980a6c9a
+  - enabled: 1
+    path: Assets/Scenes/ArcherTagMultiplayer.unity
+    guid: 5afb272b3a5790245a5bd17b0c873a82
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 290a6e6411d135049940bec2237b8938, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

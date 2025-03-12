@@ -5,6 +5,7 @@ using UnityEngine.Animations.Rigging;
 using Cinemachine;
 using UnityEngine.InputSystem;
 using StarterAssets;
+using Unity.Netcode;
 
 public class TopDownCharacter : MonoBehaviour
 {
@@ -74,11 +75,12 @@ public class TopDownCharacter : MonoBehaviour
     {
         characterTransform = this.transform;
         anim = GetComponent<Animator>();
+        vCam=FindFirstObjectByType<CinemachineVirtualCamera>();
         //springArmTransform = this.transform.GetChild(0).transform;
         //springArmTransform.parent = null;
         //cameraTransform = springArmTransform.GetChild(0).transform;
         characterCamera = Camera.main;
-        //cameraTransform = characterCamera.transform;
+        cameraTransform = characterCamera.transform;
         cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
         //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
@@ -90,7 +92,7 @@ public class TopDownCharacter : MonoBehaviour
 
     void Update()
     {
-
+        //if (!IsOwner) return;
         CharacterMovementLogic();
         if (_thirdPersonController.Grounded)
         {
