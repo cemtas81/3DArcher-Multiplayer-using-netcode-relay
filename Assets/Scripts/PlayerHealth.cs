@@ -1,15 +1,45 @@
 using StarterAssets;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IHealable, IDamagable
+public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
 {
     public float health = 100;
-    private float currentHealth;
+    public float currentHealth;
     private TopDownCharacter playerController;
+
+    private NetworkVariable<HealthUpdate> healthVariable = new NetworkVariable<HealthUpdate>(new HealthUpdate { Health = 100, dead = false },
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     private List<ISeekable> seekableList = new List<ISeekable>();
     ThirdPersonController thirdPersonController;
+    public struct HealthUpdate : INetworkSerializable
+    {
+
+        public float Health;
+        public bool dead;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref Health); serializer.SerializeValue(ref dead);
+        }
+    }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        //healthVariable.OnValueChanged +=OnValueChange() ;
+    }
+    void OnValueChange() 
+    {
+        currentHealth = healthVariable.Value.Health;
+        if (healthVariable.Value.dead)
+        {
+            Death();
+        }
+    }
+   
     private void Start()
     {
         currentHealth = health;
@@ -22,11 +52,16 @@ public class PlayerHealth : MonoBehaviour, IHealable, IDamagable
         if (currentHealth > 0)
         {
             currentHealth -= damage;
+            //healthVariable.Value-=new HealthUpdate {Health = currentHealth,dead=false };
+            Debug.Log("Player takes damage: " + damage);
         }
         else
         {
-            Death();
+           
+            Debug.Log("Player is dead " );
+            //Death();
         }
+     
     }
 
     public void Heal(float heal)

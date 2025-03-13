@@ -686,8 +686,9 @@ GameObject:
   - component: {fileID: 2866452830919923724}
   - component: {fileID: 9035604483223672330}
   - component: {fileID: 4312512663477605732}
-  - component: {fileID: 2755717016007020926}
-  - component: {fileID: 3726996548335637317}
+  - component: {fileID: 8932123276822391998}
+  - component: {fileID: 1632171249468873841}
+  - component: {fileID: 4620785035593588196}
   m_Layer: 14
   m_Name: ArcherMultiplayer
   m_TagString: Player
@@ -750,7 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3905096019
+  GlobalObjectIdHash: 2349096876
   InScenePlacedSourceGlobalObjectIdHash: 2349096876
   DeferredDespawnTick: 0
   Ownership: 1
@@ -979,6 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd034cce0612f04a989a84f0cdf9d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   characterTransform: {fileID: 0}
   cameraTransform: {fileID: 0}
   characterCamera: {fileID: 0}
@@ -996,7 +998,9 @@ MonoBehaviour:
   predictedTargetPosition: {x: 0, y: 0, z: 0}
   invertedDragDelta: {x: 0, y: 0, z: 0}
   projectileCurveVisualizer: {fileID: 5031696043963667490}
-  projectileGameObject: {fileID: 3549276241753633126, guid: a85281bcb46c72e4287933ee028c479e, type: 3}
+  projectileGameObject: {fileID: 3549276241753633126, guid: 64064b069277f7f4885bb3fd4eca0473, type: 3}
+  arrow: {fileID: 4143186203665801462, guid: 64064b069277f7f4885bb3fd4eca0473, type: 3}
+  arrowTransform: {fileID: 0}
   gettingHitTimesText: {fileID: 0}
   isDragging: 0
   isAiming: 0
@@ -1017,7 +1021,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca151fc67567204998150915505d17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   health: 100
+  currentHealth: 0
 --- !u!54 &9035604483223672330
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1064,11 +1070,11 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.35
+  m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2755717016007020926
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &8932123276822391998
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1077,13 +1083,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7669937462279100734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fc4d47eaabd3264686fe749f782727d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 6372512846039172657}
---- !u!114 &3726996548335637317
+--- !u!114 &1632171249468873841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1092,11 +1098,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7669937462279100734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a746330139727e4ba186cf0929d921f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
+  NetworkTransformExpanded: 1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -1119,6 +1125,23 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &4620785035593588196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7669937462279100734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 0
+  AutoSetKinematicOnDespawn: 0
 --- !u!1 &7860923396865361932
 GameObject:
   m_ObjectHideFlags: 0

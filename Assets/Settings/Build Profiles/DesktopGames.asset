@@ -21,9 +21,9 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
-    m_path: Assets/Clip.unity
-  - m_enabled: 0
     m_path: Assets/Scenes/DesktopCars.unity
+  - m_enabled: 0
+    m_path: Assets/Clip.unity
   - m_enabled: 0
     m_path: Assets/Scenes/DesktopArcher.unity
   m_ScriptingDefines: []

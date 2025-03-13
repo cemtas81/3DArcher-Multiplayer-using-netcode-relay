@@ -58,14 +58,15 @@ namespace ProjectileCurveVisualizerSystem
             isFlying = false;
             rb.isKinematic = true;
             coll.enabled = false;
-            // Optionally parent the projectile to the hit object
-            transform.parent = collision.transform;
+           
             if (collision.collider.CompareTag("Player"))
             {
                 Debug.Log("Hit");
                 IDamagable damagable = collision.collider.GetComponent<IDamagable>();
                 damagable.Damage(damage);
             }
+            // Optionally parent the projectile to the hit object
+            transform.parent = collision.transform;
         }
 
         // Optional: Add method to check if projectile has hit something or gone too far

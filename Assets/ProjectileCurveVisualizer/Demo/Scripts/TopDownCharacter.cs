@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using StarterAssets;
 using Unity.Netcode;
 
-public class TopDownCharacter : MonoBehaviour
+public class TopDownCharacter : NetworkBehaviour
 {
     public Transform characterTransform;
     //public Transform springArmTransform;
@@ -26,6 +26,8 @@ public class TopDownCharacter : MonoBehaviour
     private CinemachineVirtualCamera cine;
     private Vector3 previousPosition;
     private bool canHitTarget = false;
+
+    private Projectile projectile;
     public Transform ShootPos;
     public Vector3 updatedProjectileStartPosition;
     public Vector3 projectileLaunchVelocity;
@@ -35,6 +37,8 @@ public class TopDownCharacter : MonoBehaviour
     public Gamepad gamepad;
     public ProjectileCurveVisualizer projectileCurveVisualizer;
     public GameObject projectileGameObject;
+    [SerializeField] private Transform arrow;
+    [SerializeField] private Transform arrowTransform;
     public Text gettingHitTimesText;
     Vector3 movement;
     private float buttonPressTime = 0.0f;
@@ -75,7 +79,7 @@ public class TopDownCharacter : MonoBehaviour
     {
         characterTransform = this.transform;
         anim = GetComponent<Animator>();
-        vCam=FindFirstObjectByType<CinemachineVirtualCamera>();
+        vCam = FindFirstObjectByType<CinemachineVirtualCamera>();
         //springArmTransform = this.transform.GetChild(0).transform;
         //springArmTransform.parent = null;
         //cameraTransform = springArmTransform.GetChild(0).transform;
@@ -298,27 +302,6 @@ public class TopDownCharacter : MonoBehaviour
         projectileCurveVisualizer.HideProjectileCurve();
     }
 
-    public void Fire()
-    {
-        gamepad?.SetMotorSpeeds(0, 0); // Stop haptic feedback if you're using it
-
-        projectileCurveVisualizer.HideProjectileCurve();
-        isDragging = false;
-        isAiming = false;
-        if (canHitTarget && currentDrawStrength > MIN_DRAW_THRESHOLD)
-        {
-            canHitTarget = false;
-            Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
-            projectile.transform.SetPositionAndRotation(updatedProjectileStartPosition, Quaternion.LookRotation(projectileLaunchVelocity));
-            projectile.Throw(projectileLaunchVelocity);
-        }
-        anim.SetBool("Aiming", false);
-        launchSpeed = 15.0f;
-        buttonPressTime = 0.0f;
-        currentDrawStrength = 0f;
-        //rig.enabled = false;
-
-    }
 
     private void LateUpdate()
     {
@@ -380,17 +363,50 @@ public class TopDownCharacter : MonoBehaviour
         projectileCurveVisualizer.HideProjectileCurve();
         isDragging = false;
         isAiming = false;
+
         if (canHitTarget)
         {
-            canHitTarget = false;
-            Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
-            projectile.transform.SetPositionAndRotation(updatedProjectileStartPosition, Quaternion.LookRotation(projectileLaunchVelocity));
-            projectile.Throw(projectileLaunchVelocity);
+            //canHitTarget = false;
+            //Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
+            //projectile.transform.SetPositionAndRotation(updatedProjectileStartPosition, Quaternion.LookRotation(projectileLaunchVelocity));
+            //projectile.Throw(projectileLaunchVelocity);
+            // Call the ServerRpc to spawn the arrow
+            SpawnArrowServerRpc(
+                updatedProjectileStartPosition,
+                Quaternion.LookRotation(projectileLaunchVelocity),
+                projectileLaunchVelocity
+            );
         }
+
         anim.SetBool("Aiming", false);
         launchSpeed = 15.0f;
         buttonPressTime = 0.0f;
-        //rig.enabled = false;
+    }
+
+    public void Fire()
+    {
+        gamepad?.SetMotorSpeeds(0, 0); // Stop haptic feedback if you're using it
+
+        projectileCurveVisualizer.HideProjectileCurve();
+        isDragging = false;
+        isAiming = false;
+
+        if (canHitTarget && currentDrawStrength > MIN_DRAW_THRESHOLD)
+        {
+            canHitTarget = false;
+
+            // Call the ServerRpc to spawn the arrow
+            SpawnArrowServerRpc(
+                updatedProjectileStartPosition,
+                Quaternion.LookRotation(projectileLaunchVelocity),
+                projectileLaunchVelocity
+            );
+        }
+
+        anim.SetBool("Aiming", false);
+        launchSpeed = 15.0f;
+        buttonPressTime = 0.0f;
+        currentDrawStrength = 0f;
     }
     public void Aim()
     {
@@ -561,5 +577,16 @@ public class TopDownCharacter : MonoBehaviour
         anim.SetFloat("VelocityX", velocityX);
         anim.SetFloat("VelocityZ", velocityZ);
     }
+    [ServerRpc]
+    private void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 velocity)
+    {
+        // Spawn the arrow on the server
+        arrowTransform = Instantiate(arrow);
+        arrowTransform.SetPositionAndRotation(position, rotation);
+        arrowTransform.GetComponent<NetworkObject>().Spawn(true);
 
+        // Throw the arrow
+        Projectile projectile = arrowTransform.GetComponent<Projectile>();
+        projectile.Throw(velocity);
+    }
 }
