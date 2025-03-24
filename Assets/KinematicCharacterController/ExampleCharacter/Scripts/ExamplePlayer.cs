@@ -48,7 +48,7 @@ namespace KinematicCharacterController.Examples
                 CharacterCamera.PlanarDirection = Vector3.ProjectOnPlane(CharacterCamera.PlanarDirection, Character.Motor.CharacterUp).normalized;
             }
 
-            HandleCameraInput();
+            //HandleCameraInput();
         }
 
         private void HandleCameraInput()

@@ -1,0 +1,565 @@
+using UnityEngine;
+using UnityEngine.UI;
+using ProjectileCurveVisualizerSystem;
+using UnityEngine.Animations.Rigging;
+using Cinemachine;
+using UnityEngine.InputSystem;
+using StarterAssets;
+using Unity.Netcode;
+
+public class KinematicArcher : NetworkBehaviour
+{
+    public Transform characterTransform;
+    //public Transform springArmTransform;
+    public Transform cameraTransform;
+    public Camera characterCamera;
+    public Transform aim;
+    private Ray ray;
+    private RaycastHit mouseRaycastHit;
+    Animator anim;
+    private Vector3 targetCharacterPosition;
+    //public RigBuilder rig;
+    public float characterMovementSpeed = 35.0f, camTurnSpeed;
+    public float launchSpeed = 15.0f;
+    public Transform bow;
+    public LayerMask ignoredLayers;
+    private CinemachineVirtualCamera cine;
+    private Vector3 previousPosition;
+    private bool canHitTarget = false;
+
+    private Projectile projectile;
+    public Transform ShootPos;
+    public Vector3 updatedProjectileStartPosition;
+    public Vector3 projectileLaunchVelocity;
+    public Vector3 predictedTargetPosition;
+    public RaycastHit hit;
+    public Vector3 invertedDragDelta;
+    public Gamepad gamepad;
+    public ProjectileCurveVisualizer projectileCurveVisualizer;
+    public GameObject projectileGameObject;
+    [SerializeField] private Transform arrow;
+    [SerializeField] private Transform arrowTransform;
+    public Text gettingHitTimesText;
+    Vector3 movement;
+    private float buttonPressTime = 0.0f;
+    public bool isDragging = false, isAiming;
+    private Vector3 initialMousePosition;
+    public float maxDragDistance = 5, speed = 5;
+    private bool isGamepadAiming = false;
+    private Vector2 gamepadAimDirection;
+    MyInput myInput;
+    InputAction aiming; InputAction moving;
+    Rigidbody playerRigidbody;
+    private Vector3 currentAimDirection = Vector3.zero;
+    public float horizontalAimSmoothSpeed = 8f;
+    private float currentDrawStrength = 15f;
+    private float drawSmoothSpeed = 5f;
+    private const float MIN_DRAW_THRESHOLD = 0.1f;
+    private const float MAX_DRAW_THRESHOLD = 0.95f;
+    Vector2 aimDirection;
+    //ThirdPersonController _thirdPersonController;
+    public CinemachineVirtualCamera vCam;
+    public float smoothSpeed;
+
+    private void Awake()
+    {
+        myInput = new MyInput();
+    }
+    private void OnEnable()
+    {
+        myInput.Enable();
+        aiming = myInput.TopDown.Aim;
+        moving = myInput.TopDown.Move;
+    }
+    private void OnDisable()
+    {
+        myInput.Disable();
+    }
+    void Start()
+    {
+        characterTransform = this.transform;
+        anim = GetComponent<Animator>();
+        vCam = FindFirstObjectByType<CinemachineVirtualCamera>();
+   
+        characterCamera = Camera.main;
+        cameraTransform = characterCamera.transform;
+        cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
+        //characterCamera = Camera.main;
+        targetCharacterPosition = characterTransform.position;
+        previousPosition = characterTransform.position;
+        playerRigidbody = GetComponent<Rigidbody>();
+
+    }
+
+    void Update()
+    {
+        //if (!IsOwner) return;
+        CharacterMovementLogic();
+       
+            if (gamepad != null) HandleGamepadAiming();
+            else HandleMouseAiming();
+    }
+    void OnAir()
+    {
+        if (gamepad != null) Turning();
+        else MouseTurn();
+        isDragging = false;
+        isAiming = false;
+        projectileCurveVisualizer.HideProjectileCurve();
+        launchSpeed = 15.0f; // Reset launch speed
+        buttonPressTime = 0.0f; // Reset button press time
+        currentDrawStrength = 0f; // Reset draw strength
+        anim.SetBool("Aiming", false);
+    }
+    private void HandleMouseAiming()
+    {
+        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("JumpLand"))
+        //{
+        //    isDragging = false;
+        //    isAiming = false;
+        //    projectileCurveVisualizer.HideProjectileCurve();
+        //    return;
+        //}
+      
+            if (Input.GetMouseButton(1))
+            {
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+            }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Lock();
+            }
+
+            if (Input.GetButton("Fire1"))
+            {
+
+                Drag();
+
+                if (isDragging)
+                {
+                    Aim();
+                }
+
+            }
+
+            if (Input.GetButtonUp("Fire1"))
+            {
+                Fire2();
+            }
+        
+
+        if (!isDragging)
+        {
+            MouseTurn();
+        }
+    }
+    void DragWithGamepad()
+    {
+        isDragging = true;
+        //rig.enabled = true;
+
+        // Get trigger value (ranges from 0 to 1)
+        float triggerValue = gamepad.rightTrigger.ReadValue();
+
+        // Smooth the draw strength based on trigger pressure
+        currentDrawStrength = Mathf.Lerp(currentDrawStrength, triggerValue, Time.deltaTime * drawSmoothSpeed);
+
+        if (gamepadAimDirection.magnitude > 0.1f)
+        {
+            // Convert gamepad input to camera-relative direction
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            // Keep movement horizontal
+            cameraForward.y = 0;
+            cameraRight.y = 0;
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Calculate target direction based on camera orientation
+            Vector3 targetAimDirection = cameraRight * gamepadAimDirection.x + cameraForward * gamepadAimDirection.y;
+
+            if (targetAimDirection.magnitude > 0.1f)
+            {
+                // Smooth the rotation
+                currentAimDirection = Vector3.Lerp(
+                    currentAimDirection,
+                    targetAimDirection.normalized,
+                    Time.deltaTime * horizontalAimSmoothSpeed
+                );
+
+                // Rotate character
+                Quaternion targetRotation = Quaternion.LookRotation(currentAimDirection);
+                characterTransform.rotation = Quaternion.Slerp(
+                    characterTransform.rotation,
+                    targetRotation,
+                    Time.deltaTime * horizontalAimSmoothSpeed
+                );
+            }
+        }
+        // Handle vertical aiming with trigger
+        if (currentDrawStrength > MIN_DRAW_THRESHOLD)
+        {
+            // Calculate aim position based on draw strength
+            float drawDistance = Mathf.Lerp(0, maxDragDistance, currentDrawStrength);
+            Vector3 targetPosition = characterTransform.position + characterTransform.forward * drawDistance;
+
+            // Update aim position
+            aim.transform.position = Vector3.Lerp(
+                aim.transform.position,
+                targetPosition,
+                Time.deltaTime * drawSmoothSpeed
+            );
+
+            if (currentDrawStrength >= MAX_DRAW_THRESHOLD)
+            {
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 25.0f, 15.0f, 30);
+            }
+            else
+            {
+                buttonPressTime = 0.0f;
+            }
+
+            // Visualize projectile curve
+            canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition(
+                ShootPos.position,
+                1f,
+                targetPosition,
+                launchSpeed,
+                Vector3.zero,
+                Vector3.zero,
+                0.05f,
+                0.1f,
+                false,
+                out updatedProjectileStartPosition,
+                out projectileLaunchVelocity,
+                out predictedTargetPosition,
+                out hit
+            );
+        }
+        else
+        {
+            projectileCurveVisualizer.HideProjectileCurve();
+            launchSpeed = 15.0f;
+            buttonPressTime = 0.0f;
+        }
+    }
+
+    void HandleGamepadAiming()
+    {
+        gamepadAimDirection = aimDirection;
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("JumpLand"))
+        {
+            ResetAimingState();
+            return;
+        }
+
+        if (!isAiming) Turning();
+
+        
+            if (gamepad.rightTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+            {
+                if (!isGamepadAiming)
+                {
+                    Lock();
+                    isGamepadAiming = true;
+                }
+                DragWithGamepad();
+            }
+            else if (isGamepadAiming)
+            {
+                Fire();
+                isGamepadAiming = false;
+                //currentDrawStrength = 0f;
+            }
+        
+        else
+        {
+            ResetAimingState();
+        }
+    }
+
+    private void ResetAimingState()
+    {
+        isDragging = false;
+        isAiming = false;
+        projectileCurveVisualizer.HideProjectileCurve();
+    }
+
+
+    //private void LateUpdate()
+    //{
+    //    CameraControlLogic();
+    //    CameraZoomingLogic();
+    //}
+    public void Lock()
+    {
+        isDragging = false;
+        initialMousePosition = Input.mousePosition;
+        ray = characterCamera.ScreenPointToRay(initialMousePosition);
+        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers) && gamepad == null)
+        {
+            characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
+        }
+       
+            anim.SetBool("Aiming", true);
+        
+
+    }
+    private void MouseTurn()
+    {
+        ray = characterCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out mouseRaycastHit, Mathf.Infinity, ~ignoredLayers))
+        {
+            characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
+        }
+    }
+    public void Drag()
+    {
+        Vector3 currentMousePosition = Input.mousePosition;
+        Vector3 dragDelta = currentMousePosition - initialMousePosition;
+
+        //isAiming = true;
+        //rig.enabled = true;
+        // Check if drag has started and set isDragging to true if moving significantly
+        if (dragDelta.magnitude > 10.0f) // Small threshold to detect drag
+        {
+            // Transform the screen-space drag delta into world space
+            Vector3 worldDragDelta = cameraTransform.TransformDirection(new Vector3(dragDelta.x, 0, dragDelta.y));
+            // Invert the drag for bow-stretching effect
+            invertedDragDelta = new Vector3(-worldDragDelta.x, 0, -worldDragDelta.z);
+
+            // Use the drag only if it opposes the character's forward direction
+            if (Vector3.Dot(invertedDragDelta.normalized, characterTransform.forward) > 0)
+            {
+                isDragging = true;
+            }
+            else
+            {
+                isDragging = false;
+            }
+        }
+    }
+
+    public void Fire2()
+    {
+        projectileCurveVisualizer.HideProjectileCurve();
+        isDragging = false;
+        isAiming = false;
+
+        if (canHitTarget)
+        {
+            canHitTarget = false;
+            Projectile projectile = GameObject.Instantiate(projectileGameObject).GetComponent<Projectile>();
+            projectile.transform.SetPositionAndRotation(updatedProjectileStartPosition, Quaternion.LookRotation(projectileLaunchVelocity));
+            projectile.Throw(projectileLaunchVelocity);
+            // Call the ServerRpc to spawn the arrow
+            SpawnArrowServerRpc(
+                updatedProjectileStartPosition,
+                Quaternion.LookRotation(projectileLaunchVelocity),
+                projectileLaunchVelocity
+            );
+        }
+
+        anim.SetBool("Aiming", false);
+        launchSpeed = 15.0f;
+        buttonPressTime = 0.0f;
+    }
+
+    public void Fire()
+    {
+        gamepad?.SetMotorSpeeds(0, 0); // Stop haptic feedback if you're using it
+
+        projectileCurveVisualizer.HideProjectileCurve();
+        isDragging = false;
+        isAiming = false;
+
+        if (canHitTarget && currentDrawStrength > MIN_DRAW_THRESHOLD)
+        {
+            canHitTarget = false;
+
+            // Call the ServerRpc to spawn the arrow
+            SpawnArrowServerRpc(
+                updatedProjectileStartPosition,
+                Quaternion.LookRotation(projectileLaunchVelocity),
+                projectileLaunchVelocity
+            );
+        }
+
+        anim.SetBool("Aiming", false);
+        launchSpeed = 15.0f;
+        buttonPressTime = 0.0f;
+        currentDrawStrength = 0f;
+    }
+    public void Aim()
+    {
+        if (!isDragging) return;
+        // Rotate the character towards the drag direction
+        Vector3 dragDirection = invertedDragDelta.normalized;
+        //rig.enabled = true;
+        Quaternion targetRotation = Quaternion.LookRotation(dragDirection);
+
+        characterTransform.rotation = Quaternion.Slerp(characterTransform.rotation, targetRotation, Time.deltaTime * 10f); // Adjust rotation speed
+
+        float dragDistance = Mathf.Min(invertedDragDelta.magnitude * 0.1f, maxDragDistance);
+        Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
+        aim.transform.position = targetPosition;
+        // Visualize the projectile curve with the new target position
+        if (isDragging)
+        {
+            canHitTarget = projectileCurveVisualizer.VisualizeProjectileCurveWithTargetPosition
+           (new(ShootPos.position.x, ShootPos.position.y, ShootPos.position.z), 1f, targetPosition, launchSpeed, Vector3.zero, Vector3.zero, 0.05f, 0.1f, false, out updatedProjectileStartPosition, out projectileLaunchVelocity, out predictedTargetPosition, out hit);
+
+            if (dragDistance == maxDragDistance)
+            {
+                buttonPressTime += Time.deltaTime;
+                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 15.0f, 5.0f, 30.0f);
+            }
+            else if (dragDistance < maxDragDistance)
+            {
+                launchSpeed = 15;
+            }
+        }
+
+    }
+    void CameraControlLogic()
+    {
+
+        //springArmTransform.position = characterTransform.position;
+        if (gamepad != null)
+        {
+            if (gamepad.dpad.left.IsPressed())
+            {
+                CamLeft();
+            }
+            if (gamepad.dpad.right.IsPressed())
+            {
+                CamRight();
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                CamLeft();
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                CamRight();
+            }
+        }
+    }
+    void CamLeft()
+    {
+        vCam.gameObject.transform.Rotate(-camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
+    }
+    void CamRight()
+    {
+        vCam.gameObject.transform.Rotate(camTurnSpeed * Time.deltaTime * Vector3.up, Space.World);
+    }
+    void CameraZoomingLogic()
+    {
+        float targetDistance = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
+
+        if (gamepad == null)
+        {
+            // Mouse scroll wheel zoom
+            targetDistance -= Input.GetAxis("Mouse ScrollWheel") * 6.0f;
+        }
+        else
+        {
+            // Gamepad D-pad zoom
+            float zoomInput = 0f;
+
+            if (gamepad.dpad.up.isPressed)
+            {
+                zoomInput = -1f; // Zoom in
+            }
+            else if (gamepad.dpad.down.isPressed)
+            {
+                zoomInput = 1f; // Zoom out
+            }
+
+            targetDistance += zoomInput * 0.3f * Time.deltaTime * 60f; // Adjust for frame rate
+        }
+
+        // Apply smoothing and clamp the distance
+        targetDistance = Mathf.Clamp(targetDistance, 14f, 34.0f);
+        vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Lerp(
+            vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance,
+            targetDistance,
+            Time.deltaTime * smoothSpeed // Smoothing factor
+        );
+    }
+    void CharacterMovementLogic()
+    {
+  
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Animating(horizontalInput, verticalInput);
+
+    }
+    void Turning()
+    {
+        if (aimDirection.magnitude > 0.1f)  // Add a small deadzone
+        {
+            // Convert the gamepad input into a direction relative to the camera
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            // Zero out the y components to keep movement horizontal
+            cameraForward.y = 0;
+            cameraRight.y = 0;
+
+            // Normalize the vectors
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            // Calculate the target direction based on camera orientation
+            Vector3 targetDirection = cameraRight * aimDirection.x + cameraForward * aimDirection.y;
+
+            // Only rotate if we have a valid direction
+            if (targetDirection.magnitude > 0.1f)
+            {
+                // Create rotation towards the target direction
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+                // Smoothly rotate towards the target direction
+                characterTransform.rotation = Quaternion.Slerp(
+                    characterTransform.rotation,
+                    targetRotation,
+                    Time.deltaTime * horizontalAimSmoothSpeed
+                );
+            }
+        }
+    }
+    void Animating(float h, float v)
+    {
+        bool walking = h != 0f || v != 0f;
+        anim.SetBool("IsWalking", walking);
+        Vector3 direction = new(h, 0, v);
+        direction = cameraTransform.TransformDirection(direction);
+        float velocityZ = Vector3.Dot(direction.normalized, transform.forward * 2);
+        float velocityX = Vector3.Dot(direction.normalized, transform.right);
+        anim.SetFloat("VelocityX", velocityX);
+        anim.SetFloat("VelocityZ", velocityZ);
+    }
+    [ServerRpc]
+    private void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 velocity)
+    {
+        // Spawn the arrow on the server
+        arrowTransform = Instantiate(arrow);
+        arrowTransform.SetPositionAndRotation(position, rotation);
+        arrowTransform.GetComponent<NetworkObject>().Spawn(true);
+
+        // Throw the arrow
+        Projectile projectile = arrowTransform.GetComponent<Projectile>();
+        projectile.Throw(velocity);
+    }
+}

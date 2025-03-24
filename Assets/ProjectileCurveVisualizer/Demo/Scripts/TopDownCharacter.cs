@@ -64,12 +64,14 @@ public class TopDownCharacter : NetworkBehaviour
     private void Awake()
     {
         myInput = new MyInput();
+       
     }
     private void OnEnable()
     {
         myInput.Enable();
         aiming = myInput.TopDown.Aim;
         moving = myInput.TopDown.Move;
+       
     }
     private void OnDisable()
     {
@@ -80,12 +82,14 @@ public class TopDownCharacter : NetworkBehaviour
         characterTransform = this.transform;
         anim = GetComponent<Animator>();
         vCam = FindFirstObjectByType<CinemachineVirtualCamera>();
+        vCam.Follow = characterTransform;
+        vCam.LookAt = characterTransform;
         //springArmTransform = this.transform.GetChild(0).transform;
         //springArmTransform.parent = null;
         //cameraTransform = springArmTransform.GetChild(0).transform;
         characterCamera = Camera.main;
         cameraTransform = characterCamera.transform;
-        cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
+        //cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
         //characterCamera = Camera.main;
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
@@ -102,6 +106,7 @@ public class TopDownCharacter : NetworkBehaviour
         {
             if (gamepad != null) HandleGamepadAiming();
             else HandleMouseAiming();
+
         }
         else
         {
@@ -510,26 +515,26 @@ public class TopDownCharacter : NetworkBehaviour
     }
     void CharacterMovementLogic()
     {
-        gamepad = Gamepad.current;
-        aimDirection = aiming.ReadValue<Vector2>();
+        //gamepad = Gamepad.current;
+        //aimDirection = aiming.ReadValue<Vector2>();
 
-        previousPosition = characterTransform.position;
+        //previousPosition = characterTransform.position;
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         Animating(horizontalInput, verticalInput);
 
-        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        //Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
-        if (movementDirection != Vector3.zero)
-        {
+        //if (movementDirection != Vector3.zero)
+        //{
 
-            movement.Set(horizontalInput, 0, verticalInput);
-            movement = cameraTransform.TransformDirection(movement);
-            movement.y = 0;
-            movement = speed * Time.deltaTime * movement.normalized;
-            playerRigidbody.MovePosition(playerRigidbody.position + movement);
-        }
+        //    movement.Set(horizontalInput, 0, verticalInput);
+        //    movement = cameraTransform.TransformDirection(movement);
+        //    movement.y = 0;
+        //    movement = speed * Time.deltaTime * movement.normalized;
+        //    playerRigidbody.MovePosition(playerRigidbody.position + movement);
+        //}
 
     }
     void Turning()

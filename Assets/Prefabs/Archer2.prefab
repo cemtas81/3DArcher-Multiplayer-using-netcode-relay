@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 6909259699458415713}
   - component: {fileID: 5190686969527244911}
   - component: {fileID: 6177441753241646921}
+  - component: {fileID: -7244833233859795705}
   - component: {fileID: 727677923421844219}
   - component: {fileID: 5205531734564470265}
   - component: {fileID: 1350996850480277756}
@@ -541,6 +542,31 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &-7244833233859795705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378250361031881201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 74062261
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &727677923421844219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,6 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd034cce0612f04a989a84f0cdf9d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   characterTransform: {fileID: 0}
   cameraTransform: {fileID: 0}
   characterCamera: {fileID: 0}
@@ -571,6 +598,8 @@ MonoBehaviour:
   invertedDragDelta: {x: 0, y: 0, z: 0}
   projectileCurveVisualizer: {fileID: 2608674373428790255}
   projectileGameObject: {fileID: 3549276241753633126, guid: a85281bcb46c72e4287933ee028c479e, type: 3}
+  arrow: {fileID: 0}
+  arrowTransform: {fileID: 0}
   gettingHitTimesText: {fileID: 0}
   isDragging: 0
   isAiming: 0
@@ -591,7 +620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca151fc67567204998150915505d17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   health: 100
+  currentHealth: 0
 --- !u!54 &1350996850480277756
 Rigidbody:
   m_ObjectHideFlags: 0

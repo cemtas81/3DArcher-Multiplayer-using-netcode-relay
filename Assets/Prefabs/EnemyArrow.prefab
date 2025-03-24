@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 6117761541014332424}
   - component: {fileID: 376633354120403799}
   - component: {fileID: -5200973021278503923}
-  - component: {fileID: 7277216829157048053}
-  - component: {fileID: -8965169782556069599}
+  - component: {fileID: -468437040619365158}
+  - component: {fileID: 3773553016182595234}
   m_Layer: 16
   m_Name: EnemyArrow
   m_TagString: EnemyArrow
@@ -182,7 +182,7 @@ MonoBehaviour:
   AutoObjectParentSync: 0
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &7277216829157048053
+--- !u!114 &-468437040619365158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,11 +191,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3549276241753633126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a746330139727e4ba186cf0929d921f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
+  NetworkTransformExpanded: 1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-8965169782556069599
+--- !u!114 &3773553016182595234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
