@@ -64,14 +64,14 @@ public class TopDownCharacter : NetworkBehaviour
     private void Awake()
     {
         myInput = new MyInput();
-       
+
     }
     private void OnEnable()
     {
         myInput.Enable();
         aiming = myInput.TopDown.Aim;
         moving = myInput.TopDown.Move;
-       
+
     }
     private void OnDisable()
     {
@@ -117,21 +117,14 @@ public class TopDownCharacter : NetworkBehaviour
     {
         if (gamepad != null) Turning();
         else MouseTurn();
-        isDragging = false;
-        isAiming = false;
-        projectileCurveVisualizer.HideProjectileCurve();
-        launchSpeed = 15.0f; // Reset launch speed
-        buttonPressTime = 0.0f; // Reset button press time
-        currentDrawStrength = 0f; // Reset draw strength
-        anim.SetBool("Aiming", false);
+        ResetAimingState();
+       
     }
     private void HandleMouseAiming()
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("JumpLand"))
         {
-            isDragging = false;
-            isAiming = false;
-            projectileCurveVisualizer.HideProjectileCurve();
+            ResetAimingState();
             return;
         }
         if (_thirdPersonController.Grounded)
@@ -305,6 +298,10 @@ public class TopDownCharacter : NetworkBehaviour
         isDragging = false;
         isAiming = false;
         projectileCurveVisualizer.HideProjectileCurve();
+        launchSpeed = 15.0f; // Reset launch speed
+        buttonPressTime = 0.0f; // Reset button press time
+        currentDrawStrength = 0f; // Reset draw strength
+        anim.SetBool("Aiming", false);
     }
 
 
@@ -365,9 +362,7 @@ public class TopDownCharacter : NetworkBehaviour
 
     public void Fire2()
     {
-        projectileCurveVisualizer.HideProjectileCurve();
-        isDragging = false;
-        isAiming = false;
+        ResetAimingState();
 
         if (canHitTarget)
         {
@@ -392,9 +387,7 @@ public class TopDownCharacter : NetworkBehaviour
     {
         gamepad?.SetMotorSpeeds(0, 0); // Stop haptic feedback if you're using it
 
-        projectileCurveVisualizer.HideProjectileCurve();
-        isDragging = false;
-        isAiming = false;
+        ResetAimingState();
 
         if (canHitTarget && currentDrawStrength > MIN_DRAW_THRESHOLD)
         {
@@ -515,8 +508,8 @@ public class TopDownCharacter : NetworkBehaviour
     }
     void CharacterMovementLogic()
     {
-        //gamepad = Gamepad.current;
-        //aimDirection = aiming.ReadValue<Vector2>();
+        gamepad = Gamepad.current;
+        aimDirection = aiming.ReadValue<Vector2>();
 
         //previousPosition = characterTransform.position;
         float horizontalInput = Input.GetAxis("Horizontal");

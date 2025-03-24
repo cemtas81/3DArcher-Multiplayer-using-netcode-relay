@@ -29,17 +29,21 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        //healthVariable.OnValueChanged +=OnValueChange() ;
+        healthVariable.OnValueChanged += (oldValue, newValue) => OnValueChange();
     }
-    void OnValueChange() 
+
+    void OnValueChange()
     {
+        Debug.Log($"Health updated: {healthVariable.Value.Health}, Dead: {healthVariable.Value.dead}");
+
         currentHealth = healthVariable.Value.Health;
         if (healthVariable.Value.dead)
         {
             Death();
         }
     }
-   
+
+
     private void Start()
     {
         currentHealth = health;
@@ -47,22 +51,25 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
         thirdPersonController = GetComponent<ThirdPersonController>();
     }
 
-    public void Damage(float damage)
+   public void Damage(float damage)
+{
+    if (!IsServer) return; // Ensure only server modifies health
+
+    Debug.Log($"PlayerHealth: Taking {damage} damage, current health: {currentHealth}");
+
+    if (currentHealth > 0)
     {
-        if (currentHealth > 0)
+        currentHealth -= damage;
+        healthVariable.Value = new HealthUpdate { Health = currentHealth, dead = currentHealth <= 0 };
+
+        if (currentHealth <= 0)
         {
-            currentHealth -= damage;
-            //healthVariable.Value-=new HealthUpdate {Health = currentHealth,dead=false };
-            Debug.Log("Player takes damage: " + damage);
+            Debug.Log("Player is dead");
+            Death();
         }
-        else
-        {
-           
-            Debug.Log("Player is dead " );
-            //Death();
-        }
-     
     }
+}
+
 
     public void Heal(float heal)
     {

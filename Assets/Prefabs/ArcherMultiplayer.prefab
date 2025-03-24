@@ -991,7 +991,7 @@ MonoBehaviour:
   bow: {fileID: 3205018671394933841}
   ignoredLayers:
     serializedVersion: 2
-    m_Bits: 32772
+    m_Bits: 98308
   ShootPos: {fileID: 4972007584260651871}
   updatedProjectileStartPosition: {x: 0, y: 0, z: 0}
   projectileLaunchVelocity: {x: 0, y: 0, z: 0}
@@ -1006,7 +1006,7 @@ MonoBehaviour:
   isAiming: 0
   maxDragDistance: 24.3
   speed: 5
-  horizontalAimSmoothSpeed: 1
+  horizontalAimSmoothSpeed: 3
   vCam: {fileID: 0}
   smoothSpeed: 150
 --- !u!114 &2866452830919923724
