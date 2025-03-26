@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d6d3662bd527c6b46a57dfb41c44ab69
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Scripts/Data/DemoData.cs
+  uploadId: 687766

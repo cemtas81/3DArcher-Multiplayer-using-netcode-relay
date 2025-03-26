@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b1e89e7c6aa122a47854c6e070921004
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Models/Anims/Character.controller
+  uploadId: 687766

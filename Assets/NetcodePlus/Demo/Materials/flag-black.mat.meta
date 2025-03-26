@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5ce9364e3c56cba4a8e4c51872fddaba
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Materials/flag-black.mat
+  uploadId: 687766

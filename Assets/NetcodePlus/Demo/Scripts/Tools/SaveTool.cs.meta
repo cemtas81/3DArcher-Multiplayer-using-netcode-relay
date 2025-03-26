@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 56992dc570466a94db9ba5188f8828d1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Scripts/Tools/SaveTool.cs
+  uploadId: 687766

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 681a6ebac7adc6c4da142dcf7e37232a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Resources/Modes/Tank.asset
+  uploadId: 687766

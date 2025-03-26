@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ab9f531b30e088740a8b298319431ca4
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Simple/ObjectCube.prefab
+  uploadId: 687766

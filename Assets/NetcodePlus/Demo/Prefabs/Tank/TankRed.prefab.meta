@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 00f825b659e52674c89009710471cdba
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/TankRed.prefab
+  uploadId: 687766

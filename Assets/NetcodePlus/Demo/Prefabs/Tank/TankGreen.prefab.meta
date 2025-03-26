@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5ec76f2fa5a4cb142a862b194b1dbb0a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/TankGreen.prefab
+  uploadId: 687766

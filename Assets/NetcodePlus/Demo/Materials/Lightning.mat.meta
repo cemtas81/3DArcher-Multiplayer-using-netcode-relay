@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 54b87c9058894d040991da1b930e7fc6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Materials/Lightning.mat
+  uploadId: 687766

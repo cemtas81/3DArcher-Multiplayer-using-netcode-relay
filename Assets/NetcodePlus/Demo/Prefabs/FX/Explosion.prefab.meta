@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f47f957087bfe3e499492707de093fb9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/FX/Explosion.prefab
+  uploadId: 687766

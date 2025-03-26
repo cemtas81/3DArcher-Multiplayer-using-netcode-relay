@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4bea4e61271602d41bf8e93d7ec6ee8a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/Bullet.prefab
+  uploadId: 687766

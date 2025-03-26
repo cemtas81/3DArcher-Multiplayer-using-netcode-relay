@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 48ed8c574b29eed4683ef14eee6389af
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Install/game.service
+  uploadId: 687766

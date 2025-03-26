@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c4eb0be39e9c20d45bd9e421806bb677
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Anims/Grow.controller
+  uploadId: 687766

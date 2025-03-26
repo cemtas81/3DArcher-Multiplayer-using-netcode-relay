@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bc0e3ed88664b6947a697c7b55949bac
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Resources/Players/TankGreen.asset
+  uploadId: 687766

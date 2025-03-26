@@ -100,7 +100,7 @@ public class TopDownCharacter : NetworkBehaviour
 
     void Update()
     {
-        //if (!IsOwner) return;
+        if (!IsOwner) return;
         CharacterMovementLogic();
         if (_thirdPersonController.Grounded)
         {
@@ -273,12 +273,7 @@ public class TopDownCharacter : NetworkBehaviour
         {
             if (gamepad.rightTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
             {
-                if (!isGamepadAiming)
-                {
-                    Lock();
-                    isGamepadAiming = true;
-                }
-                DragWithGamepad();
+               IsGamePadAim();
             }
             else if (isGamepadAiming)
             {
@@ -292,7 +287,15 @@ public class TopDownCharacter : NetworkBehaviour
             ResetAimingState();
         }
     }
-
+    void IsGamePadAim()
+    {
+        if (!isGamepadAiming)
+        {
+            Lock();
+            isGamepadAiming = true;
+        }
+        DragWithGamepad();
+    }
     private void ResetAimingState()
     {
         isDragging = false;
@@ -302,6 +305,11 @@ public class TopDownCharacter : NetworkBehaviour
         buttonPressTime = 0.0f; // Reset button press time
         currentDrawStrength = 0f; // Reset draw strength
         anim.SetBool("Aiming", false);
+        canHitTarget = false;
+        predictedTargetPosition = Vector3.zero;
+        updatedProjectileStartPosition = Vector3.zero;
+        projectileLaunchVelocity = Vector3.zero;
+
     }
 
 
@@ -362,7 +370,6 @@ public class TopDownCharacter : NetworkBehaviour
 
     public void Fire2()
     {
-        ResetAimingState();
 
         if (canHitTarget)
         {
@@ -378,9 +385,7 @@ public class TopDownCharacter : NetworkBehaviour
             );
         }
 
-        anim.SetBool("Aiming", false);
-        launchSpeed = 15.0f;
-        buttonPressTime = 0.0f;
+        ResetAimingState();
     }
 
     public void Fire()
@@ -579,8 +584,7 @@ public class TopDownCharacter : NetworkBehaviour
     private void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 velocity)
     {
         // Spawn the arrow on the server
-        arrowTransform = Instantiate(arrow);
-        arrowTransform.SetPositionAndRotation(position, rotation);
+        arrowTransform = Instantiate(arrow, position, rotation);
         arrowTransform.GetComponent<NetworkObject>().Spawn(true);
 
         // Throw the arrow

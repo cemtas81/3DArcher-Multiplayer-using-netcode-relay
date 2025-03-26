@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 54bc8c0666f264c47baafd9632ff4265
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/FloorTrap.prefab
+  uploadId: 687766

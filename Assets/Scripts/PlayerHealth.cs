@@ -15,34 +15,35 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
 
     private List<ISeekable> seekableList = new List<ISeekable>();
     ThirdPersonController thirdPersonController;
+
     public struct HealthUpdate : INetworkSerializable
     {
-
         public float Health;
         public bool dead;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
-            serializer.SerializeValue(ref Health); serializer.SerializeValue(ref dead);
+            serializer.SerializeValue(ref Health);
+            serializer.SerializeValue(ref dead);
         }
     }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        healthVariable.OnValueChanged += (oldValue, newValue) => OnValueChange();
+        healthVariable.OnValueChanged += (oldValue, newValue) => OnValueChange(newValue);
     }
 
-    void OnValueChange()
+    void OnValueChange(HealthUpdate newValue)
     {
-        Debug.Log($"Health updated: {healthVariable.Value.Health}, Dead: {healthVariable.Value.dead}");
+        Debug.Log($"Health updated: {newValue.Health}, Dead: {newValue.dead}");
 
-        currentHealth = healthVariable.Value.Health;
-        if (healthVariable.Value.dead)
+        currentHealth = newValue.Health;
+        if (newValue.dead)
         {
             Death();
         }
     }
-
 
     private void Start()
     {
@@ -51,25 +52,31 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
         thirdPersonController = GetComponent<ThirdPersonController>();
     }
 
-   public void Damage(float damage)
-{
-    if (!IsServer) return; // Ensure only server modifies health
-
-    Debug.Log($"PlayerHealth: Taking {damage} damage, current health: {currentHealth}");
-
-    if (currentHealth > 0)
+    public void Damage(float damage)
     {
-        currentHealth -= damage;
-        healthVariable.Value = new HealthUpdate { Health = currentHealth, dead = currentHealth <= 0 };
+        DamageServerRpc(damage);
+    }
 
-        if (currentHealth <= 0)
+    [ServerRpc(RequireOwnership = false)]
+    private void DamageServerRpc(float damage)
+    {
+        // Apply damage to THIS player (already has their NetworkObject)
+        ApplyDamageClientRpc(damage, OwnerClientId);
+    }
+
+    [ClientRpc]
+    private void ApplyDamageClientRpc(float damage, ulong targetClientId)
+    {
+        if (IsOwner) // Only the owner modifies their health
         {
-            Debug.Log("Player is dead");
-            Death();
+            var newHealth = healthVariable.Value.Health - damage;
+            healthVariable.Value = new HealthUpdate
+            {
+                Health = Mathf.Max(0, newHealth),
+                dead = newHealth <= 0
+            };
         }
     }
-}
-
 
     public void Heal(float heal)
     {
@@ -79,13 +86,15 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
     void Death()
     {
         Debug.LogWarning("Player is dead");
-        playerController.enabled = false;
-        thirdPersonController.enabled = false;
-        UpdateSeekableList(); // Initialize the list
-        foreach (var seekable in seekableList)
-        {
-            seekable.Seek(transform.position); // Notify each ISeekable
-        }
+        if (!IsOwner) return; // Only the owner disables their controls
+        if (playerController != null) playerController.enabled = false;
+        if (thirdPersonController != null) thirdPersonController.enabled = false;
+
+        // UpdateSeekableList(); // Initialize the list
+        // foreach (var seekable in seekableList)
+        // {
+        //     seekable.Seek(transform.position); // Notify each ISeekable
+        // }
     }
 
     public void UpdateSeekableList()
@@ -93,5 +102,4 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
         // Update the list by finding all objects of type ISeekable
         seekableList = FindObjectsOfType<MonoBehaviour>().OfType<ISeekable>().ToList();
     }
-  
 }

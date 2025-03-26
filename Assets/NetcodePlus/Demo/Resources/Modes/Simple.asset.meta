@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ab9b2d61a8ada944b920fc919f06274d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Resources/Modes/Simple.asset
+  uploadId: 687766

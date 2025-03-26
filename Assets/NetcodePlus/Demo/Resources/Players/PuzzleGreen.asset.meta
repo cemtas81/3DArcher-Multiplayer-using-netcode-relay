@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 01f7c5c0f3c207b42b967bac94595f50
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Resources/Players/PuzzleGreen.asset
+  uploadId: 687766

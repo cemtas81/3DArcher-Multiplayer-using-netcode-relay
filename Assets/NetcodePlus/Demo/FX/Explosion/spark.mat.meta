@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5c837ead8771aa64386a9b2998f09661
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/FX/Explosion/spark.mat
+  uploadId: 687766

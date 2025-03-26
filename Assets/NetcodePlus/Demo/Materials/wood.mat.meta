@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fe81160e7f43dee498a5f25ac1f6fe86
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Materials/wood.mat
+  uploadId: 687766

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a5ce4c87f3c944faf4ac1bc0f8cf47, type: 3}
+  m_Name: PuzzleYellow
+  m_EditorClassIdentifier: 
+  mode: 30
+  id: yellow
+  prefab: {fileID: 3707846663115993981, guid: a334d478d6eaea74ea3dac17401d64ea, type: 3}
+  color: {r: 0.9150943, g: 0.7146925, b: 0.074818976, a: 1}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8179d8f1ac530504090ddfa078a6c81c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/FX/Explosion/smoke.mat
+  uploadId: 687766

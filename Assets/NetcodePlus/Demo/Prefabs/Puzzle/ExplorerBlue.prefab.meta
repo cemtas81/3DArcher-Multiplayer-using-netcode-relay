@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4fecae3a760366f4f953b04b5d78b524
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/ExplorerBlue.prefab
+  uploadId: 687766

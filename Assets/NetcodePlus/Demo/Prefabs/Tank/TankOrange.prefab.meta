@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cbf154bd4ef729b4287ddfe3fb418872
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/TankOrange.prefab
+  uploadId: 687766

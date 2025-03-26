@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 654385d52420ee74c9e3c10db7e801af
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Anims/powerup.anim
+  uploadId: 687766

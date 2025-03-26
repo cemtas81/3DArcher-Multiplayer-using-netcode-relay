@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ce7c79a1d6ce3b040822c92169b1eb21
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/UI/ReviveBar.prefab
+  uploadId: 687766

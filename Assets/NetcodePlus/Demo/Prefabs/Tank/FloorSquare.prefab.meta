@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 302a1c298dba9964db3ff94d2efed24d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/FloorSquare.prefab
+  uploadId: 687766

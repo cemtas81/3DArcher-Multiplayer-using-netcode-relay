@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d22a2c13760951a46ad5c800ec38cbd1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Resources/Players/TankBlue.asset
+  uploadId: 687766

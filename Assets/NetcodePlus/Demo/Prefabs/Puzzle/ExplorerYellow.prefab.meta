@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a334d478d6eaea74ea3dac17401d64ea
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/ExplorerYellow.prefab
+  uploadId: 687766

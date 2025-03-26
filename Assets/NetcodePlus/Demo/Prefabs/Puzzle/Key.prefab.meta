@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c76c1b79e68aff64fb1474d8b6fe1124
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/Key.prefab
+  uploadId: 687766

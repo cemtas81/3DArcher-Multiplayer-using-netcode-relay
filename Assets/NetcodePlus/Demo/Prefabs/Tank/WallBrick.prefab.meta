@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 27085609166b0b6418fd0404f5e5a13f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/WallBrick.prefab
+  uploadId: 687766

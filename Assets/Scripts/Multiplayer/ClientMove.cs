@@ -10,10 +10,10 @@ public class ClientMove : NetworkBehaviour
     [SerializeField] private StarterAssetsInputs assetsInputs;
     [SerializeField] private TopDownCharacter character;
     [SerializeField] private PlayerHealth health;
-  
+    [SerializeField] private float range=8;
     private void Awake()
     {
-    
+
         playerInput.enabled = false;
         assetsInputs.enabled = false;
         characterController.enabled = false;
@@ -24,7 +24,23 @@ public class ClientMove : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if (IsOwner)
+        //if (IsOwner)
+        //{
+        //    playerInput.enabled = true;
+        //    assetsInputs.enabled = true;
+        //    //characterController.enabled = true;
+        //    character.enabled = true;
+        //    health.enabled = true;
+        //}
+        
+        //if(IsServer)
+        //{
+           
+        //    characterController.enabled = true;
+        
+        //}
+        SpawnServerRpc();
+        if (IsHost && IsOwner)
         {
             playerInput.enabled = true;
             assetsInputs.enabled = true;
@@ -32,21 +48,24 @@ public class ClientMove : NetworkBehaviour
             character.enabled = true;
             health.enabled = true;
         }
-        //if (IsServer)
-        //{
-
-        //    characterController.enabled = true;
-        //    character.enabled = true;
-        //    health.enabled = true;
-        //}
-        //if(IsClient)
-        //{
-        //    characterController.enabled = true;
-        //    character.enabled = true;
-        //    health.enabled = true;
-        //}
+        if (IsServer && IsOwner)
+        {
+            playerInput.enabled = true;
+            assetsInputs.enabled = true;
+            characterController.enabled = true;
+            character.enabled = true;
+            health.enabled = true;
+        }
+        if (IsClient && IsOwner)
+        {
+            playerInput.enabled = true;
+            assetsInputs.enabled = true;
+            characterController.enabled = true;
+            character.enabled = true;
+            health.enabled = true;
+        }
     }
-    [ServerRpc]
+    [Rpc(target:SendTo.Server)]
     private void UpdateInputServerRpc(Vector2 move, Vector2 look, bool jump, bool sprint)
     {
         assetsInputs.move = move;
@@ -66,9 +85,16 @@ public class ClientMove : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        UpdateInputServerRpc(assetsInputs.move, assetsInputs.look, assetsInputs.jump, assetsInputs.sprint); 
+        UpdateInputServerRpc(assetsInputs.move, assetsInputs.look, assetsInputs.jump, assetsInputs.sprint);
         UpdateInputClientRpc(assetsInputs.move, assetsInputs.look, assetsInputs.jump, assetsInputs.sprint);
+
     }
+    [ServerRpc(RequireOwnership =false)]
+    private void SpawnServerRpc()
+    {
+        transform.position = new Vector3(Random.Range(-range, range), range, Random.Range(-range, range));
+    }
+    
 }
 
 

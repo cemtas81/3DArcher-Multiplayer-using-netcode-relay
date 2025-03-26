@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a5ce4c87f3c944faf4ac1bc0f8cf47, type: 3}
+  m_Name: TankYellow
+  m_EditorClassIdentifier: 
+  mode: 20
+  id: yellow
+  prefab: {fileID: 2797129902795045934, guid: cbf154bd4ef729b4287ddfe3fb418872, type: 3}
+  color: {r: 0.9150943, g: 0.7146925, b: 0.074818976, a: 1}

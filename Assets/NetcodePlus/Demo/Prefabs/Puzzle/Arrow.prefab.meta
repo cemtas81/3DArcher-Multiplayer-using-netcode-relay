@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0d3ecde28b64b894d9ed9eaab72c5df4
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/Arrow.prefab
+  uploadId: 687766

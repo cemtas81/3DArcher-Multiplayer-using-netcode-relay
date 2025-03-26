@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ade78fe6af6e9f84da677a6e257c8645
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Render/DemoSimple/LightingData.asset
+  uploadId: 687766

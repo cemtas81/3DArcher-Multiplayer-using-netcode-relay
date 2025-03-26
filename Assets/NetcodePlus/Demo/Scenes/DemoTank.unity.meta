@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2e6ec93d0c1e07143a6660f1aabd00fa
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Scenes/DemoTank.unity
+  uploadId: 687766

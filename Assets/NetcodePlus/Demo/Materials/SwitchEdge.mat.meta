@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d097d2df106459e419ac0969be4073a9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Materials/SwitchEdge.mat
+  uploadId: 687766

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bfedf98611c08cf4ba387e37e36c2d4d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/DoorKey.prefab
+  uploadId: 687766

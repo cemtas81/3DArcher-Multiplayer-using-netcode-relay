@@ -782,6 +782,7 @@ MonoBehaviour:
   assetsInputs: {fileID: 5489835222511331232}
   character: {fileID: 3120662890761480883}
   health: {fileID: 2866452830919923724}
+  range: 8
 --- !u!143 &705018660743709562
 CharacterController:
   m_ObjectHideFlags: 0

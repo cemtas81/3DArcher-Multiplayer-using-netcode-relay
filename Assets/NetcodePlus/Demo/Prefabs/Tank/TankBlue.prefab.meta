@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4a1b02cd8f796dc4c9d5c5afce18d0f6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/TankBlue.prefab
+  uploadId: 687766

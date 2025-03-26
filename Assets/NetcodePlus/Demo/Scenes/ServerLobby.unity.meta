@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6850636c2775ea948b1fae8cfcc45e4a
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Scenes/ServerLobby.unity
+  uploadId: 687766

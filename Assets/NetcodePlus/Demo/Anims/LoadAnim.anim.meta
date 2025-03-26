@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5e716616e9807f946aa61e09dc17aa24
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Anims/LoadAnim.anim
+  uploadId: 687766

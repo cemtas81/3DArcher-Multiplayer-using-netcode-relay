@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 80080f77a4ab8dc4285689f7a609e047
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Prefabs/TheNetwork.prefab
+  uploadId: 687766

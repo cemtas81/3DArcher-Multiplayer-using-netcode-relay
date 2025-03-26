@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dba6755788c629f4385e38cdbaff9b00
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Tank/TankManager.prefab
+  uploadId: 687766

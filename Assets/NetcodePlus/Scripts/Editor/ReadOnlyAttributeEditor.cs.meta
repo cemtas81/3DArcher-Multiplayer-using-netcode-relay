@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c0b07c509a55dbe4ea84860626b76a30
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Scripts/Editor/ReadOnlyAttributeEditor.cs
+  uploadId: 687766

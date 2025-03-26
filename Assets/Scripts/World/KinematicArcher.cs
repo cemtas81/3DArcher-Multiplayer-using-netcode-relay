@@ -80,7 +80,7 @@ public class KinematicArcher : NetworkBehaviour
         characterTransform = this.transform;
         anim = GetComponent<Animator>();
         vCam = FindFirstObjectByType<CinemachineVirtualCamera>();
-   
+
         characterCamera = Camera.main;
         cameraTransform = characterCamera.transform;
         cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
@@ -95,9 +95,9 @@ public class KinematicArcher : NetworkBehaviour
     {
         //if (!IsOwner) return;
         CharacterMovementLogic();
-       
-            if (gamepad != null) HandleGamepadAiming();
-            else HandleMouseAiming();
+
+        if (gamepad != null) HandleGamepadAiming();
+        else HandleMouseAiming();
     }
     void OnAir()
     {
@@ -120,35 +120,35 @@ public class KinematicArcher : NetworkBehaviour
         //    projectileCurveVisualizer.HideProjectileCurve();
         //    return;
         //}
-      
-            if (Input.GetMouseButton(1))
+
+        if (Input.GetMouseButton(1))
+        {
+            buttonPressTime += Time.deltaTime;
+            launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Lock();
+        }
+
+        if (Input.GetButton("Fire1"))
+        {
+
+            Drag();
+
+            if (isDragging)
             {
-                buttonPressTime += Time.deltaTime;
-                launchSpeed = Mathf.Clamp(15.0f + buttonPressTime * 5.0f, 5.0f, 30.0f);
+                Aim();
             }
 
-            if (Input.GetButtonDown("Fire1"))
-            {
-                Lock();
-            }
+        }
 
-            if (Input.GetButton("Fire1"))
-            {
+        if (Input.GetButtonUp("Fire1"))
+        {
+            Fire2();
+        }
 
-                Drag();
-
-                if (isDragging)
-                {
-                    Aim();
-                }
-
-            }
-
-            if (Input.GetButtonUp("Fire1"))
-            {
-                Fire2();
-            }
-        
 
         if (!isDragging)
         {
@@ -261,23 +261,23 @@ public class KinematicArcher : NetworkBehaviour
 
         if (!isAiming) Turning();
 
-        
-            if (gamepad.rightTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+
+        if (gamepad.rightTrigger.ReadValue() > MIN_DRAW_THRESHOLD)
+        {
+            if (!isGamepadAiming)
             {
-                if (!isGamepadAiming)
-                {
-                    Lock();
-                    isGamepadAiming = true;
-                }
-                DragWithGamepad();
+                Lock();
+                isGamepadAiming = true;
             }
-            else if (isGamepadAiming)
-            {
-                Fire();
-                isGamepadAiming = false;
-                //currentDrawStrength = 0f;
-            }
-        
+            DragWithGamepad();
+        }
+        else if (isGamepadAiming)
+        {
+            Fire();
+            isGamepadAiming = false;
+            //currentDrawStrength = 0f;
+        }
+
         else
         {
             ResetAimingState();
@@ -306,9 +306,9 @@ public class KinematicArcher : NetworkBehaviour
         {
             characterTransform.LookAt(new Vector3(mouseRaycastHit.point.x, characterTransform.position.y, mouseRaycastHit.point.z));
         }
-       
-            anim.SetBool("Aiming", true);
-        
+
+        anim.SetBool("Aiming", true);
+
 
     }
     private void MouseTurn()
@@ -498,7 +498,7 @@ public class KinematicArcher : NetworkBehaviour
     }
     void CharacterMovementLogic()
     {
-  
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 17dafc2770c09584f974fb4cf67d92da
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 248538
+  packageName: Netcode Plus - Multiplayer Networking and Demos
+  packageVersion: 1.04
+  assetPath: Assets/NetcodePlus/Demo/Prefabs/Puzzle/FloorSwitch.prefab
+  uploadId: 687766
