@@ -574,15 +574,20 @@ public class TopDownCharacter : NetworkBehaviour
         anim.SetFloat("VelocityX", velocityX);
         anim.SetFloat("VelocityZ", velocityZ);
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 velocity)
     {
         // Spawn the arrow on the server
         arrowTransform = Instantiate(arrow, position, rotation);
-        arrowTransform.GetComponent<NetworkObject>().Spawn(true);
+        NetworkObject arrowNetworkObject = arrowTransform.GetComponent<NetworkObject>();
+        arrowNetworkObject.Spawn(true);
+
+        // Assign ownership to the client who fired the arrow
+        arrowNetworkObject.ChangeOwnership(NetworkManager.Singleton.LocalClientId);
 
         // Throw the arrow
         Projectile projectile = arrowTransform.GetComponent<Projectile>();
         projectile.Throw(velocity);
     }
+
 }
