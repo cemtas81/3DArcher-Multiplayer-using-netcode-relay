@@ -1,21 +1,25 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Projectile : NetworkBehaviour
 {
     private Rigidbody rb;
-    private bool isFlying = false;
+    private bool isFlying = false,Hitted=false;
     public float gravity = -9.8f;
     private Vector3 initialPosition;
     private Vector3 initialVelocity;
     private float timeInFlight = 0f;
     private Collider coll;
     public float damage, arrowSpeed;
+    private IDamagable damagable;
+    private float stickDuration=3;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
+        if (!IsServer) rb.isKinematic = true; // Clients should not simulate physics
     }
 
     public void Throw(Vector3 initialVelocity)
@@ -29,7 +33,7 @@ public class Projectile : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!IsOwner) return;
+        //if (!IsOwner) return;
         if (!isFlying) return;
 
         timeInFlight += Time.fixedDeltaTime * arrowSpeed;
@@ -50,42 +54,56 @@ public class Projectile : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!IsOwner) return;
-
-        isFlying = false;
-        rb.isKinematic = true;
-        coll.enabled = false;
+        if (!IsServer||!isFlying) return; // Only the server should handle collision logic
 
         if (collision.collider.CompareTag("Player"))
         {
-            IDamagable damagable = collision.collider.GetComponent<IDamagable>();
+            isFlying = false;
+            rb.isKinematic = true;
+            coll.enabled = false;
+            transform.parent = collision.collider.transform;
 
-            if (damagable is NetworkBehaviour networkObject)
+            if (collision.collider.TryGetComponent<IDamagable>(out var damagable))
             {
-                ulong targetId = networkObject.NetworkObjectId;
-
+                ulong targetId = collision.collider.GetComponent<NetworkObject>().NetworkObjectId;
                 ApplyDamageServerRpc(targetId, damage);
             }
         }
-
-        transform.parent = collision.transform;
     }
 
     [ServerRpc]
     void ApplyDamageServerRpc(ulong targetId, float damage)
     {
-        ApplyDamage(targetId, damage);
-    }
-
-    private void ApplyDamage(ulong targetId, float damage)
-    {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out NetworkObject targetObject))
         {
             if (targetObject.TryGetComponent<IDamagable>(out var damagable))
             {
-                Debug.Log($"Applying {damage} damage to {targetObject.name}");
                 damagable.Damage(damage);
+                NotifyDamageClientRpc(targetId, damage);
+                DestroyAfterDelayServerRpc(stickDuration);
             }
         }
     }
+
+    [ClientRpc]
+    void NotifyDamageClientRpc(ulong targetId, float damage)
+    {
+        Debug.Log($"Damage applied to {targetId}: {damage}");
+    }
+    [ServerRpc]
+    void DestroyAfterDelayServerRpc(float delay)
+    {
+        StartCoroutine(DestroyAfterDelay(delay));
+    }
+
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (IsServer)
+        {
+            GetComponent<NetworkObject>().Despawn(true);
+        }
+    }
+
+
 }

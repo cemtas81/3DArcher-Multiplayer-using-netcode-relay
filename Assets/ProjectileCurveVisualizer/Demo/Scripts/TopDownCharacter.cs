@@ -312,7 +312,6 @@ public class TopDownCharacter : NetworkBehaviour
 
     }
 
-
     private void LateUpdate()
     {
         CameraControlLogic();
@@ -392,11 +391,9 @@ public class TopDownCharacter : NetworkBehaviour
     {
         gamepad?.SetMotorSpeeds(0, 0); // Stop haptic feedback if you're using it
 
-        ResetAimingState();
-
         if (canHitTarget && currentDrawStrength > MIN_DRAW_THRESHOLD)
         {
-            canHitTarget = false;
+            //canHitTarget = false;
 
             // Call the ServerRpc to spawn the arrow
             SpawnArrowServerRpc(
@@ -406,10 +403,7 @@ public class TopDownCharacter : NetworkBehaviour
             );
         }
 
-        anim.SetBool("Aiming", false);
-        launchSpeed = 15.0f;
-        buttonPressTime = 0.0f;
-        currentDrawStrength = 0f;
+        ResetAimingState();
     }
     public void Aim()
     {

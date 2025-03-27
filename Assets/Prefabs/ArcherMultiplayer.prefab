@@ -1391,6 +1391,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8659892798419864696}
     m_Modifications:
+    - target: {fileID: -9179579974782576482, guid: a2ac1c4d0877efd42bccfc76f5d839fa, type: 3}
+      propertyPath: ignoredLayers.m_Bits
+      value: 98304
+      objectReference: {fileID: 0}
     - target: {fileID: 635361771592068906, guid: a2ac1c4d0877efd42bccfc76f5d839fa, type: 3}
       propertyPath: m_Name
       value: ProjectileCurveVisualizer

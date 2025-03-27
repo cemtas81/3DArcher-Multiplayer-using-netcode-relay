@@ -39,7 +39,7 @@ public class ClientMove : NetworkBehaviour
         //    characterController.enabled = true;
         
         //}
-        SpawnServerRpc();
+        //SpawnServerRpc();
         if (IsHost && IsOwner)
         {
             playerInput.enabled = true;
