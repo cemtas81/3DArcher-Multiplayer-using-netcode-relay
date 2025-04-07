@@ -64,10 +64,10 @@ namespace NetcodePlus.Demo
             UpdateColor(sdata.color);
         }
 
-        void Update()
-        {
+        //void Update()
+        //{
             
-        }
+        //}
 
         public void Damage()
         {

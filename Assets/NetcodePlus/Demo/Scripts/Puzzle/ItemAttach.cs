@@ -12,9 +12,9 @@ namespace NetcodePlus.Demo
 
         }
 
-        void Update()
-        {
+        //void Update()
+        //{
 
-        }
+        //}
     }
 }

@@ -1137,7 +1137,7 @@ namespace NetcodePlus
         {
             if (instance == null)
             {
-                TheNetwork net = FindObjectOfType<TheNetwork>();
+                TheNetwork net = FindFirstObjectByType<TheNetwork>();
                 net?.Init();
             }
             return instance;

@@ -288,7 +288,7 @@ namespace NetcodePlus
         public static NetworkGame Get()
         {
             if (instance == null)
-                instance = FindObjectOfType<NetworkGame>();
+                instance = FindFirstObjectByType<NetworkGame>();
             return instance;
         }
     }

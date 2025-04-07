@@ -34,10 +34,10 @@ namespace NetcodePlus.Demo
             SetIndex(0);
         }
 
-        void Update()
-        {
+        //void Update()
+        //{
 
-        }
+        //}
 
         public void AddOption(string id, string title)
         {
