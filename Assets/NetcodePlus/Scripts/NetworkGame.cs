@@ -26,6 +26,12 @@ namespace NetcodePlus
 
         private static NetworkGame instance;
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void InitializeOnLoad()
+        {
+            instance = FindFirstObjectByType<NetworkGame>();
+        }
+
         private void Awake()
         {
             instance = this;
@@ -59,7 +65,7 @@ namespace NetcodePlus
             chat.Clear();
 
             SNetworkActions.ClearAll();
-            SNetworkVariableBase.ClearAll(); 
+            SNetworkVariableBase.ClearAll();
             SNetworkObject.ClearAll();
             SNetworkOptimizer.ClearAll();
             NetworkAction.ClearAll();
@@ -136,7 +142,7 @@ namespace NetcodePlus
                 }
             }
         }
-        
+
         private void UpdateStatus()
         {
             //Slow update

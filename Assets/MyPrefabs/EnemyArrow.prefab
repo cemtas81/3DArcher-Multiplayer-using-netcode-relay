@@ -182,7 +182,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   gravity: -9.8
   damage: 10
-  arrowSpeed: 1
 --- !u!114 &-468437040619365158
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2238402790251409278}
   - component: {fileID: 4389727671774425698}
   - component: {fileID: 6117761541014332424}
-  - component: {fileID: 376633354120403799}
   - component: {fileID: -2142240331752692788}
+  - component: {fileID: 376633354120403799}
   - component: {fileID: -7359239819788757629}
   - component: {fileID: 9022822140255836606}
   m_Layer: 16
@@ -142,21 +142,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &376633354120403799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3549276241753633126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b86b80b988ee72243839568ad1d2aa48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: -9.8
-  damage: 0
-  arrowSpeed: 1.8
 --- !u!114 &-2142240331752692788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +167,21 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &376633354120403799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3549276241753633126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b86b80b988ee72243839568ad1d2aa48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  gravity: -9.8
+  damage: 10
 --- !u!114 &-7359239819788757629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   UseQuaternionSynchronization: 0
   UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
+  UseHalfFloatPrecision: 1
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1

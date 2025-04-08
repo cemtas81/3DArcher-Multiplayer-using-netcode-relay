@@ -1,4 +1,4 @@
-﻿// Author: Daniele Giardini - http://www.demigiant.com
+// Author: Daniele Giardini - http://www.demigiant.com
 // Created: 2018/07/13
 
 #if true // MODULE_MARKER
@@ -6,7 +6,9 @@ using System;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
+#if UNITY_5 || UNITY_2017_1_OR_NEWER
 using UnityEngine.Audio; // Required for AudioMixer
+#endif
 
 #pragma warning disable 1591
 namespace DG.Tweening
@@ -41,7 +43,8 @@ namespace DG.Tweening
 
         #endregion
 
-        #region AudioMixer
+#if UNITY_5 || UNITY_2017_1_OR_NEWER
+        #region AudioMixer (Unity 5 or Newer)
 
         /// <summary>Tweens an AudioMixer's exposed float to the given value.
         /// Also stores the AudioMixer as the tween's target so it can be used for filtered operations.
@@ -191,6 +194,7 @@ namespace DG.Tweening
         #endregion
 
         #endregion
+#endif
 
         #endregion
     }

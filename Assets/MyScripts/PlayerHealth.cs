@@ -17,6 +17,7 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
     private List<ISeekable> seekableList = new List<ISeekable>();
     ThirdPersonController thirdPersonController;
     private Rigidbody[] _ragdollRigidbodies;
+    private Collider coll;
     public struct HealthUpdate : INetworkSerializable
     {
         public float Health;
@@ -33,6 +34,8 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
     {
         base.OnNetworkSpawn();
         healthVariable.OnValueChanged += (oldValue, newValue) => OnValueChange(newValue);
+        coll = GetComponent<Collider>();
+        coll.isTrigger = false; // Ensure the collider is not a trigger
     }
 
     void OnValueChange(HealthUpdate newValue)
@@ -74,6 +77,7 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
         {
             rigidbody.isKinematic = false;
         }
+        coll.isTrigger = true;
         anim.enabled = false;
         if (playerController != null) playerController.enabled = false;
         if (thirdPersonController != null) thirdPersonController.enabled = false;
