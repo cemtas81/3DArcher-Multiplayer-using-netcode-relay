@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/ArcherScenes/ArcherTagMultiplayer.unity
     guid: 5afb272b3a5790245a5bd17b0c873a82
   - enabled: 0
+    path: Assets/ArcherScenes/ArcherPlayground.unity
+    guid: d20c7326890ffb14ead8af92114f3880
+  - enabled: 0
     path: Assets/Scenes/Bootstrap.unity
     guid: c3104e4de2136cf4fb908e1e6177baa0
   - enabled: 0

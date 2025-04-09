@@ -450,9 +450,6 @@ MonoBehaviour:
   predictedTargetPosition: {x: 0, y: 0, z: 0}
   invertedDragDelta: {x: 0, y: 0, z: 0}
   projectileCurveVisualizer: {fileID: 4488946127510063937}
-  projectileGameObject: {fileID: 3549276241753633126, guid: 64064b069277f7f4885bb3fd4eca0473, type: 3}
-  arrow: {fileID: 4143186203665801462, guid: 64064b069277f7f4885bb3fd4eca0473, type: 3}
-  arrowTransform: {fileID: 0}
   gettingHitTimesText: {fileID: 0}
   isDragging: 0
   isAiming: 0
@@ -461,6 +458,7 @@ MonoBehaviour:
   horizontalAimSmoothSpeed: 3
   vCam: {fileID: 0}
   smoothSpeed: 150
+  projectilePrefab: {fileID: 4818966948182157211, guid: c510a9d83edf6034189e2cf8e45b4d8b, type: 3}
 --- !u!114 &2614852344764642723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2659,9 +2657,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.061000243
-  m_Height: 0.34232572
+  m_Height: 0.28592613
   m_Direction: 0
-  m_Center: {x: -0.17115776, y: -0.008853457, z: -0.0000003686313}
+  m_Center: {x: -0.1429577, y: -0.008853462, z: -0.00000036847345}
 --- !u!54 &6751821043755338096
 Rigidbody:
   m_ObjectHideFlags: 0

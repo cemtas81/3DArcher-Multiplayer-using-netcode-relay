@@ -36,9 +36,9 @@ public class TopDownCharacter : NetworkBehaviour
     public Vector3 invertedDragDelta;
     public Gamepad gamepad;
     public ProjectileCurveVisualizer projectileCurveVisualizer;
-    public GameObject projectileGameObject;
-    [SerializeField] private Transform arrow;
-    [SerializeField] private Transform arrowTransform;
+    //public GameObject projectileGameObject;
+    //[SerializeField] private Transform arrow;
+    //[SerializeField] private Transform arrowTransform;
     public Text gettingHitTimesText;
     Vector3 movement;
     private float buttonPressTime = 0.0f;
@@ -60,7 +60,8 @@ public class TopDownCharacter : NetworkBehaviour
     ThirdPersonController _thirdPersonController;
     public CinemachineVirtualCamera vCam;
     public float smoothSpeed;
-
+    public GameObject projectilePrefab; // Reference to your projectile prefab (assign in the Inspector)
+   
     private void Awake()
     {
         myInput = new MyInput();
@@ -95,7 +96,7 @@ public class TopDownCharacter : NetworkBehaviour
         previousPosition = characterTransform.position;
         playerRigidbody = GetComponent<Rigidbody>();
         _thirdPersonController = GetComponent<ThirdPersonController>();
-
+      
     }
 
     void Update()
@@ -577,16 +578,14 @@ public class TopDownCharacter : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SpawnArrowServerRpc(Vector3 position, Quaternion rotation, Vector3 velocity)
     {
-        // Spawn the arrow on the server
-        arrowTransform = Instantiate(arrow, position, rotation);
-        NetworkObject arrowNetworkObject = arrowTransform.GetComponent<NetworkObject>();
+        // Get a pooled arrow instance from the pool
+        NetworkObject arrowNetworkObject = NetworkProjectilePool.Singleton.GetNetworkObject(projectilePrefab, position, rotation);
+
+        // Spawn the pooled arrow on the network
         arrowNetworkObject.Spawn(true);
 
-        // Assign ownership to the client who fired the arrow
-        arrowNetworkObject.ChangeOwnership(NetworkManager.Singleton.LocalClientId);
-
-        // Throw the arrow
-        Projectile projectile = arrowTransform.GetComponent<Projectile>();
+        // Apply velocity to the arrow
+        NetworkProjectile projectile = arrowNetworkObject.GetComponent<NetworkProjectile>();
         projectile.Throw(velocity);
     }
 
