@@ -10,7 +10,7 @@ public class NetworkProjectile : NetworkBehaviour
     public float damage, lifetime=5;
     private float stickDuration = 3f;
     private Collider coll;
-
+    Vector3 hit;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -50,18 +50,18 @@ public class NetworkProjectile : NetworkBehaviour
         if (!IsServer || !isFlying) return; // Only the server should handle collision logic
 
         isFlying = false;
-        rb.isKinematic = true;  // Stop physics simulation
         rb.linearVelocity = Vector3.zero;  // Stop movement
+        rb.isKinematic = true;  // Stop physics simulation     
         rb.useGravity = false;  // Disable gravity
         coll.enabled = false;
-
+        hit = collision.contacts[0].point; // Get the hit point
         // Stick to the hit object
         //transform.parent = collision.collider.transform;
 
         if (collision.collider.CompareTag("Player") && collision.collider.TryGetComponent<IDamagable>(out var damagable))
         {
             ulong targetId = collision.collider.GetComponent<NetworkObject>().NetworkObjectId;
-            ApplyDamageServerRpc(targetId, damage);
+            ApplyDamageServerRpc(targetId, damage,hit);
         }
 
         // Destroy the projectile after a delay
@@ -69,14 +69,14 @@ public class NetworkProjectile : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void ApplyDamageServerRpc(ulong targetId, float damage)
+    void ApplyDamageServerRpc(ulong targetId, float damage,Vector3 pointHit)
     {
         // Apply damage logic on the server
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out NetworkObject targetObject))
         {
             if (targetObject.TryGetComponent<IDamagable>(out var damagable))
             {
-                damagable.Damage(damage);  // Apply damage
+                damagable.Damage(damage, pointHit);  // Apply damage
                 NotifyDamageClientRpc(targetId, damage);  // Notify clients about the damage
             }
         }

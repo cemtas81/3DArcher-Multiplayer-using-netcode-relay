@@ -10,7 +10,7 @@ public class Projectile : NetworkBehaviour
     public float damage,lifetime=6;
     private float stickDuration = 3f;
     private Collider coll;
-
+    Vector3 hit;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -52,7 +52,7 @@ public class Projectile : NetworkBehaviour
         rb.linearVelocity = Vector3.zero;  // Stop movement
         rb.useGravity = false;  // Disable gravity
         coll.enabled = false;
-
+        hit = collision.contacts[0].point; // Get the hit point
         // Stick to the hit object
         transform.parent = collision.collider.transform;
 
@@ -74,7 +74,7 @@ public class Projectile : NetworkBehaviour
         {
             if (targetObject.TryGetComponent<IDamagable>(out var damagable))
             {
-                damagable.Damage(damage);  // Apply damage
+                damagable.Damage(damage,hit);  // Apply damage
                 NotifyDamageClientRpc(targetId, damage);  // Notify clients about the damage
             }
         }
