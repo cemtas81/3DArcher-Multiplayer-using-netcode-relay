@@ -350,7 +350,7 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!114 &1629153436577307115
 MonoBehaviour:
@@ -383,5 +383,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   gravity: -9.8
-  damage: 10
+  damage: 20
   lifetime: 5
