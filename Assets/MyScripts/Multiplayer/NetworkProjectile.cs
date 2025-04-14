@@ -1,17 +1,17 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NetworkProjectile : NetworkBehaviour
 {
-    private Rigidbody rb;
+    private Rigidbody rb;  // Use Rigidbody instead of NetworkRigidbody for manual velocity control
     private bool isFlying = false;
     public float gravity = -9.8f;
     public float damage, lifetime = 5;
     private float stickDuration = 3f;
     private Collider coll;
-    private Vector3 hit;
-
+    Vector3 hit;
     // Network variables for syncing position and velocity
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
     private NetworkVariable<Vector3> networkVelocity = new NetworkVariable<Vector3>();
@@ -21,7 +21,6 @@ public class NetworkProjectile : NetworkBehaviour
 
     private Vector3 clientPredictedPosition; // Client's predicted position
     private Vector3 clientPredictedVelocity; // Client's predicted velocity
-
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -48,14 +47,20 @@ public class NetworkProjectile : NetworkBehaviour
         }
         else
         {
-            // On clients, simulate immediately using prediction
+            // Client predicts immediately
+            coll.enabled = true;
+            transform.parent = null;
+            rb.isKinematic = false;
+            rb.linearVelocity = initialVelocity;
+            rb.useGravity = true;
+            isFlying = true;
+
+            // Predict local position immediately without waiting for server
             clientPredictedPosition = transform.position;
             clientPredictedVelocity = initialVelocity;
-            isFlying = true;
         }
     }
-
-    void Start()
+    void OnEnable()
     {
         if (IsClient)
         {
@@ -64,7 +69,6 @@ public class NetworkProjectile : NetworkBehaviour
             networkVelocity.OnValueChanged += OnVelocityChanged;
         }
     }
-
     void FixedUpdate()
     {
         if (!isFlying) return;
@@ -90,7 +94,6 @@ public class NetworkProjectile : NetworkBehaviour
             InterpolateToServerState();
         }
     }
-
     private void PredictMovement()
     {
         // Predict the next position based on velocity
@@ -117,14 +120,16 @@ public class NetworkProjectile : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!IsServer || !isFlying) return;
+        if (!IsServer || !isFlying) return; // Only the server should handle collision logic
 
         isFlying = false;
-        rb.linearVelocity = Vector3.zero;
-        rb.isKinematic = true;
-        rb.useGravity = false;
+        rb.linearVelocity = Vector3.zero;  // Stop movement
+        rb.isKinematic = true;  // Stop physics simulation     
+        rb.useGravity = false;  // Disable gravity
         coll.enabled = false;
-        hit = collision.contacts[0].point;
+        hit = collision.contacts[0].point; // Get the hit point
+        // Stick to the hit object
+        //transform.parent = collision.collider.transform;
 
         if (collision.collider.CompareTag("Player") && collision.collider.TryGetComponent<IDamagable>(out var damagable))
         {
@@ -132,18 +137,20 @@ public class NetworkProjectile : NetworkBehaviour
             ApplyDamageServerRpc(targetId, damage, hit);
         }
 
+        // Destroy the projectile after a delay
         StartCoroutine(DestroyAfterDelay(stickDuration));
     }
 
     [ServerRpc(RequireOwnership = false)]
     void ApplyDamageServerRpc(ulong targetId, float damage, Vector3 pointHit)
     {
+        // Apply damage logic on the server
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out NetworkObject targetObject))
         {
             if (targetObject.TryGetComponent<IDamagable>(out var damagable))
             {
-                damagable.Damage(damage, pointHit);
-                NotifyDamageClientRpc(targetId, damage);
+                damagable.Damage(damage, pointHit);  // Apply damage
+                NotifyDamageClientRpc(targetId, damage);  // Notify clients about the damage
             }
         }
     }
@@ -151,6 +158,7 @@ public class NetworkProjectile : NetworkBehaviour
     [ClientRpc]
     void NotifyDamageClientRpc(ulong targetId, float damage)
     {
+        // This is called on all clients to show that damage occurred
         Debug.Log($"Damage applied to {targetId}: {damage}");
     }
 
@@ -161,10 +169,12 @@ public class NetworkProjectile : NetworkBehaviour
         if (IsServer)
         {
             var netObj = GetComponent<NetworkObject>();
-            netObj.Despawn();
+            //transform.parent = null; // Unstick from the hit object
+            //NetworkProjectilePool.Singleton.ReturnNetworkObject(netObj, originalPrefab); // Return using original prefab reference
+            netObj.Despawn(); // Just unspawn
+
         }
     }
-
     private void OnPositionChanged(Vector3 oldPosition, Vector3 newPosition)
     {
         // Update server position for interpolation
