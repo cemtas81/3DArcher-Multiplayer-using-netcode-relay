@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 1074284224134630213}
   - component: {fileID: 7122556632296113521}
   - component: {fileID: 7079712810066955684}
+  - component: {fileID: 909765937370349089}
   - component: {fileID: 5951339868187428986}
   - component: {fileID: 9207364024174210429}
   - component: {fileID: 5141855568214039923}
@@ -178,6 +179,31 @@ CapsuleCollider:
   m_Height: 1.8533238
   m_Direction: 1
   m_Center: {x: 0, y: -0.10887712, z: 0}
+--- !u!114 &909765937370349089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253578702773475343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3752300985
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &5951339868187428986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,11 +216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd034cce0612f04a989a84f0cdf9d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   characterTransform: {fileID: 0}
   cameraTransform: {fileID: 0}
   characterCamera: {fileID: 0}
   aim: {fileID: 1740144578828222567}
-  rig: {fileID: 6052137572835390128}
   characterMovementSpeed: 35
   camTurnSpeed: 50
   launchSpeed: 15
@@ -208,13 +234,15 @@ MonoBehaviour:
   predictedTargetPosition: {x: 0, y: 0, z: 0}
   invertedDragDelta: {x: 0, y: 0, z: 0}
   projectileCurveVisualizer: {fileID: 6596926115836072249}
-  projectileGameObject: {fileID: 3549276241753633126, guid: a85281bcb46c72e4287933ee028c479e, type: 3}
   gettingHitTimesText: {fileID: 0}
   isDragging: 0
   isAiming: 0
   maxDragDistance: 24.3
   speed: 5
   horizontalAimSmoothSpeed: 1
+  vCam: {fileID: 0}
+  smoothSpeed: 0
+  projectilePrefab: {fileID: 0}
 --- !u!95 &9207364024174210429
 Animator:
   serializedVersion: 7
@@ -249,7 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca151fc67567204998150915505d17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   health: 100
+  currentHealth: 0
 --- !u!1 &1445771030476693732
 GameObject:
   m_ObjectHideFlags: 0

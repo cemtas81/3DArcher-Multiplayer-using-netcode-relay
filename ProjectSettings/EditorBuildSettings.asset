@@ -27,17 +27,14 @@ EditorBuildSettings:
     path: Assets/Scenes/CharacterSelect/CharacterSelect.unity
     guid: b7544d5a30d9eed449267cef7699537b
   - enabled: 0
+    path: Assets/ArcherScenes/CharSelectArcher.unity
+    guid: ed108770cd2c5af45a11807b137a9cab
+  - enabled: 0
     path: Assets/Scenes/Gameplay.unity
     guid: fd944f928e3cdc84686a7562695b5c1d
   - enabled: 0
     path: Assets/ArcherScenes/ArcherTag.unity
     guid: 17bf0c2109add694292e17cb980a6c9a
-  - enabled: 0
-    path: Assets/OtherScenes/DesktopCars.unity
-    guid: 81eefbeb7f64f074bbb325819c908d70
-  - enabled: 0
-    path: Assets/OtherScenes/DesktopArcher.unity
-    guid: da5c310e678ec2342ae1a5265010cdc0
   - enabled: 0
     path: Assets/ProjectileCurveVisualizer/Demo/Scenes/TopDownPaperBallFightDemo.unity
     guid: e9577f737e72193469b519c8f7b9c2e7
@@ -47,6 +44,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Widgets/Scenes/WidgetsQuickstart.unity
     guid: 63088b5bb0d553247925ac7d732b2fa8
+  - enabled: 0
+    path: Assets/NetcodePlus/Demo/Scenes/ServerLobby.unity
+    guid: 6850636c2775ea948b1fae8cfcc45e4a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 290a6e6411d135049940bec2237b8938, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: b1c14406d3c1b3848be3b07dd2e8e753, type: 2}
