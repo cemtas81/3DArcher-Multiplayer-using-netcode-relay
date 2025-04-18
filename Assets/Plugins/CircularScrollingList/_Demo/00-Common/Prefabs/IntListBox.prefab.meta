@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 57888038a43e53e41bdc2668a35586d0
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/00-Common/Prefabs/IntListBox.prefab
+  uploadId: 637289

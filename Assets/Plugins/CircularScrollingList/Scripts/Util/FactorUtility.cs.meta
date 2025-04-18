@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: f8bd52a884be7694b8fcbdbb219eb54b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Scripts/Util/FactorUtility.cs
+  uploadId: 637289

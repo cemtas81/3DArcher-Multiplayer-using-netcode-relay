@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 660fc30ea3db2dc41b67a388f083d246
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/10-SelectionMovement/SelectionMovement.unity
+  uploadId: 637289

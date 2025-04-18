@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/ArcherScenes/ArcherTagMultiplayer.unity
     guid: 5afb272b3a5790245a5bd17b0c873a82
   - enabled: 0
-    path: Assets/ArcherScenes/ArcherPlayground.unity
-    guid: d20c7326890ffb14ead8af92114f3880
+    path: Assets/ArcherScenes/CharacterSelectForArcher.unity
+    guid: 1c52e09809bda504ab5727f2166d01ff
   - enabled: 0
     path: Assets/Scenes/Bootstrap.unity
     guid: c3104e4de2136cf4fb908e1e6177baa0
@@ -24,14 +24,35 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
+    path: Assets/Scenes/Gameplay.unity
+    guid: fd944f928e3cdc84686a7562695b5c1d
+  - enabled: 0
+    path: Assets/OtherScenes/Planetary Archer.unity
+    guid: 77dae89970e979448ab21b16b12137af
+  - enabled: 0
+    path: Assets/ArcherScenes/ArcherPlayground.unity
+    guid: d20c7326890ffb14ead8af92114f3880
+  - enabled: 0
+    path: Assets/AvatarCapture.unity
+    guid: 9586b568c21da8347b8fd63b0e84b85c
+  - enabled: 0
+    path: Assets/KinematicCharacterController/Examples/Scenes/CharacterPlayground.unity
+    guid: 49c21577d8fcba049bf2f94ab33e2dc2
+  - enabled: 0
+    path: Assets/Plugins/CircularScrollingList/_Demo/10-SelectionMovement/SelectionMovement.unity
+    guid: 660fc30ea3db2dc41b67a388f083d246
+  - enabled: 0
+    path: Assets/Plugins/CircularScrollingList/_Demo/02-ControlMode/ControlMode.unity
+    guid: 8cdc94cdac733ef41881ccc2658aa20f
+  - enabled: 0
+    path: Assets/Plugins/CircularScrollingList/_Demo/03-FocusingPosition/FocusingPosition.unity
+    guid: 3493e8eecb72b2d4fa503e6fdd736c95
+  - enabled: 0
     path: Assets/Scenes/CharacterSelect/CharacterSelect.unity
     guid: b7544d5a30d9eed449267cef7699537b
   - enabled: 0
     path: Assets/ArcherScenes/CharSelectArcher.unity
     guid: ed108770cd2c5af45a11807b137a9cab
-  - enabled: 0
-    path: Assets/Scenes/Gameplay.unity
-    guid: fd944f928e3cdc84686a7562695b5c1d
   - enabled: 0
     path: Assets/ArcherScenes/ArcherTag.unity
     guid: 17bf0c2109add694292e17cb980a6c9a

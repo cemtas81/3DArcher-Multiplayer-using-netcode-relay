@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: eb3943381b266134b8aba99a759daf5c
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/08-ListRefreshing/RefreshList.unity
+  uploadId: 637289

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 5e768792902e39946824fcea2a5a6401
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Scripts/ListStateProcessing/IListMovementProcessor.cs
+  uploadId: 637289

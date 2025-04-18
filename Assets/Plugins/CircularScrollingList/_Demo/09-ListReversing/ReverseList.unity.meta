@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2d58c0f15aac9db4180760bee2c58cc8
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/09-ListReversing/ReverseList.unity
+  uploadId: 637289

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a6abd419fc468014baa0d60c952a6ecd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Scripts/ListStateProcessing/IBoxTransformController.cs
+  uploadId: 637289

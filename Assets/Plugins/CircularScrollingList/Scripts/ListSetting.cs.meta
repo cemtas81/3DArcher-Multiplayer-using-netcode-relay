@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a2fd1ffb35261eb4e82cf7a148212876
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Scripts/ListSetting.cs
+  uploadId: 637289

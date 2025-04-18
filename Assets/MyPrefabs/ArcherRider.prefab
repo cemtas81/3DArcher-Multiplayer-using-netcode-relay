@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 144391348
+  GlobalObjectIdHash: 3046435932
   InScenePlacedSourceGlobalObjectIdHash: 3672000772
   DeferredDespawnTick: 0
   Ownership: 1
@@ -253,7 +253,6 @@ MonoBehaviour:
   assetsInputs: {fileID: 8253689982170698274}
   character: {fileID: 6815506946520088455}
   health: {fileID: 3408528305763878536}
-  range: 8
 --- !u!143 &8868165309239080666
 CharacterController:
   m_ObjectHideFlags: 0

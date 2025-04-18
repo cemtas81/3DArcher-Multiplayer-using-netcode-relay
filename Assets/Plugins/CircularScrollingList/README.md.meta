@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ef99c8c5bdf673547bbf446a42b0a4b0
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/README.md
+  uploadId: 637289

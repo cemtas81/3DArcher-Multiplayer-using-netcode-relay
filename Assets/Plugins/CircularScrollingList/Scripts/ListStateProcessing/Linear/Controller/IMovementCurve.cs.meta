@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 17e89c20cbb0b8a41984a17d2ef5afec
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Scripts/ListStateProcessing/Linear/Controller/IMovementCurve.cs
+  uploadId: 637289

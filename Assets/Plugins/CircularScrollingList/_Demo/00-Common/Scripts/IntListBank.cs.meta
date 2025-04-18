@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: be7b25b6095813643b72b9d183f8f36b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/00-Common/Scripts/IntListBank.cs
+  uploadId: 637289

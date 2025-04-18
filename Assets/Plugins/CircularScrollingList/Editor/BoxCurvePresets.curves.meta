@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 596c0779ff9bf3649a52d5e9e885d626
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Editor/BoxCurvePresets.curves
+  uploadId: 637289

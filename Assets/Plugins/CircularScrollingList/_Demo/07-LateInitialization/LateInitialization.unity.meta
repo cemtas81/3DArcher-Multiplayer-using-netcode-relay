@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1dfbc02a516e94f44a1effc63817b745
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/07-LateInitialization/LateInitialization.unity
+  uploadId: 637289

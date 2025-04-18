@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: f42f1f4518a5d6644b646dc0da422c3e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/11-InteractingByScript/Scripts/ListInteraction.cs
+  uploadId: 637289

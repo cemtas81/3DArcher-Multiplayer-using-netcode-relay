@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8dabc93425d59f14789fbc398b31b074
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/01-ListType/CircularMode_Horizontal.unity
+  uploadId: 637289

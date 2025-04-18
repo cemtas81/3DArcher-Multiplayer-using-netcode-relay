@@ -15,7 +15,7 @@ public class ServerSingleton : MonoBehaviour
         {
             if (serverSingleton != null) { return serverSingleton; }
 
-            serverSingleton = FindObjectOfType<ServerSingleton>();
+            serverSingleton = FindFirstObjectByType<ServerSingleton>();
 
             if (serverSingleton == null)
             {

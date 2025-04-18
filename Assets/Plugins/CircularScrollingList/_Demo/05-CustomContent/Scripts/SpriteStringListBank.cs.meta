@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7ed146c13ccf0a94cb55fb15887aad0a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/05-CustomContent/Scripts/SpriteStringListBank.cs
+  uploadId: 637289

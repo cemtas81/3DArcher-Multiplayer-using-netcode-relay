@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d04c2ed0bfaef48478ae56ab67c36bfb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/Scripts/Util/DeltaTimeCurve.cs
+  uploadId: 637289

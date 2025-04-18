@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6f9206d5678fe24499a8bb276d960afe
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/_Demo/05-CustomContent/CustomContentType.unity
+  uploadId: 637289

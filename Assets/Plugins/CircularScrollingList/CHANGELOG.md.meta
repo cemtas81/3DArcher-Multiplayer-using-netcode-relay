@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 712c5f1290a753844a9fbb871c30966e
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 187418
+  packageName: Circular Scrolling List
+  packageVersion: 6.2
+  assetPath: Assets/Plugins/CircularScrollingList/CHANGELOG.md
+  uploadId: 637289
