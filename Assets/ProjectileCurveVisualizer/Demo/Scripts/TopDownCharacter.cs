@@ -26,7 +26,7 @@ public class TopDownCharacter : NetworkBehaviour
     private CinemachineVirtualCamera cine;
     private Vector3 previousPosition;
     private bool canHitTarget = false;
-
+    [SerializeField] private IKControl KControl;
     private Projectile projectile;
     public Transform ShootPos;
     public Vector3 updatedProjectileStartPosition;
@@ -80,18 +80,16 @@ public class TopDownCharacter : NetworkBehaviour
     }
     void Start()
     {
+        KControl = GetComponent<IKControl>();
         characterTransform = this.transform;
         anim = GetComponent<Animator>();
         vCam = FindFirstObjectByType<CinemachineVirtualCamera>();
         vCam.Follow = characterTransform;
         vCam.LookAt = characterTransform;
-        //springArmTransform = this.transform.GetChild(0).transform;
-        //springArmTransform.parent = null;
-        //cameraTransform = springArmTransform.GetChild(0).transform;
+ 
         characterCamera = Camera.main;
         cameraTransform = characterCamera.transform;
-        //cine = cameraTransform.GetComponent<CinemachineVirtualCamera>();
-        //characterCamera = Camera.main;
+
         targetCharacterPosition = characterTransform.position;
         previousPosition = characterTransform.position;
         playerRigidbody = GetComponent<Rigidbody>();
@@ -216,13 +214,6 @@ public class TopDownCharacter : NetworkBehaviour
             float drawDistance = Mathf.Lerp(0, maxDragDistance, currentDrawStrength);
             Vector3 targetPosition = characterTransform.position + characterTransform.forward * drawDistance;
 
-            // Update aim position
-            aim.transform.position = Vector3.Lerp(
-                aim.transform.position,
-                targetPosition,
-                Time.deltaTime * drawSmoothSpeed
-            );
-
             if (currentDrawStrength >= MAX_DRAW_THRESHOLD)
             {
                 buttonPressTime += Time.deltaTime;
@@ -295,12 +286,15 @@ public class TopDownCharacter : NetworkBehaviour
             Lock();
             isGamepadAiming = true;
         }
+        aim.transform.position = projectileCurveVisualizer.vertexPosition;
+        KControl.iKactive = true;
         DragWithGamepad();
     }
     private void ResetAimingState()
     {
         isDragging = false;
         isAiming = false;
+        KControl.iKactive = false;
         projectileCurveVisualizer.HideProjectileCurve();
         launchSpeed = 15.0f; // Reset launch speed
         buttonPressTime = 0.0f; // Reset button press time
@@ -409,6 +403,9 @@ public class TopDownCharacter : NetworkBehaviour
     public void Aim()
     {
         if (!isDragging) return;
+
+        aim.transform.position = projectileCurveVisualizer.vertexPosition;
+        KControl.iKactive = true;
         // Rotate the character towards the drag direction
         Vector3 dragDirection = invertedDragDelta.normalized;
         //rig.enabled = true;
@@ -418,7 +415,7 @@ public class TopDownCharacter : NetworkBehaviour
 
         float dragDistance = Mathf.Min(invertedDragDelta.magnitude * 0.1f, maxDragDistance);
         Vector3 targetPosition = characterTransform.position + characterTransform.forward * dragDistance;
-        aim.transform.position = targetPosition;
+        //aim.transform.position = targetPosition;
         // Visualize the projectile curve with the new target position
         if (isDragging)
         {

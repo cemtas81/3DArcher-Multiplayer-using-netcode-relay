@@ -51,7 +51,10 @@ namespace ProjectileCurveVisualizerSystem
 
         public Transform hitObjectTransform;
         public Vector3 projectileVelocityWhenHit;
-     
+
+        // Vertex position for visualization
+        public Vector3 vertexPosition;
+
         void Awake()
         {
             // Initialize variables
@@ -60,7 +63,7 @@ namespace ProjectileCurveVisualizerSystem
 
             projectileTargetPlaneMeshRenderer = projectileTargetPlaneTransform.GetComponent<MeshRenderer>();
 
-            Collider[] hitColliderArray = new Collider[1];
+            hitColliderArray = new Collider[1];
 
             defaultRaycastHit = new RaycastHit();
         }
@@ -69,6 +72,30 @@ namespace ProjectileCurveVisualizerSystem
         {
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(hitPosition, 0.25f);
+
+            // Draw vertex as yellow sphere
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(vertexPosition, 0.25f);
+        }
+
+        /// <summary>
+        /// Calculates the vertex (peak) position of the parabolic trajectory.
+        /// </summary>
+        /// <param name="startPosition">Initial position of the projectile.</param>
+        /// <param name="launchVelocity">Initial velocity of the projectile.</param>
+        /// <returns>The position of the parabola's vertex.</returns>
+        public Vector3 GetParabolaVertex(Vector3 startPosition, Vector3 launchVelocity)
+        {
+            float g = 9.8f; // Gravity (from 4.9 * t * t implying g = 9.8)
+            float tPeak = launchVelocity.y / g; // Time to peak (vertical velocity = 0)
+
+            if (tPeak < 0) return startPosition; // If descending, vertex is start
+
+            return new Vector3(
+                startPosition.x + launchVelocity.x * tPeak,
+                startPosition.y + launchVelocity.y * tPeak - 0.5f * g * tPeak * tPeak,
+                startPosition.z + launchVelocity.z * tPeak
+            );
         }
 
         public void VisualizeProjectileCurve(Vector3 projectileStartPosition, float projectileStartPositionForwardOffset, Vector3 launchVelocity, float projectileRadius, float distanceOffsetAboveHitPosition, bool debugMode, out Vector3 updatedProjectileStartPosition, out RaycastHit hit)
@@ -185,6 +212,9 @@ namespace ProjectileCurveVisualizerSystem
                 lineRenderer.SetPosition(i, (1 - t) * (1 - t) * startPoint + 2 * (1 - t) * t * controlPoint + t * t * endPoint);
                 t += (1 / (float)lineRenderer.positionCount);
             }
+
+            // Calculate and store vertex position
+            vertexPosition = GetParabolaVertex(updatedProjectileStartPosition, launchVelocity);
         }
 
         public bool VisualizeProjectileCurveWithTargetPosition(Vector3 projectileStartPosition, float projectileStartPositionForwardOffset, Vector3 projectileEndPosition, float launchSpeed, Vector3 throwerVelocity, Vector3 targetObjectVelocity, float projectileRadius, float distanceOffsetAboveHitPosition, bool debugMode, out Vector3 updatedProjectileStartPosition, out Vector3 projectileLaunchVelocity, out Vector3 predictedTargetPosition, out RaycastHit hit)
@@ -301,6 +331,9 @@ namespace ProjectileCurveVisualizerSystem
                 lineRenderer.SetPosition(i, (1 - t) * (1 - t) * startPoint + 2 * (1 - t) * t * controlPoint + t * t * endPoint);
                 t += (1 / (float)lineRenderer.positionCount);
             }
+
+            // Calculate and store vertex position
+            vertexPosition = GetParabolaVertex(updatedProjectileStartPosition, projectileLaunchVelocity);
 
             return true;
         }
