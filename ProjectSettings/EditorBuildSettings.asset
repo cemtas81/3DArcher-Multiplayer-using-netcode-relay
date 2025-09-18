@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/ArcherScenes/ArcherPlayground.unity
+    guid: d20c7326890ffb14ead8af92114f3880
+  - enabled: 1
     path: Assets/_Game/Scenes/Auth.unity
     guid: 9efcde21bfd88494fb81d9fc38a2f135
   - enabled: 1
@@ -14,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ArcherScenes/ArcherTagMultiplayer.unity
     guid: 5afb272b3a5790245a5bd17b0c873a82
+  - enabled: 0
+    path: Assets/Scenes/Test.unity
+    guid: 70f1d11e32ed99942b26ddfc03234774
   - enabled: 0
     path: Assets/ArcherScenes/CharacterSelectForArcher.unity
     guid: 1c52e09809bda504ab5727f2166d01ff
@@ -29,9 +35,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/OtherScenes/Planetary Archer.unity
     guid: 77dae89970e979448ab21b16b12137af
-  - enabled: 0
-    path: Assets/ArcherScenes/ArcherPlayground.unity
-    guid: d20c7326890ffb14ead8af92114f3880
   - enabled: 0
     path: Assets/AvatarCapture.unity
     guid: 9586b568c21da8347b8fd63b0e84b85c

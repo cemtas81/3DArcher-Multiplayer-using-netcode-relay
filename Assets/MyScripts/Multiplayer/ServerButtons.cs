@@ -15,14 +15,17 @@ public class ServerButtons : NetworkBehaviour
     }
     public void StartServer()
     {
-        NetworkManager.Singleton.StartServer();
+        if (!NetworkManager.Singleton.IsListening)
+            NetworkManager.Singleton.StartServer();
     }
     public void StartHost()
     {
-        NetworkManager.Singleton.StartHost();
+        if (!NetworkManager.Singleton.IsListening)
+            NetworkManager.Singleton.StartHost();
     }
     public void StartClient()
     {
-        NetworkManager.Singleton.StartClient();
+        if (!NetworkManager.Singleton.IsListening)
+            NetworkManager.Singleton.StartClient();
     }
 }

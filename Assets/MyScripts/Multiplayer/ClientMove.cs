@@ -9,6 +9,7 @@ public class ClientMove : NetworkBehaviour
     [SerializeField] private ThirdPersonController characterController;
     [SerializeField] private StarterAssetsInputs assetsInputs;
     [SerializeField] private TopDownCharacter character;
+    [SerializeField] private IsometricCharacterController topDownMover;
     [SerializeField] private PlayerHealth health;
 
     // Network variables for input
@@ -37,7 +38,15 @@ public class ClientMove : NetworkBehaviour
         playerInput.enabled = false;
         assetsInputs.enabled = false;
         characterController.enabled = false;
-        character.enabled = false;
+        if (topDownMover != null)
+        {
+            topDownMover.enabled = false;
+        }
+        else
+        {
+            character.enabled = false;
+        }
+       
         health.enabled = false;
     }
 
@@ -51,10 +60,14 @@ public class ClientMove : NetworkBehaviour
             assetsInputs.enabled = true;
             health.enabled = true;
 
-            // Only enable movement on server/host
-            if (IsServer)
+            // Hem server/host hem de client için enable et
+            characterController.enabled = true;
+            if (topDownMover != null)
             {
-                characterController.enabled = true;
+                topDownMover.enabled = true;
+            }
+            else
+            {
                 character.enabled = true;
             }
         }

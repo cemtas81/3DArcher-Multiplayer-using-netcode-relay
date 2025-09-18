@@ -55,6 +55,11 @@ namespace ProjectileCurveVisualizerSystem
         // Vertex position for visualization
         public Vector3 vertexPosition;
 
+        // Daha kontrollü bir düzleştirme yaklaşımı
+        [Header("Curve Alignment Settings")]
+        [Range(0f, 1f)] public float flattenAmount = 1.0f; // Düzleştirme miktarı
+        public bool alignToGround = true; // Zemin hizalamasını aktifleştir/deaktifleştir
+
         void Awake()
         {
             // Initialize variables
@@ -209,7 +214,14 @@ namespace ProjectileCurveVisualizerSystem
             t = 0.0f;
             for (int i = 0; i < lineRenderer.positionCount; i++)
             {
-                lineRenderer.SetPosition(i, (1 - t) * (1 - t) * startPoint + 2 * (1 - t) * t * controlPoint + t * t * endPoint);
+                // Orijinal Bézier eğrisi hesaplaması
+                Vector3 curvePosition = (1 - t) * (1 - t) * startPoint + 2 * (1 - t) * t * controlPoint + t * t * endPoint;
+                
+                // Yere paralel hale getirmek için (Z ekseni hizalaması)
+                float groundHeight = Mathf.Lerp(startPoint.y, endPoint.y, t); // Düz bir hat boyunca yüksekliği enterpole et
+                curvePosition.y = groundHeight;
+                
+                lineRenderer.SetPosition(i, curvePosition);
                 t += (1 / (float)lineRenderer.positionCount);
             }
 
@@ -328,7 +340,14 @@ namespace ProjectileCurveVisualizerSystem
             t = 0.0f;
             for (int i = 0; i < lineRenderer.positionCount; i++)
             {
-                lineRenderer.SetPosition(i, (1 - t) * (1 - t) * startPoint + 2 * (1 - t) * t * controlPoint + t * t * endPoint);
+                // Orijinal Bézier eğrisi hesaplaması
+                Vector3 curvePosition = (1 - t) * (1 - t) * startPoint + 2 * (1 - t) * t * controlPoint + t * t * endPoint;
+                
+                // Yere paralel hale getirmek için (Z ekseni hizalaması)
+                float groundHeight = Mathf.Lerp(startPoint.y, endPoint.y, t); // Düz bir hat boyunca yüksekliği enterpole et
+                curvePosition.y = groundHeight;
+                
+                lineRenderer.SetPosition(i, curvePosition);
                 t += (1 / (float)lineRenderer.positionCount);
             }
 

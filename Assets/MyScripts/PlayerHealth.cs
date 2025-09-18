@@ -135,7 +135,7 @@ public class PlayerHealth : NetworkBehaviour, IHealable, IDamagable
       
         anim.enabled = false;
         Vector3 forceDirection = (hitPoint-transform.position).normalized; // Calculate the direction opposite to the hit point            
-        rb.AddForce(forceDirection * 10, ForceMode.Impulse); // Apply force in the opposite direction        
+        //rb.AddForce(forceDirection * 10, ForceMode.Impulse); // Apply force in the opposite direction        
         EnableRagdoll(forceDirection);
         
     }
