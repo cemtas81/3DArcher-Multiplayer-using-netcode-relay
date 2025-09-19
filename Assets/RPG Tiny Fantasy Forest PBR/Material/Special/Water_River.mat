@@ -15,7 +15,7 @@ Material:
   m_InvalidKeywords:
   - _EMISSION
   m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3002
   stringTagMap: {}
@@ -63,14 +63,14 @@ Material:
     - _WF_MaskScale: 0.03
     - _WF_Speed: 0.5
     m_Colors:
-    - _DeepWaterColor: {r: 0.04405483, g: 0.3890556, b: 0.8490566, a: 1}
+    - _DeepWaterColor: {r: 0, g: 0.30114692, b: 0.6981132, a: 1}
     - _FoamColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
     - _Normal01Speed: {r: 0, g: 0.1, b: 0, a: 0}
     - _Normal02Speed: {r: 0, g: 0.12, b: 0, a: 0}
     - _NormalSpeed01: {r: 0, g: -0.05, b: 0, a: 0}
     - _NormalSpeed02: {r: 0, g: 0.1, b: 0, a: 0}
     - _NormalSpeed02_1: {r: 0, g: -0.08, b: 0, a: 0}
-    - _ShallowWaterColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShallowWaterColor: {r: 0.023362402, g: 0.42774183, b: 0.990566, a: 1}
     - _UV4Normal01: {r: 2, g: 4, b: 0, a: 0}
     - _UV4Normal02: {r: 1, g: 2, b: 0, a: 0}
     - _Vector2: {r: 0, g: -0.25, b: 0, a: 0}

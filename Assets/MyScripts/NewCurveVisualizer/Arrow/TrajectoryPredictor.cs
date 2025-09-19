@@ -6,7 +6,7 @@ public class TrajectoryPredictor : MonoBehaviour
     [SerializeField] private int maxPoints = 50;
     [SerializeField] private float timeStep = 0.1f;
     [SerializeField] private float maxTime = 5f;
-    
+    [SerializeField] private LayerMask layerMask=0; // Layers to consider for collision
     /// <summary>
     /// Predicts and draws the trajectory path using physics calculations
     /// </summary>
@@ -154,7 +154,7 @@ public class TrajectoryPredictor : MonoBehaviour
         
         // Raycast between trajectory points
         RaycastHit hit;
-        if (Physics.Raycast(start, direction, out hit, distance))
+        if (Physics.Raycast(start, direction, out hit, distance,layerMask))
         {
             // Ignore projectile objects and triggers
             if (hit.collider.GetComponent<ArrowFollowTrajectory>() == null && !hit.collider.isTrigger)

@@ -18,7 +18,9 @@ public class ArrowLauncher : NetworkBehaviour
     [Header("Crosshair Settings")]
     [SerializeField] private GameObject crosshairPrefab;
     [SerializeField] private float crosshairSize = 0.5f;
+    [SerializeField] private LayerMask layerMask = ~0; // Default to everything
     private GameObject crosshairInstance;
+    [SerializeField] private Transform aim;
 
     [Header("Isometric Settings")]
     [SerializeField] private bool useIsometricMode = true;
@@ -51,6 +53,7 @@ public class ArrowLauncher : NetworkBehaviour
     private float lastFlattenFactor;
     private float lastEffectiveGravity;
     private bool lastIsStraightShot;
+    
 
     private void Start()
     {
@@ -343,7 +346,7 @@ public class ArrowLauncher : NetworkBehaviour
             if (dist > 0.01f)
             {
                 dir /= dist;
-                if (Physics.Raycast(prev, dir, out RaycastHit hit, dist + 0.1f))
+                if (Physics.Raycast(prev, dir, out RaycastHit hit, dist + 0.1f,layerMask))
                 {
                     surfaceNormal = hit.normal;
                     landing = hit.point;
@@ -351,13 +354,42 @@ public class ArrowLauncher : NetworkBehaviour
             }
         }
 
-        crosshairInstance.transform.position = landing + surfaceNormal * 0.01f;
-        crosshairInstance.transform.rotation = Quaternion.FromToRotation(Vector3.forward, surfaceNormal);
+        crosshairInstance.transform.SetPositionAndRotation(landing + surfaceNormal * 0.01f, Quaternion.FromToRotation(Vector3.forward, surfaceNormal));
+        Vector3 peak=GetTrajectoryPeakPoint();
+        aim.position=peak;
     }
 
     public Vector3 GetLaunchDirection()
     {
         // Aiming sýrasýnda güncel fýrlatma yönü; yoksa Vector3.zero döner
         return lastLaunchVelocity;
+    }
+    // LineRenderer'a eriþim saðlayan metod
+    public LineRenderer GetTrajectoryLine()
+    {
+        return trajectoryLine;
+    }
+
+    // Trajectory'nin en yüksek (pik) noktasýný hesaplayan metod
+    public Vector3 GetTrajectoryPeakPoint()
+    {
+        if (trajectoryLine == null || trajectoryLine.positionCount <= 0)
+            return Vector3.zero;
+
+        Vector3 highestPoint = trajectoryLine.GetPosition(0);
+        float maxHeight = highestPoint.y;
+
+        // Tüm noktalarý kontrol ederek en yüksek y deðerine sahip olaný bul
+        for (int i = 1; i < trajectoryLine.positionCount; i++)
+        {
+            Vector3 point = trajectoryLine.GetPosition(i);
+            if (point.y > maxHeight)
+            {
+                maxHeight = point.y;
+                highestPoint = point;
+            }
+        }
+
+        return highestPoint;
     }
 }
